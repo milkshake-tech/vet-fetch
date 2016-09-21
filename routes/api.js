@@ -105,6 +105,8 @@ router.post('/:resource', function(req, res, next){
 			console.log('SIGN UP POST PARAMS: '+JSON.stringify(params))
 
 			var sendgrid = require('sendgrid')(process.env.SENDGRID_API_KEY)
+			console.log('SENDGRID_API_KEY: '+process.env.SENDGRID_API_KEY)
+			
 			var request = sendgrid.emptyRequest({
 				method: 'POST',
 				path: '/v3/mail/send',
@@ -127,6 +129,15 @@ router.post('/:resource', function(req, res, next){
 						},
 					],
 				},
+			})
+
+			sendgrid.API(request, function(error, response){
+				if (error){
+					console.log('Error response received')
+				}
+				console.log('SENDGRID SC==='+JSON.stringify(response.statusCode))
+				console.log('SENDGRID ==='+JSON.stringify(response.body))
+				console.log('SENDGRID HEADERS==='+JSON.stringify(response.headers))
 			})
 			
 		return
