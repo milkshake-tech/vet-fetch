@@ -73,8 +73,6 @@ router.post('/:resource', function(req, res, next){
 	var resource = req.params.resource
 	var controller = controllers[resource]
 
-
-
 	if (controller == null){
 		res.json({
 			confirmation: 'Fail',
@@ -106,8 +104,8 @@ router.post('/:resource', function(req, res, next){
 			var emailContent = 'Hi '+username+'! Welcome to Vet Fetch'
 			
 			console.log('SIGN UP POST PARAMS: '+JSON.stringify(params))
-			var SENDGRID_API_KEY = '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'
-			// var sendgrid = require('sendgrid')(process.env.SENDGRID_API_KEY)
+			
+			var sendgrid = require('sendgrid')(process.env.SENDGRID_API_KEY)
 			var sendgrid = require('sendgrid')(SENDGRID_API_KEY)
 
 
