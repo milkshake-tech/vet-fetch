@@ -100,12 +100,17 @@ router.post('/:resource', function(req, res, next){
 				result: result
 			})
 
-				var params = req.body
+			var params = req.body
+			var signUpEmail = params.email
+			var username = params.username
+			var emailContent = 'Hi '+username+'! Welcome to Vet Fetch'
 			
 			console.log('SIGN UP POST PARAMS: '+JSON.stringify(params))
+			var SENDGRID_API_KEY = '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'
+			// var sendgrid = require('sendgrid')(process.env.SENDGRID_API_KEY)
+			var sendgrid = require('sendgrid')(SENDGRID_API_KEY)
 
-			var sendgrid = require('sendgrid')(process.env.SENDGRID_API_KEY)
-			console.log('SENDGRID_API_KEY: '+process.env.SENDGRID_API_KEY)
+
 			
 			var request = sendgrid.emptyRequest({
 				method: 'POST',
@@ -114,9 +119,9 @@ router.post('/:resource', function(req, res, next){
 					personalizations: [
 					{
 						to: [
-						{email: 'katrina@milkshake.tech',},
+						{email: signUpEmail,},
 						],
-						subject: 'Welcome to VET FETCH',
+						subject: 'Welcome to Vet Fetch',
 					},
 					],
 					from: {
@@ -125,7 +130,7 @@ router.post('/:resource', function(req, res, next){
 					content: [
 						{
 							type: 'text/plain',
-							value: 'Hello, Email!',
+							value: emailContent,
 						},
 					],
 				},
