@@ -106,9 +106,6 @@ router.post('/:resource', function(req, res, next){
 			console.log('SIGN UP POST PARAMS: '+JSON.stringify(params))
 			
 			var sendgrid = require('sendgrid')(process.env.SENDGRID_API_KEY)
-			var sendgrid = require('sendgrid')(SENDGRID_API_KEY)
-
-
 			
 			var request = sendgrid.emptyRequest({
 				method: 'POST',
