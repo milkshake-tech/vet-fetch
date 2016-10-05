@@ -106,6 +106,7 @@ router.post('/:resource', function(req, res, next){
 			console.log('SIGN UP POST PARAMS: '+JSON.stringify(params))
 			
 			var sendgrid = require('sendgrid')(process.env.SENDGRID_API_KEY)
+			// var sendgrid = require('sendgrid')(sgkey)
 			
 			var request = sendgrid.emptyRequest({
 				method: 'POST',
@@ -116,7 +117,7 @@ router.post('/:resource', function(req, res, next){
 						to: [
 						{email: signUpEmail,},
 						],
-						subject: 'Welcome to Vet Fetch',
+						subject: 'Vet Fetch Account Confirmation',
 					},
 					],
 					from: {
