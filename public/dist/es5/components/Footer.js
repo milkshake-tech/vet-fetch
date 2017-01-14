@@ -13,39 +13,52 @@ var _react = require("react");
 var React = _interopRequire(_react);
 
 var Component = _react.Component;
-var navigation = _interopRequire(require("../utils/navigation"));
-
-var PetNavigation = (function (Component) {
-	function PetNavigation() {
-		_classCallCheck(this, PetNavigation);
+var Footer = (function (Component) {
+	function Footer() {
+		_classCallCheck(this, Footer);
 
 		if (Component != null) {
 			Component.apply(this, arguments);
 		}
 	}
 
-	_inherits(PetNavigation, Component);
+	_inherits(Footer, Component);
 
-	_prototypeProperties(PetNavigation, null, {
+	_prototypeProperties(Footer, null, {
 		render: {
 			value: function render() {
 				return React.createElement(
-					"div",
-					null,
+					"footer",
+					{ id: "footer", className: "dark" },
 					React.createElement(
-						"button",
-						{ onClick: navigation.petsPage },
-						"Back to Pets"
-					),
-					React.createElement(
-						"button",
-						{ onClick: navigation.editPet },
-						"Edit Pet"
-					),
-					React.createElement(
-						"button",
-						{ onClick: navigation.accountPage },
-						"Home"
+						"div",
+						{ id: "copyrights" },
+						React.createElement(
+							"div",
+							{ className: "container clearfix" },
+							React.createElement(
+								"div",
+								{ className: "col_half" },
+								"Copyrights © 2016 All Rights Reserved by Milkshake Tech."
+							),
+							React.createElement(
+								"div",
+								{ className: "col_half col_last tright" },
+								React.createElement(
+									"div",
+									{ className: "fright clearfix" },
+									React.createElement(
+										"div",
+										{ className: "copyrights-menu copyright-links nobottommargin" },
+										React.createElement(
+											"a",
+											{ href: "/" },
+											"Home"
+										)
+									)
+								)
+							)
+						)
 					)
 				);
 			},
@@ -54,7 +67,7 @@ var PetNavigation = (function (Component) {
 		}
 	});
 
-	return PetNavigation;
+	return Footer;
 })(Component);
 
-module.exports = PetNavigation;
+module.exports = Footer;

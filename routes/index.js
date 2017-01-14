@@ -5,7 +5,7 @@ require('node-jsx').install({ extension: ".js" });
 var React = require('react');
 var ReactDOMServer = require('react-dom/server');
 
-var ServerApp = require('../public/build/es5/ServerApp');
+var ServerApp = require('../public/dist/es5/ServerApp');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {

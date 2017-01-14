@@ -34,7 +34,7 @@ var RegisterPet = (function (Component) {
 		_classCallCheck(this, RegisterPet);
 
 		_get(Object.getPrototypeOf(RegisterPet.prototype), "constructor", this).call(this, props, context);
-		this.submitPet = this.submitPet.bind(this);
+		this.capturePetInformation = this.capturePetInformation.bind(this);
 		this.registerPet = this.registerPet.bind(this);
 		this.state = {
 			registerPet: {
@@ -49,8 +49,8 @@ var RegisterPet = (function (Component) {
 	_inherits(RegisterPet, Component);
 
 	_prototypeProperties(RegisterPet, null, {
-		submitPet: {
-			value: function submitPet(event) {
+		capturePetInformation: {
+			value: function capturePetInformation(event) {
 				var registerPet = Object.assign({}, this.state.registerPet);
 				registerPet[event.target.id] = event.target.value;
 				registerPet.ownerId = this.props.currentUser.id;
@@ -87,59 +87,32 @@ var RegisterPet = (function (Component) {
 		render: {
 			value: function render() {
 				return React.createElement(
-					"div",
-					null,
-					React.createElement(TopBar, null),
-					React.createElement(Nav, null),
-					React.createElement(
-						"section",
-						{ id: "page-title" },
-						React.createElement(
-							"div",
-							{ className: "container clearfix" },
-							React.createElement(
-								"h1",
-								null,
-								"Pet Dashboard"
-							)
-						)
-					),
+					"section",
+					{ className: "full-screen dark" },
 					React.createElement(
 						"div",
-						{ className: "section notopmargin nobottommargin nobg" },
+						{ className: "post-grid grid-2 clearfix" },
 						React.createElement(
 							"div",
-							{ className: "container clearfix" },
+							{ className: "entry clearfix" },
+							React.createElement("input", { onChange: this.capturePetInformation, id: "name", type: "text", className: "form-control input-lg not-dark", placeholder: "Pet Name" }),
+							" ",
+							React.createElement("br", null),
+							React.createElement("input", { onChange: this.capturePetInformation, id: "species", type: "email", className: "form-control input-lg not-dark", placeholder: "Species" }),
+							" ",
+							React.createElement("br", null),
 							React.createElement(
-								"div",
-								{ className: "fancy-title title-double-border" },
-								React.createElement(
-									"h2",
-									null,
-									"Register your Pet"
-								)
-							),
-							React.createElement(
-								"form",
-								null,
-								React.createElement("input", { type: "text", onChange: this.submitPet, id: "name", placeholder: "Name" }),
-								React.createElement("br", null),
-								React.createElement("input", { type: "text", onChange: this.submitPet, id: "species", placeholder: "Species" }),
-								React.createElement("br", null)
-							),
-							React.createElement(
-								"a",
-								{ href: "#", onClick: this.registerPet, className: "button button-3d button-small button-rounded button-leaf" },
-								"Register Pet"
-							),
-							React.createElement(
-								"a",
-								{ href: "/pets", className: "button button-3d button-small button-rounded button-aqua" },
-								"Cancel"
+								"button",
+								{ onClick: this.registerPet, className: "btn nomargin" },
+								"Register"
 							)
+						),
+						React.createElement(
+							"div",
+							{ className: "entry clearfix" },
+							React.createElement("div", { className: "entry-image", style: { background: "url(\"/images/desk.jpg\") center", opacity: 0.4, overflow: "visible" } })
 						)
-					),
-					React.createElement(Footer, null)
+					)
 				);
 			},
 			writable: true,

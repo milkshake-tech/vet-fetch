@@ -1,5 +1,3 @@
-// including plugins
-
 var gulp = require('gulp'),
     gp_concat = require('gulp-concat'),
     gp_rename = require('gulp-rename'),
@@ -8,13 +6,13 @@ var gulp = require('gulp'),
 
 gulp.task('es6-es5', function(){
 	return gulp.src([
-				'./public/app/ServerApp.js',
-				'./public/app/*/**.js',
-				'./public/app/*/*/**.js'
+				'./src/ServerApp.js',
+				'./src/*/**.js',
+				'./src/*/*/**.js'
 			]
 		)
 		.pipe(to5())
-		.pipe(gulp.dest('./public/build/es5/'));
+		.pipe(gulp.dest('./public/dist/es5/'));
 });
 
 gulp.task('build', function(){
@@ -33,7 +31,7 @@ gulp.task('build', function(){
 });
 
 gulp.task('watch', function() {
-    gulp.watch(['./public/app/ServerApp.js', './public/app/*/**.js', './public/app/*/*/**.js'], ['es6-es5']);
+    gulp.watch(['./src/ServerApp.js', './src/*/**.js', './src/*/*/**.js'], ['es6-es5']);
 });
 
 gulp.task('default', ['es6-es5', 'build', 'watch'], function(){});

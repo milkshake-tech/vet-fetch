@@ -15,24 +15,48 @@ var _react = require("react");
 var React = _interopRequire(_react);
 
 var Component = _react.Component;
-var navigation = _interopRequire(require("../utils/navigation"));
+var LandingSignUp = _interopRequire(require("../components/LandingSignUp"));
 
-var AppointmentProfile = (function (Component) {
-	function AppointmentProfile(props, context) {
-		_classCallCheck(this, AppointmentProfile);
+var TopBar = _interopRequire(require("../components/TopBar"));
 
-		_get(Object.getPrototypeOf(AppointmentProfile.prototype), "constructor", this).call(this, props, context);
+var Footer = _interopRequire(require("../components/Footer"));
+
+var RegisterPet = _interopRequire(require("../components/RegisterPet"));
+
+var Landing = (function (Component) {
+	function Landing(props) {
+		_classCallCheck(this, Landing);
+
+		_get(Object.getPrototypeOf(Landing.prototype), "constructor", this).call(this, props);
 	}
 
-	_inherits(AppointmentProfile, Component);
+	_inherits(Landing, Component);
 
-	_prototypeProperties(AppointmentProfile, null, {
+	_prototypeProperties(Landing, null, {
 		render: {
 			value: function render() {
 				return React.createElement(
 					"div",
 					null,
-					"Appointment Details"
+					React.createElement(TopBar, null),
+					React.createElement(
+						"section",
+						{ className: "full-screen dark", style: { background: "url(\"/images/landing/cover.jpg\") center", opacity: 0.6, overflow: "visible" } },
+						React.createElement(
+							"div",
+							{ className: "container vertical-middle clearfix" },
+							React.createElement(
+								"div",
+								{ className: "heading-block title-center nobottomborder" },
+								React.createElement(
+									"h1",
+									{ style: { opacity: 1 } },
+									"All your pet health information in one place."
+								)
+							)
+						)
+					),
+					React.createElement(RegisterPet, null)
 				);
 			},
 			writable: true,
@@ -40,7 +64,7 @@ var AppointmentProfile = (function (Component) {
 		}
 	});
 
-	return AppointmentProfile;
+	return Landing;
 })(Component);
 
-module.exports = AppointmentProfile;
+module.exports = Landing;
