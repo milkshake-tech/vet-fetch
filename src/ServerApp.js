@@ -8,9 +8,9 @@ class App extends Component {
 	render(){
 		return (
 			<div>
-			<Provider store ={store}>
-				<Main page={this.props.page} slug={this.props.slug} />
-			</Provider>
+				<Provider store={store}>
+					<Main {...this.props}/>
+				</Provider>
 			</div>
 		)
 	}

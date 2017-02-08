@@ -1,25 +1,17 @@
 import React, { Component } from 'react'
 
 class Footer extends Component {
-	render(){
-		return(
-			<footer id="footer" className="dark">
-		    <div id="copyrights">
-		        <div className="container clearfix">
-		            <div className="col_half">
-		                Copyrights &copy; 2016 All Rights Reserved by Milkshake Tech.
-		            </div>
 
-		            <div className="col_half col_last tright">
-		                <div className="fright clearfix">
-		                    <div className="copyrights-menu copyright-links nobottommargin">
-		                        <a href="/">Home</a>
-		                    </div>
-		                </div>
-		            </div>
-		        </div>
-		    </div>
-       </footer>
+	constructor(props, context){
+		super(props, context)
+	}
+
+	render() {
+
+		return (
+				<footer id="footer">
+					<p className="copyright">&copy; Vet Fetch</p>
+				</footer>
 		)
 	}
 }

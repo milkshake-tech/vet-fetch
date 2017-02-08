@@ -1,30 +1,56 @@
 import React, { Component } from 'react'
-import LandingSignUp from '../components/LandingSignUp'
-import TopBar from '../components/TopBar'
-import Footer from '../components/Footer'
-import RegisterPet from '../components/RegisterPet'
+import { Link, browserHistory } from 'react-router'
+import store from '../stores/store'
+import actions from '../actions/actions'
+import { connect } from 'react-redux'
+
 
 class Landing extends Component {
 
-	constructor(props){
-		super(props)
+	constructor(props, context){
+		super(props, context)
 	}
 
-	render(){
-		return(
+	componentDidMount() {
+	}
+
+	render() {
+
+		return (
 			<div>
-    		<TopBar />
-	        <section className="full-screen dark" style={{background: 'url("/images/landing/cover.jpg") center', opacity: 0.6, overflow:'visible'}}>
-	            <div className="container vertical-middle clearfix">
-	                <div className="heading-block title-center nobottomborder">
-	                    <h1 style={{opacity: 1}}>All your pet health information in one place.</h1>
-	                </div>
-	            </div>
-	        </section>
-				<RegisterPet />
+				<article id="home" className="panel special">
+					<div className="image">
+						<img src="/images/pic01vetFetch.png" alt="" data-position="center center" />
+					</div>
+					<div className="content">
+						<div className="inner">
+							<header>
+								<h1>Vet Fetch</h1>
+								<p>How can we help you?</p>
+							</header>
+							<nav id="nav">
+								<ul className="actions vertical special spinY">
+									<li>
+										<Link to='/survey' className="button">Looking for pet insurance</Link>
+									</li>
+									<li>
+										<Link to="/adoption" className="button">Looking for a pet</Link>
+									</li>
+								</ul>
+							</nav>
+						</div>
+					</div>
+				</article>
 			</div>
 		)
 	}
 }
 
-export default Landing
+const stateToProps = function(state) {
+
+	return {
+		currentUser: state.accountReducer.currentUser,
+	}
+}
+
+export default connect (stateToProps)(Landing)
