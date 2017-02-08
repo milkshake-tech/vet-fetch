@@ -24,7 +24,6 @@ var Questionnaire1 = (function (Component) {
 		_classCallCheck(this, Questionnaire1);
 
 		_get(Object.getPrototypeOf(Questionnaire1.prototype), "constructor", this).call(this, props);
-		this.dogImgDisplay = "/images/dog.png";
 		this.petTypeSelected = this.petTypeSelected.bind(this);
 		this.state = {
 			displaySelectionCheck: {
@@ -58,9 +57,10 @@ var Questionnaire1 = (function (Component) {
 				var _state = this.state;
 				var displaySelectionCheck = _state.displaySelectionCheck;
 				var opacitySetting = _state.opacitySetting;
-				this.dogImgDisplay = displaySelectionCheck.dog == true ? "images/check.png" : "/images/dog.png";
-				var catImgDisplay = displaySelectionCheck.cat == true ? "images/check.png" : "/images/cat.png";
-
+				// var dogImgDisplay = displaySelectionCheck.dog == true ? "images/check.png" : "/images/dog.png"
+				// var catImgDisplay = displaySelectionCheck.cat == true ? "images/check.png" : "/images/cat.png"
+				var catImgDisplay = displaySelectionCheck.dog == true ? "none" : "inline";
+				var dogImgDisplay = displaySelectionCheck.cat == true ? "none" : "inline";
 				return React.createElement(
 					"div",
 					null,
@@ -100,12 +100,12 @@ var Questionnaire1 = (function (Component) {
 										React.createElement(
 											"a",
 											{ onClick: this.petTypeSelected, style: { borderBottom: "none", padding: "10px", cursor: "pointer" } },
-											React.createElement("img", { style: { margin: "20px" }, id: "dog", src: this.dogImgDisplay, "data-position": "center center" })
+											React.createElement("img", { style: { margin: "20px", display: dogImgDisplay }, id: "dog", src: "/images/dog.png", "data-position": "center center" })
 										),
 										React.createElement(
 											"a",
 											{ onClick: this.petTypeSelected, style: { borderBottom: "none", padding: "10px", cursor: "pointer" } },
-											React.createElement("img", { style: { margin: "20px" }, id: "cat", src: catImgDisplay, "data-position": "center center" })
+											React.createElement("img", { style: { margin: "20px", display: catImgDisplay }, id: "cat", src: "/images/cat.png", "data-position": "center center" })
 										)
 									)
 								)

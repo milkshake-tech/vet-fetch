@@ -33,13 +33,9 @@ var App = (function (Component) {
 		render: {
 			value: function render() {
 				return React.createElement(
-					"div",
-					null,
-					React.createElement(
-						Provider,
-						{ store: store },
-						React.createElement(Main, this.props)
-					)
+					Provider,
+					{ store: store },
+					React.createElement(Main, this.props)
 				);
 			},
 			writable: true,
