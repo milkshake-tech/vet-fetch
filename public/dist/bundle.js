@@ -31188,6 +31188,7 @@
 	
 			var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(Questionnaire1).call(this, props));
 	
+			_this.dogImgDisplay = "/images/dog.png";
 			_this.petTypeSelected = _this.petTypeSelected.bind(_this);
 			_this.state = {
 				displaySelectionCheck: {
@@ -31218,7 +31219,7 @@
 				var displaySelectionCheck = _state.displaySelectionCheck;
 				var opacitySetting = _state.opacitySetting;
 	
-				var dogImgDisplay = displaySelectionCheck.dog == true ? "images/check.png" : "/images/dog.png";
+				this.dogImgDisplay = displaySelectionCheck.dog == true ? "images/check.png" : "/images/dog.png";
 				var catImgDisplay = displaySelectionCheck.cat == true ? "images/check.png" : "/images/cat.png";
 	
 				return _react2.default.createElement(
@@ -31260,7 +31261,7 @@
 										_react2.default.createElement(
 											'a',
 											{ onClick: this.petTypeSelected, style: { borderBottom: "none", padding: '10px', cursor: "pointer" } },
-											_react2.default.createElement('img', { style: { margin: "20px" }, id: 'dog', src: dogImgDisplay, 'data-position': 'center center' })
+											_react2.default.createElement('img', { style: { margin: "20px" }, id: 'dog', src: this.dogImgDisplay, 'data-position': 'center center' })
 										),
 										_react2.default.createElement(
 											'a',

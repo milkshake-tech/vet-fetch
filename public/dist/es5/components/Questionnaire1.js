@@ -24,6 +24,7 @@ var Questionnaire1 = (function (Component) {
 		_classCallCheck(this, Questionnaire1);
 
 		_get(Object.getPrototypeOf(Questionnaire1.prototype), "constructor", this).call(this, props);
+		this.dogImgDisplay = "/images/dog.png";
 		this.petTypeSelected = this.petTypeSelected.bind(this);
 		this.state = {
 			displaySelectionCheck: {
@@ -57,7 +58,7 @@ var Questionnaire1 = (function (Component) {
 				var _state = this.state;
 				var displaySelectionCheck = _state.displaySelectionCheck;
 				var opacitySetting = _state.opacitySetting;
-				var dogImgDisplay = displaySelectionCheck.dog == true ? "images/check.png" : "/images/dog.png";
+				this.dogImgDisplay = displaySelectionCheck.dog == true ? "images/check.png" : "/images/dog.png";
 				var catImgDisplay = displaySelectionCheck.cat == true ? "images/check.png" : "/images/cat.png";
 
 				return React.createElement(
@@ -99,7 +100,7 @@ var Questionnaire1 = (function (Component) {
 										React.createElement(
 											"a",
 											{ onClick: this.petTypeSelected, style: { borderBottom: "none", padding: "10px", cursor: "pointer" } },
-											React.createElement("img", { style: { margin: "20px" }, id: "dog", src: dogImgDisplay, "data-position": "center center" })
+											React.createElement("img", { style: { margin: "20px" }, id: "dog", src: this.dogImgDisplay, "data-position": "center center" })
 										),
 										React.createElement(
 											"a",
