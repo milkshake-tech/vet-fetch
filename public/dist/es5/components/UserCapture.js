@@ -19,23 +19,20 @@ var _reactRouter = require("react-router");
 
 var Link = _reactRouter.Link;
 var browserHistory = _reactRouter.browserHistory;
-var store = _interopRequire(require("../stores/store"));
+var UserCapture = (function (Component) {
+	function UserCapture(props) {
+		_classCallCheck(this, UserCapture);
 
-var actions = _interopRequire(require("../actions/actions"));
-
-var connect = require("react-redux").connect;
-var Landing = (function (Component) {
-	function Landing(props, context) {
-		_classCallCheck(this, Landing);
-
-		_get(Object.getPrototypeOf(Landing.prototype), "constructor", this).call(this, props, context);
+		_get(Object.getPrototypeOf(UserCapture.prototype), "constructor", this).call(this, props);
 	}
 
-	_inherits(Landing, Component);
+	_inherits(UserCapture, Component);
 
-	_prototypeProperties(Landing, null, {
+	_prototypeProperties(UserCapture, null, {
 		componentDidMount: {
-			value: function componentDidMount() {},
+			value: function componentDidMount() {
+				console.log("Questionnaire2 componentDidMount");
+			},
 			writable: true,
 			configurable: true
 		},
@@ -46,15 +43,28 @@ var Landing = (function (Component) {
 					null,
 					React.createElement(
 						"article",
-						{ id: "home", className: "panel special" },
+						{ id: "work", className: "panel secondary" },
 						React.createElement(
 							"div",
 							{ className: "image" },
-							React.createElement("img", { src: "/images/pic01vetFetch.png", alt: "", "data-position": "center center" })
+							React.createElement("img", { src: "/images/flamingo.png", alt: "", "data-position": "center center" })
 						),
 						React.createElement(
 							"div",
 							{ className: "content" },
+							React.createElement(
+								"ul",
+								{ className: "actions spinX" },
+								React.createElement(
+									"li",
+									null,
+									React.createElement(
+										Link,
+										{ to: "/survey-results", className: "button small back" },
+										"Back"
+									)
+								)
+							),
 							React.createElement(
 								"div",
 								{ className: "inner" },
@@ -62,41 +72,35 @@ var Landing = (function (Component) {
 									"header",
 									null,
 									React.createElement(
-										"h1",
+										"h2",
 										null,
-										"Vet Fetch"
-									),
-									React.createElement(
-										"p",
-										null,
-										"How can we help you?"
+										"Sign Up"
 									)
 								),
 								React.createElement(
-									"nav",
-									{ id: "nav" },
-									React.createElement(
-										"ul",
-										{ className: "actions vertical special spinY" },
-										React.createElement(
-											"li",
-											null,
-											React.createElement(
-												Link,
-												{ to: "/survey", className: "button" },
-												"Looking for pet insurance"
-											)
-										),
-										React.createElement(
-											"li",
-											null,
-											React.createElement(
-												Link,
-												{ to: "/adoption", className: "button" },
-												"Looking for a pet"
-											)
-										)
-									)
+									"p",
+									null,
+									React.createElement("input", { style: { borderRight: "none", borderLeft: "none", borderTop: "none", fontSize: "20px", width: "350px" }, placeholder: "Email", className: "col-md-3", type: "text" })
+								),
+								React.createElement(
+									"p",
+									null,
+									React.createElement("input", { style: { borderRight: "none", borderLeft: "none", borderTop: "none", fontSize: "20px", width: "250px" }, placeholder: "Number", className: "col-md-3", type: "text" })
+								),
+								React.createElement(
+									"p",
+									null,
+									React.createElement("input", { style: { borderRight: "none", borderLeft: "none", borderTop: "none", fontSize: "20px", width: "250px" }, placeholder: "Password", className: "col-md-3", type: "password" })
+								),
+								React.createElement(
+									"p",
+									null,
+									React.createElement("input", { style: { borderRight: "none", borderLeft: "none", borderTop: "none", fontSize: "20px", width: "250px" }, placeholder: "Confirm Password", className: "col-md-3", type: "password" })
+								),
+								React.createElement(
+									Link,
+									{ to: "/", style: { margin: "20px" }, className: "button" },
+									"Submit"
 								)
 							)
 						)
@@ -108,12 +112,7 @@ var Landing = (function (Component) {
 		}
 	});
 
-	return Landing;
+	return UserCapture;
 })(Component);
 
-var stateToProps = function (state) {
-	return {
-		currentUser: state.accountReducer.currentUser };
-};
-
-module.exports = connect(stateToProps)(Landing);
+module.exports = UserCapture;

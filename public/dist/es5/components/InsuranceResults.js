@@ -19,24 +19,20 @@ var _reactRouter = require("react-router");
 
 var Link = _reactRouter.Link;
 var browserHistory = _reactRouter.browserHistory;
-var store = _interopRequire(require("../stores/store"));
+var InsuranceResults = (function (Component) {
+	function InsuranceResults(props) {
+		_classCallCheck(this, InsuranceResults);
 
-var actions = _interopRequire(require("../actions/actions"));
-
-var connect = require("react-redux").connect;
-var Footer = require("../components").Footer;
-var Main = (function (Component) {
-	function Main(props, context) {
-		_classCallCheck(this, Main);
-
-		_get(Object.getPrototypeOf(Main.prototype), "constructor", this).call(this, props, context);
+		_get(Object.getPrototypeOf(InsuranceResults.prototype), "constructor", this).call(this, props);
 	}
 
-	_inherits(Main, Component);
+	_inherits(InsuranceResults, Component);
 
-	_prototypeProperties(Main, null, {
+	_prototypeProperties(InsuranceResults, null, {
 		componentDidMount: {
-			value: function componentDidMount() {},
+			value: function componentDidMount() {
+				console.log("Questionnaire2 componentDidMount");
+			},
 			writable: true,
 			configurable: true
 		},
@@ -45,8 +41,55 @@ var Main = (function (Component) {
 				return React.createElement(
 					"div",
 					null,
-					this.props.children,
-					React.createElement(Footer, null)
+					React.createElement(
+						"article",
+						{ id: "work", className: "panel secondary" },
+						React.createElement(
+							"div",
+							{ className: "image" },
+							React.createElement("img", { src: "/images/sittingdog.png", alt: "", "data-position": "center center" })
+						),
+						React.createElement(
+							"div",
+							{ className: "content" },
+							React.createElement(
+								"ul",
+								{ className: "actions spinX" },
+								React.createElement(
+									"li",
+									null,
+									React.createElement(
+										Link,
+										{ to: "/survey-3", className: "button small back" },
+										"Back"
+									)
+								)
+							),
+							React.createElement(
+								"div",
+								{ className: "inner" },
+								React.createElement(
+									"header",
+									null,
+									React.createElement(
+										"h2",
+										null,
+										"Insurance Plan Suggestions"
+									)
+								),
+								React.createElement(
+									"p",
+									null,
+									"Plans for you"
+								),
+								React.createElement(
+									Link,
+									{ to: "/signup", className: "button" },
+									"Save for Later"
+								)
+							)
+						)
+					)
 				);
 			},
 			writable: true,
@@ -54,12 +97,7 @@ var Main = (function (Component) {
 		}
 	});
 
-	return Main;
+	return InsuranceResults;
 })(Component);
 
-var stateToProps = function (state) {
-	return {
-		currentUser: state.accountReducer.currentUser };
-};
-
-module.exports = connect(stateToProps)(Main);
+module.exports = InsuranceResults;

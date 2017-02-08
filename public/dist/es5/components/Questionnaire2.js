@@ -19,24 +19,22 @@ var _reactRouter = require("react-router");
 
 var Link = _reactRouter.Link;
 var browserHistory = _reactRouter.browserHistory;
-var store = _interopRequire(require("../stores/store"));
+var AutocompleteBar = _interopRequire(require("../components/AutocompleteBar"));
 
-var actions = _interopRequire(require("../actions/actions"));
+var Questionnaire2 = (function (Component) {
+	function Questionnaire2(props) {
+		_classCallCheck(this, Questionnaire2);
 
-var connect = require("react-redux").connect;
-var Footer = require("../components").Footer;
-var Main = (function (Component) {
-	function Main(props, context) {
-		_classCallCheck(this, Main);
-
-		_get(Object.getPrototypeOf(Main.prototype), "constructor", this).call(this, props, context);
+		_get(Object.getPrototypeOf(Questionnaire2.prototype), "constructor", this).call(this, props);
 	}
 
-	_inherits(Main, Component);
+	_inherits(Questionnaire2, Component);
 
-	_prototypeProperties(Main, null, {
+	_prototypeProperties(Questionnaire2, null, {
 		componentDidMount: {
-			value: function componentDidMount() {},
+			value: function componentDidMount() {
+				console.log("Questionnaire2 componentDidMount");
+			},
 			writable: true,
 			configurable: true
 		},
@@ -45,8 +43,47 @@ var Main = (function (Component) {
 				return React.createElement(
 					"div",
 					null,
-					this.props.children,
-					React.createElement(Footer, null)
+					React.createElement(
+						"article",
+						{ id: "work", className: "panel secondary" },
+						React.createElement(
+							"div",
+							{ className: "image" },
+							React.createElement("img", { src: "/images/dogface.png", alt: "", "data-position": "center center" })
+						),
+						React.createElement(
+							"div",
+							{ className: "content" },
+							React.createElement(
+								"ul",
+								{ className: "actions spinX" },
+								React.createElement(
+									"li",
+									null,
+									React.createElement(
+										Link,
+										{ to: "/survey-1", className: "button small back" },
+										"Back"
+									)
+								)
+							),
+							React.createElement(
+								"div",
+								{ className: "inner" },
+								React.createElement(
+									"h2",
+									null,
+									"Breed"
+								),
+								React.createElement(AutocompleteBar, null),
+								React.createElement(
+									Link,
+									{ style: { margin: "20px" }, to: "/survey-3", className: "button" },
+									"Next"
+								)
+							)
+						)
+					)
 				);
 			},
 			writable: true,
@@ -54,12 +91,7 @@ var Main = (function (Component) {
 		}
 	});
 
-	return Main;
+	return Questionnaire2;
 })(Component);
 
-var stateToProps = function (state) {
-	return {
-		currentUser: state.accountReducer.currentUser };
-};
-
-module.exports = connect(stateToProps)(Main);
+module.exports = Questionnaire2;
