@@ -7,11 +7,9 @@ class App extends Component {
 
 	render(){
 		return (
-			<div>
-				<Provider store={store}>
-					<Main {...this.props}/>
-				</Provider>
-			</div>
+			<Provider store={store}>
+				<Main {...this.props}/>
+			</Provider>
 		)
 	}
 }
