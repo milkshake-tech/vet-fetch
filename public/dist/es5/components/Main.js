@@ -30,21 +30,29 @@ var Main = (function (Component) {
 		_classCallCheck(this, Main);
 
 		_get(Object.getPrototypeOf(Main.prototype), "constructor", this).call(this, props, context);
+		this.state = {
+			opacitySetting: 0
+		};
 	}
 
 	_inherits(Main, Component);
 
 	_prototypeProperties(Main, null, {
 		componentDidMount: {
-			value: function componentDidMount() {},
+			value: function componentDidMount() {
+				this.setState({ opacitySetting: 1 });
+			},
 			writable: true,
 			configurable: true
 		},
 		render: {
 			value: function render() {
+				var opacitySetting = this.state.opacitySetting;
+
+
 				return React.createElement(
 					"div",
-					null,
+					{ style: { opacity: opacitySetting, transitionProperty: "opacity", transitionDuration: "1s" } },
 					this.props.children,
 					React.createElement(Footer, null)
 				);

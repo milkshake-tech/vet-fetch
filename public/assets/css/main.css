@@ -675,6 +675,7 @@
 
 		ul li {
 			padding-left: 0.5em;
+			list-style: none
 		}
 
 		ul.alt {

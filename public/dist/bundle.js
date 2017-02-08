@@ -26288,19 +26288,28 @@
 		function Main(props, context) {
 			_classCallCheck(this, Main);
 	
-			return _possibleConstructorReturn(this, Object.getPrototypeOf(Main).call(this, props, context));
+			var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(Main).call(this, props, context));
+	
+			_this.state = {
+				opacitySetting: 0
+			};
+			return _this;
 		}
 	
 		_createClass(Main, [{
 			key: 'componentDidMount',
-			value: function componentDidMount() {}
+			value: function componentDidMount() {
+				this.setState({ opacitySetting: 1 });
+			}
 		}, {
 			key: 'render',
 			value: function render() {
+				var opacitySetting = this.state.opacitySetting;
+	
 	
 				return _react2.default.createElement(
 					'div',
-					null,
+					{ style: { opacity: opacitySetting, transitionProperty: "opacity", transitionDuration: "1s" } },
 					this.props.children,
 					_react2.default.createElement(_components.Footer, null)
 				);
@@ -28598,31 +28607,31 @@
 	
 	var _InsuranceResults2 = _interopRequireDefault(_InsuranceResults);
 	
-	var _Landing = __webpack_require__(280);
+	var _Landing = __webpack_require__(281);
 	
 	var _Landing2 = _interopRequireDefault(_Landing);
 	
-	var _PetAdoptionSurvey = __webpack_require__(281);
+	var _PetAdoptionSurvey = __webpack_require__(282);
 	
 	var _PetAdoptionSurvey2 = _interopRequireDefault(_PetAdoptionSurvey);
 	
-	var _PetInsuranceSurvey = __webpack_require__(282);
+	var _PetInsuranceSurvey = __webpack_require__(283);
 	
 	var _PetInsuranceSurvey2 = _interopRequireDefault(_PetInsuranceSurvey);
 	
-	var _Questionnaire = __webpack_require__(283);
+	var _Questionnaire = __webpack_require__(284);
 	
 	var _Questionnaire2 = _interopRequireDefault(_Questionnaire);
 	
-	var _Questionnaire3 = __webpack_require__(284);
+	var _Questionnaire3 = __webpack_require__(285);
 	
 	var _Questionnaire4 = _interopRequireDefault(_Questionnaire3);
 	
-	var _Questionnaire5 = __webpack_require__(285);
+	var _Questionnaire5 = __webpack_require__(286);
 	
 	var _Questionnaire6 = _interopRequireDefault(_Questionnaire5);
 	
-	var _UserCapture = __webpack_require__(286);
+	var _UserCapture = __webpack_require__(287);
 	
 	var _UserCapture2 = _interopRequireDefault(_UserCapture);
 	
@@ -28699,7 +28708,6 @@
 			key: 'componentDidMount',
 			value: function componentDidMount() {
 				var arrayCheck = Array.isArray(this.breeds);
-				console.log("AutocompleteBar this.breeds: " + JSON.stringify(this.breeds));
 			}
 		}, {
 			key: 'onChange',
@@ -28728,7 +28736,6 @@
 			value: function getSuggestions(value) {
 				var inputValue = value.trim().toLowerCase();
 				var inputLength = inputValue.length;
-				console.log("getSuggestions: " + JSON.stringify(value));
 				return inputLength === 0 ? [] : this.breeds.filter(function (breed) {
 					return breed.toLowerCase().slice(0, inputLength) === inputValue;
 				});
@@ -28743,7 +28750,7 @@
 			value: function renderSuggestion(suggestion) {
 				return _react2.default.createElement(
 					'div',
-					{ style: { margin: "40px" } },
+					{ style: { margin: "5px" }, className: 'button' },
 					suggestion
 				);
 			}
@@ -30677,6 +30684,10 @@
 	
 	var _reactRouter = __webpack_require__(172);
 	
+	var _InsurancePlans = __webpack_require__(280);
+	
+	var _InsurancePlans2 = _interopRequireDefault(_InsurancePlans);
+	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -30691,23 +30702,48 @@
 		function InsuranceResults(props) {
 			_classCallCheck(this, InsuranceResults);
 	
-			return _possibleConstructorReturn(this, Object.getPrototypeOf(InsuranceResults).call(this, props));
+			var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(InsuranceResults).call(this, props));
+	
+			_this.insuranceResults = _InsurancePlans2.default;
+			_this.state = {
+				opacitySetting: 0
+			};
+			return _this;
 		}
 	
 		_createClass(InsuranceResults, [{
 			key: 'componentDidMount',
 			value: function componentDidMount() {
-				console.log("Questionnaire2 componentDidMount");
+				this.setState({ opacitySetting: 1 });
 			}
 		}, {
 			key: 'render',
 			value: function render() {
+				var opacitySetting = this.state.opacitySetting;
+	
+				var plansArray = this.insuranceResults.insurancePlans;
+				var insuranceResultsList = plansArray.map(function (result, i) {
+					return _react2.default.createElement(
+						'div',
+						{ key: i, style: { margin: "5px" }, className: 'button' },
+						_react2.default.createElement(
+							'p',
+							{ style: { fontSize: '10px' } },
+							result.company,
+							': ',
+							result.plan,
+							' | $',
+							result.premium,
+							'/month'
+						)
+					);
+				});
 				return _react2.default.createElement(
 					'div',
 					null,
 					_react2.default.createElement(
 						'article',
-						{ id: 'work', className: 'panel secondary' },
+						{ id: 'work', className: 'panel secondary', style: { opacity: opacitySetting, transitionProperty: "opacity", transitionDuration: "1.25s" } },
 						_react2.default.createElement(
 							'div',
 							{ className: 'image' },
@@ -30738,17 +30774,13 @@
 									_react2.default.createElement(
 										'h2',
 										null,
-										'Insurance Plan Suggestions'
+										'Plans for you'
 									)
 								),
-								_react2.default.createElement(
-									'p',
-									null,
-									'Plans for you'
-								),
+								insuranceResultsList,
 								_react2.default.createElement(
 									_reactRouter.Link,
-									{ to: '/signup', className: 'button' },
+									{ to: '/signup', style: { margin: "25px" }, className: 'button' },
 									'Save for Later'
 								)
 							)
@@ -30765,6 +30797,19 @@
 
 /***/ },
 /* 280 */
+/***/ function(module, exports) {
+
+	"use strict";
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.default = {
+	  insurancePlans: [{ "company": "Embrace", "plan": "Budget Conscious", "premium": "13.69" }, { "company": "Healthy Paws", "plan": "Dog & Puppy Insurance", "premium": "18.89" }, { "company": "Pet First", "plan": "Core Basic", "premium": "24.95" }]
+	};
+
+/***/ },
+/* 281 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -30892,7 +30937,7 @@
 	exports.default = (0, _reactRedux.connect)(stateToProps)(Landing);
 
 /***/ },
-/* 281 */
+/* 282 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -30923,23 +30968,31 @@
 		function PetAdoptionSurvey(props) {
 			_classCallCheck(this, PetAdoptionSurvey);
 	
-			return _possibleConstructorReturn(this, Object.getPrototypeOf(PetAdoptionSurvey).call(this, props));
+			var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(PetAdoptionSurvey).call(this, props));
+	
+			_this.state = {
+				opacitySetting: 0
+			};
+			return _this;
 		}
 	
 		_createClass(PetAdoptionSurvey, [{
 			key: 'componentDidMount',
 			value: function componentDidMount() {
-				console.log("PetAdoptionSurvey componentDidMount");
+				this.setState({ opacitySetting: 1 });
 			}
 		}, {
 			key: 'render',
 			value: function render() {
+				var opacitySetting = this.state.opacitySetting;
+	
+	
 				return _react2.default.createElement(
 					'div',
 					null,
 					_react2.default.createElement(
 						'article',
-						{ className: 'panel secondary' },
+						{ className: 'panel secondary', style: { opacity: opacitySetting, transitionProperty: "opacity", transitionDuration: "1s" } },
 						_react2.default.createElement(
 							'div',
 							{ className: 'image' },
@@ -30991,7 +31044,7 @@
 	exports.default = PetAdoptionSurvey;
 
 /***/ },
-/* 282 */
+/* 283 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -31022,23 +31075,30 @@
 		function PetInsuranceSurvey(props) {
 			_classCallCheck(this, PetInsuranceSurvey);
 	
-			return _possibleConstructorReturn(this, Object.getPrototypeOf(PetInsuranceSurvey).call(this, props));
+			var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(PetInsuranceSurvey).call(this, props));
+	
+			_this.state = {
+				opacitySetting: 0
+			};
+			return _this;
 		}
 	
 		_createClass(PetInsuranceSurvey, [{
 			key: 'componentDidMount',
 			value: function componentDidMount() {
-				console.log("PetInsuranceSurvey componentDidMount");
+				this.setState({ opacitySetting: 1 });
 			}
 		}, {
 			key: 'render',
 			value: function render() {
+				var opacitySetting = this.state.opacitySetting;
+	
 				return _react2.default.createElement(
 					'div',
 					null,
 					_react2.default.createElement(
 						'article',
-						{ id: 'work', className: 'panel secondary' },
+						{ id: 'work', className: 'panel secondary', style: { opacity: opacitySetting, transitionProperty: "opacity", transitionDuration: "1s" } },
 						_react2.default.createElement(
 							'div',
 							{ className: 'image' },
@@ -31095,7 +31155,7 @@
 	exports.default = PetInsuranceSurvey;
 
 /***/ },
-/* 283 */
+/* 284 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -31133,7 +31193,8 @@
 				displaySelectionCheck: {
 					dog: false,
 					cat: false
-				}
+				},
+				opacitySetting: 0
 			};
 			return _this;
 		}
@@ -31141,7 +31202,7 @@
 		_createClass(Questionnaire1, [{
 			key: 'componentDidMount',
 			value: function componentDidMount() {
-				console.log("PetInsuranceSurvey componentDidMount");
+				this.setState({ opacitySetting: 1 });
 			}
 		}, {
 			key: 'petTypeSelected',
@@ -31149,12 +31210,13 @@
 				var displaySelection = Object.assign({}, this.state.displaySelectionCheck);
 				displaySelection[event.target.id] = !displaySelection[event.target.id];
 				this.setState({ displaySelectionCheck: displaySelection });
-				console.log("petTypeSelected: " + JSON.stringify(displaySelection));
 			}
 		}, {
 			key: 'render',
 			value: function render() {
-				var displaySelectionCheck = this.state.displaySelectionCheck;
+				var _state = this.state;
+				var displaySelectionCheck = _state.displaySelectionCheck;
+				var opacitySetting = _state.opacitySetting;
 	
 				var dogImgDisplay = displaySelectionCheck.dog == true ? "images/check.png" : "/images/dog.png";
 				var catImgDisplay = displaySelectionCheck.cat == true ? "images/check.png" : "/images/cat.png";
@@ -31164,7 +31226,7 @@
 					null,
 					_react2.default.createElement(
 						'article',
-						{ id: 'work', className: 'panel secondary' },
+						{ id: 'work', className: 'panel secondary', style: { opacity: opacitySetting, transitionProperty: "opacity", transitionDuration: "1s" } },
 						_react2.default.createElement(
 							'div',
 							{ className: 'content' },
@@ -31193,17 +31255,17 @@
 										_react2.default.createElement(
 											'h2',
 											null,
-											'Pet Type'
+											'Pick your pet'
 										),
 										_react2.default.createElement(
 											'a',
-											{ onClick: this.petTypeSelected, style: { borderBottom: "none", padding: '10px' } },
-											_react2.default.createElement('img', { id: 'dog', src: dogImgDisplay, 'data-position': 'center center' })
+											{ onClick: this.petTypeSelected, style: { borderBottom: "none", padding: '10px', cursor: "pointer" } },
+											_react2.default.createElement('img', { style: { margin: "20px" }, id: 'dog', src: dogImgDisplay, 'data-position': 'center center' })
 										),
 										_react2.default.createElement(
 											'a',
-											{ onClick: this.petTypeSelected, style: { borderBottom: "none", padding: '10px' } },
-											_react2.default.createElement('img', { id: 'cat', src: catImgDisplay, 'data-position': 'center center' })
+											{ onClick: this.petTypeSelected, style: { borderBottom: "none", padding: '10px', cursor: "pointer" } },
+											_react2.default.createElement('img', { style: { margin: "20px" }, id: 'cat', src: catImgDisplay, 'data-position': 'center center' })
 										)
 									)
 								)
@@ -31228,7 +31290,7 @@
 										),
 										_react2.default.createElement(
 											'p',
-											null,
+											{ style: { margin: "10px" } },
 											_react2.default.createElement('input', { style: { margin: "auto", borderRight: "none", borderLeft: "none", borderTop: "none", fontSize: "25px", width: "100px" }, className: 'col-md-3', type: 'text' }),
 											' years old.'
 										)
@@ -31256,7 +31318,7 @@
 	exports.default = Questionnaire1;
 
 /***/ },
-/* 284 */
+/* 285 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -31291,28 +31353,31 @@
 		function Questionnaire2(props) {
 			_classCallCheck(this, Questionnaire2);
 	
-			return _possibleConstructorReturn(this, Object.getPrototypeOf(Questionnaire2).call(this, props));
+			var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(Questionnaire2).call(this, props));
+	
+			_this.state = {
+				opacitySetting: 0
+			};
+			return _this;
 		}
 	
 		_createClass(Questionnaire2, [{
 			key: 'componentDidMount',
 			value: function componentDidMount() {
-				console.log("Questionnaire2 componentDidMount");
+				this.setState({ opacitySetting: 1 });
 			}
 		}, {
 			key: 'render',
 			value: function render() {
+				var opacitySetting = this.state.opacitySetting;
+	
+	
 				return _react2.default.createElement(
 					'div',
 					null,
 					_react2.default.createElement(
 						'article',
-						{ id: 'work', className: 'panel secondary' },
-						_react2.default.createElement(
-							'div',
-							{ className: 'image' },
-							_react2.default.createElement('img', { src: '/images/dogface.png', alt: '', 'data-position': 'center center' })
-						),
+						{ id: 'work', className: 'panel secondary', style: { opacity: opacitySetting, transitionProperty: "opacity", transitionDuration: "1s" } },
 						_react2.default.createElement(
 							'div',
 							{ className: 'content' },
@@ -31334,7 +31399,7 @@
 								{ className: 'inner' },
 								_react2.default.createElement(
 									'h2',
-									null,
+									{ style: { margin: "25px" } },
 									'Breed'
 								),
 								_react2.default.createElement(_AutocompleteBar2.default, null),
@@ -31356,7 +31421,7 @@
 	exports.default = Questionnaire2;
 
 /***/ },
-/* 285 */
+/* 286 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -31393,30 +31458,50 @@
 	
 			var _this2 = _possibleConstructorReturn(this, Object.getPrototypeOf(Questionnaire3).call(this, props));
 	
-			_this2.conditionsList = ["allergies", "Arthritis", "Cancer", "Diabetes", "heart-disease", "Orthopedic Conditions", "Skin Conditions", "Thyroid Conditions"];
+			_this2.conditionsList = ["Allergies", "Arthritis", "Cancer", "Diabetes", "Ear Infections", "Heart Disease", "Neutered or Spayed", "Orthopedic Conditions", "Skin Conditions", "Thyroid Conditions"];
 			_this2.highlightSelectedTile = _this2.highlightSelectedTile.bind(_this2);
 			_this2.state = {
 				highlight: false,
-				highlightToggleState: {}
+				highlightToggleState: {},
+				opacitySetting: 0
 			};
 			return _this2;
 		}
 	
 		_createClass(Questionnaire3, [{
+			key: 'componentDidMount',
+			value: function componentDidMount() {
+				this.setState({ opacitySetting: 1 });
+			}
+		}, {
 			key: 'highlightSelectedTile',
 			value: function highlightSelectedTile(event) {
-				var highlightToggle = Object.assign({}, this.state.highlightToggleState);
+				var highlightToggleState = this.state.highlightToggleState;
+	
+				var highlightToggle = Object.assign({}, highlightToggleState);
+	
+				if (highlightToggle[event.target.id] == null) {
+					highlightToggle[event.target.id] = true;
+					console.log("new condition clicked: " + JSON.stringify(event.target.id) + ", " + JSON.stringify(highlightToggle[event.target.id]));
+	
+					this.setState({ highlight: true, highlightToggleState: highlightToggle });
+					return;
+				}
 				highlightToggle[event.target.id] = !this.state.highlight;
+				console.log("condition clicked again: " + JSON.stringify(event.target.id) + ", " + JSON.stringify(highlightToggle[event.target.id]));
 	
 				this.setState({ highlight: !this.state.highlight, highlightToggleState: highlightToggle });
 			}
 		}, {
 			key: 'render',
 			value: function render() {
-				var highlightToggleState = this.state.highlightToggleState;
-				// console.log("this.state.highlightToggleState: "+JSON.stringify(this.state.highlightToggleState))
+				var _state = this.state;
+				var highlightToggleState = _state.highlightToggleState;
+				var opacitySetting = _state.opacitySetting;
 	
-				var highlightState = "";
+				var highlightState = {};
+				var highlightColor = "";
+	
 				var _iteratorNormalCompletion = true;
 				var _didIteratorError = false;
 				var _iteratorError = undefined;
@@ -31425,12 +31510,10 @@
 					for (var _iterator = this.conditionsList[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
 						var condition = _step.value;
 	
-						// console.log("condition: "+JSON.stringify(condition))
 						var conditionName = condition;
-						console.log("highlightToggleState: " + JSON.stringify(highlightToggleState));
-						console.log("highlightToggleState[condition]: " + JSON.stringify(highlightToggleState[conditionName]));
 						if (highlightToggleState[conditionName] == true) {
-							highlightState = "lightgreen";
+							highlightState[conditionName] = "lightgreen";
+							console.log("highlight color for: " + JSON.stringify(conditionName) + ", " + JSON.stringify(highlightState));
 						}
 					}
 				} catch (err) {
@@ -31448,13 +31531,11 @@
 					}
 				}
 	
-				console.log("highlightState: " + JSON.stringify(highlightState));
-	
 				var _this = this;
 				var conditionTile = this.conditionsList.map(function (condition, i) {
 					return _react2.default.createElement(
 						'div',
-						{ onClick: _this.highlightSelectedTile, key: i, id: condition, style: { margin: "10px", backgroundColor: highlightState }, className: 'button' },
+						{ onClick: _this.highlightSelectedTile, key: i, id: condition, style: { margin: "10px", backgroundColor: highlightState[condition] }, className: 'button' },
 						condition
 					);
 				});
@@ -31464,7 +31545,7 @@
 					null,
 					_react2.default.createElement(
 						'article',
-						{ id: 'work', className: 'panel secondary' },
+						{ id: 'work', className: 'panel secondary', style: { opacity: opacitySetting, transitionProperty: "opacity", transitionDuration: "1s" } },
 						_react2.default.createElement(
 							'div',
 							{ className: 'image' },
@@ -31490,18 +31571,9 @@
 								'div',
 								{ className: 'inner' },
 								_react2.default.createElement(
-									'header',
-									null,
-									_react2.default.createElement(
-										'h2',
-										null,
-										'Pre-Existing Conditions'
-									),
-									_react2.default.createElement(
-										'p',
-										null,
-										'Does your dog have a history of any of the following?'
-									)
+									'h2',
+									{ style: { margin: "25px" } },
+									'Does your dog have a history of any of the following?'
 								),
 								_react2.default.createElement(
 									'div',
@@ -31530,7 +31602,7 @@
 	exports.default = Questionnaire3;
 
 /***/ },
-/* 286 */
+/* 287 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -31561,23 +31633,30 @@
 		function UserCapture(props) {
 			_classCallCheck(this, UserCapture);
 	
-			return _possibleConstructorReturn(this, Object.getPrototypeOf(UserCapture).call(this, props));
+			var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(UserCapture).call(this, props));
+	
+			_this.state = {
+				opacitySetting: 0
+			};
+			return _this;
 		}
 	
 		_createClass(UserCapture, [{
 			key: 'componentDidMount',
 			value: function componentDidMount() {
-				console.log("Questionnaire2 componentDidMount");
+				this.setState({ opacitySetting: 1 });
 			}
 		}, {
 			key: 'render',
 			value: function render() {
+				var opacitySetting = this.state.opacitySetting;
+	
 				return _react2.default.createElement(
 					'div',
 					null,
 					_react2.default.createElement(
 						'article',
-						{ id: 'work', className: 'panel secondary' },
+						{ id: 'work', className: 'panel secondary', style: { opacity: opacitySetting, transitionProperty: "opacity", transitionDuration: "1s" } },
 						_react2.default.createElement(
 							'div',
 							{ className: 'image' },

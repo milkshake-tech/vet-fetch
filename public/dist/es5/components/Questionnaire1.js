@@ -28,8 +28,8 @@ var Questionnaire1 = (function (Component) {
 		this.state = {
 			displaySelectionCheck: {
 				dog: false,
-				cat: false
-			}
+				cat: false },
+			opacitySetting: 0
 		};
 	}
 
@@ -38,7 +38,7 @@ var Questionnaire1 = (function (Component) {
 	_prototypeProperties(Questionnaire1, null, {
 		componentDidMount: {
 			value: function componentDidMount() {
-				console.log("PetInsuranceSurvey componentDidMount");
+				this.setState({ opacitySetting: 1 });
 			},
 			writable: true,
 			configurable: true
@@ -48,14 +48,15 @@ var Questionnaire1 = (function (Component) {
 				var displaySelection = Object.assign({}, this.state.displaySelectionCheck);
 				displaySelection[event.target.id] = !displaySelection[event.target.id];
 				this.setState({ displaySelectionCheck: displaySelection });
-				console.log("petTypeSelected: " + JSON.stringify(displaySelection));
 			},
 			writable: true,
 			configurable: true
 		},
 		render: {
 			value: function render() {
-				var displaySelectionCheck = this.state.displaySelectionCheck;
+				var _state = this.state;
+				var displaySelectionCheck = _state.displaySelectionCheck;
+				var opacitySetting = _state.opacitySetting;
 				var dogImgDisplay = displaySelectionCheck.dog == true ? "images/check.png" : "/images/dog.png";
 				var catImgDisplay = displaySelectionCheck.cat == true ? "images/check.png" : "/images/cat.png";
 
@@ -64,7 +65,7 @@ var Questionnaire1 = (function (Component) {
 					null,
 					React.createElement(
 						"article",
-						{ id: "work", className: "panel secondary" },
+						{ id: "work", className: "panel secondary", style: { opacity: opacitySetting, transitionProperty: "opacity", transitionDuration: "1s" } },
 						React.createElement(
 							"div",
 							{ className: "content" },
@@ -93,17 +94,17 @@ var Questionnaire1 = (function (Component) {
 										React.createElement(
 											"h2",
 											null,
-											"Pet Type"
+											"Pick your pet"
 										),
 										React.createElement(
 											"a",
-											{ onClick: this.petTypeSelected, style: { borderBottom: "none", padding: "10px" } },
-											React.createElement("img", { id: "dog", src: dogImgDisplay, "data-position": "center center" })
+											{ onClick: this.petTypeSelected, style: { borderBottom: "none", padding: "10px", cursor: "pointer" } },
+											React.createElement("img", { style: { margin: "20px" }, id: "dog", src: dogImgDisplay, "data-position": "center center" })
 										),
 										React.createElement(
 											"a",
-											{ onClick: this.petTypeSelected, style: { borderBottom: "none", padding: "10px" } },
-											React.createElement("img", { id: "cat", src: catImgDisplay, "data-position": "center center" })
+											{ onClick: this.petTypeSelected, style: { borderBottom: "none", padding: "10px", cursor: "pointer" } },
+											React.createElement("img", { style: { margin: "20px" }, id: "cat", src: catImgDisplay, "data-position": "center center" })
 										)
 									)
 								)
@@ -128,7 +129,7 @@ var Questionnaire1 = (function (Component) {
 										),
 										React.createElement(
 											"p",
-											null,
+											{ style: { margin: "10px" } },
 											React.createElement("input", { style: { margin: "auto", borderRight: "none", borderLeft: "none", borderTop: "none", fontSize: "25px", width: "100px" }, className: "col-md-3", type: "text" }),
 											" years old."
 										)

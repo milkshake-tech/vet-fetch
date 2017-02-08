@@ -19,11 +19,17 @@ var _reactRouter = require("react-router");
 
 var Link = _reactRouter.Link;
 var browserHistory = _reactRouter.browserHistory;
+var InsurancePlans = _interopRequire(require("../utils/InsurancePlans"));
+
 var InsuranceResults = (function (Component) {
 	function InsuranceResults(props) {
 		_classCallCheck(this, InsuranceResults);
 
 		_get(Object.getPrototypeOf(InsuranceResults.prototype), "constructor", this).call(this, props);
+		this.insuranceResults = InsurancePlans;
+		this.state = {
+			opacitySetting: 0
+		};
 	}
 
 	_inherits(InsuranceResults, Component);
@@ -31,19 +37,37 @@ var InsuranceResults = (function (Component) {
 	_prototypeProperties(InsuranceResults, null, {
 		componentDidMount: {
 			value: function componentDidMount() {
-				console.log("Questionnaire2 componentDidMount");
+				this.setState({ opacitySetting: 1 });
 			},
 			writable: true,
 			configurable: true
 		},
 		render: {
 			value: function render() {
+				var opacitySetting = this.state.opacitySetting;
+				var plansArray = this.insuranceResults.insurancePlans;
+				var insuranceResultsList = plansArray.map(function (result, i) {
+					return React.createElement(
+						"div",
+						{ key: i, style: { margin: "5px" }, className: "button" },
+						React.createElement(
+							"p",
+							{ style: { fontSize: "10px" } },
+							result.company,
+							": ",
+							result.plan,
+							" | $",
+							result.premium,
+							"/month"
+						)
+					);
+				});
 				return React.createElement(
 					"div",
 					null,
 					React.createElement(
 						"article",
-						{ id: "work", className: "panel secondary" },
+						{ id: "work", className: "panel secondary", style: { opacity: opacitySetting, transitionProperty: "opacity", transitionDuration: "1.25s" } },
 						React.createElement(
 							"div",
 							{ className: "image" },
@@ -74,17 +98,13 @@ var InsuranceResults = (function (Component) {
 									React.createElement(
 										"h2",
 										null,
-										"Insurance Plan Suggestions"
+										"Plans for you"
 									)
 								),
-								React.createElement(
-									"p",
-									null,
-									"Plans for you"
-								),
+								insuranceResultsList,
 								React.createElement(
 									Link,
-									{ to: "/signup", className: "button" },
+									{ to: "/signup", style: { margin: "25px" }, className: "button" },
 									"Save for Later"
 								)
 							)

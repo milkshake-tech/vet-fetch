@@ -6,41 +6,53 @@ class Questionnaire3 extends Component {
 
 	constructor(props){
 		super(props)
-		this.conditionsList = ["allergies", "Arthritis", "Cancer", "Diabetes", "heart-disease", "Orthopedic Conditions", "Skin Conditions", "Thyroid Conditions"]
+		this.conditionsList = ["Allergies", "Arthritis", "Cancer", "Diabetes", "Ear Infections", "Heart Disease", "Neutered or Spayed", "Orthopedic Conditions", "Skin Conditions", "Thyroid Conditions"]
 		this.highlightSelectedTile = this.highlightSelectedTile.bind(this)
 		this.state = {
 			highlight: false,
-			highlightToggleState: {}
-		}
+			highlightToggleState: {},
+			opacitySetting: 0
+				}
+	}
+
+	componentDidMount(){
+		this.setState({opacitySetting: 1})
 	}
 
 	highlightSelectedTile(event){
-		var highlightToggle = Object.assign({}, this.state.highlightToggleState)
+		var {highlightToggleState} = this.state
+		var highlightToggle = Object.assign({}, highlightToggleState)
+
+		if (highlightToggle[event.target.id] == null){
+			highlightToggle[event.target.id] = true
+			console.log("new condition clicked: "+JSON.stringify(event.target.id)+", "+JSON.stringify(highlightToggle[event.target.id]))
+
+			this.setState({highlight: true, highlightToggleState: highlightToggle})
+			return
+		}
 		highlightToggle[event.target.id] = !this.state.highlight
+		console.log("condition clicked again: "+JSON.stringify(event.target.id)+", "+JSON.stringify(highlightToggle[event.target.id]))
 
 		this.setState({highlight: !this.state.highlight, highlightToggleState: highlightToggle})
 	}
 
 	render(){
-		var {highlightToggleState} = this.state
-		// console.log("this.state.highlightToggleState: "+JSON.stringify(this.state.highlightToggleState))
-		var highlightState = ""
+		var {highlightToggleState, opacitySetting} = this.state
+		var highlightState = {}
+		var highlightColor = ""
+
 		for (var condition of this.conditionsList){
-			// console.log("condition: "+JSON.stringify(condition))
 			var conditionName = condition
-			console.log("highlightToggleState: "+JSON.stringify(highlightToggleState))
-			console.log("highlightToggleState[condition]: "+JSON.stringify(highlightToggleState[conditionName]))
 			if (highlightToggleState[conditionName] == true){
-				highlightState = "lightgreen"
+				highlightState[conditionName] = "lightgreen"
+				console.log("highlight color for: "+JSON.stringify(conditionName)+", "+JSON.stringify(highlightState))
 			}
 		}
-		console.log("highlightState: "+JSON.stringify(highlightState))
-
 
 		var _this = this
 		var conditionTile = this.conditionsList.map(function(condition, i){
 			return(
-					<div onClick={_this.highlightSelectedTile} key={i} id={condition} style={{margin: "10px", backgroundColor: highlightState}} className="button">
+					<div onClick={_this.highlightSelectedTile} key={i} id={condition} style={{margin: "10px", backgroundColor: highlightState[condition]}} className="button">
 						{condition}
 					</div>
 				)
@@ -48,7 +60,7 @@ class Questionnaire3 extends Component {
 
 		return(
 			<div>
-				<article id="work" className="panel secondary">
+				<article id="work" className="panel secondary" style={{opacity: opacitySetting, transitionProperty: "opacity", transitionDuration: "1s"}}>
 					<div className="image">
 						<img src="/images/dogface.png" alt="" data-position="center center" />
 					</div>
@@ -57,10 +69,7 @@ class Questionnaire3 extends Component {
 							<li><Link to="/survey-2" className="button small back">Back</Link></li>
 						</ul>
 						<div className="inner">
-							<header>
-								<h2>Pre-Existing Conditions</h2>
-									<p>Does your dog have a history of any of the following?</p>
-							</header>
+								<h2 style={{margin: "25px"}}>Does your dog have a history of any of the following?</h2>
 							<div className="row">
 								<div className="col-md-12">
 									{conditionTile}

@@ -5,16 +5,20 @@ class UserCapture extends Component {
 
 	constructor(props){
 		super(props)
+		this.state = {
+			opacitySetting: 0
+		}
 	}
 
 	componentDidMount(){
-		console.log("Questionnaire2 componentDidMount")
+		this.setState({opacitySetting: 1})
 	}
 
 	render(){
+		var {opacitySetting} = this.state
 		return(
 			<div>
-				<article id="work" className="panel secondary">
+				<article id="work" className="panel secondary" style={{opacity: opacitySetting, transitionProperty: "opacity", transitionDuration: "1s"}}>
 					<div className="image">
 						<img src="/images/flamingo.png" alt="" data-position="center center" />
 					</div>

@@ -47,7 +47,6 @@ var AutocompleteBar = (function (Component) {
 		componentDidMount: {
 			value: function componentDidMount() {
 				var arrayCheck = Array.isArray(this.breeds);
-				console.log("AutocompleteBar this.breeds: " + JSON.stringify(this.breeds));
 			},
 			writable: true,
 			configurable: true
@@ -83,7 +82,6 @@ var AutocompleteBar = (function (Component) {
 			value: function getSuggestions(value) {
 				var inputValue = value.trim().toLowerCase();
 				var inputLength = inputValue.length;
-				console.log("getSuggestions: " + JSON.stringify(value));
 				return inputLength === 0 ? [] : this.breeds.filter(function (breed) {
 					return breed.toLowerCase().slice(0, inputLength) === inputValue;
 				});
@@ -102,7 +100,7 @@ var AutocompleteBar = (function (Component) {
 			value: function renderSuggestion(suggestion) {
 				return React.createElement(
 					"div",
-					{ style: { margin: "40px" } },
+					{ style: { margin: "5px" }, className: "button" },
 					suggestion
 				);
 			},

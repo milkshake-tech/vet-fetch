@@ -24,6 +24,9 @@ var UserCapture = (function (Component) {
 		_classCallCheck(this, UserCapture);
 
 		_get(Object.getPrototypeOf(UserCapture.prototype), "constructor", this).call(this, props);
+		this.state = {
+			opacitySetting: 0
+		};
 	}
 
 	_inherits(UserCapture, Component);
@@ -31,19 +34,20 @@ var UserCapture = (function (Component) {
 	_prototypeProperties(UserCapture, null, {
 		componentDidMount: {
 			value: function componentDidMount() {
-				console.log("Questionnaire2 componentDidMount");
+				this.setState({ opacitySetting: 1 });
 			},
 			writable: true,
 			configurable: true
 		},
 		render: {
 			value: function render() {
+				var opacitySetting = this.state.opacitySetting;
 				return React.createElement(
 					"div",
 					null,
 					React.createElement(
 						"article",
-						{ id: "work", className: "panel secondary" },
+						{ id: "work", className: "panel secondary", style: { opacity: opacitySetting, transitionProperty: "opacity", transitionDuration: "1s" } },
 						React.createElement(
 							"div",
 							{ className: "image" },

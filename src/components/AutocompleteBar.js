@@ -22,7 +22,6 @@ class AutocompleteBar extends Component {
 
 	componentDidMount(){
 		var arrayCheck= Array.isArray(this.breeds)
-		console.log("AutocompleteBar this.breeds: "+JSON.stringify(this.breeds))
 	}
 
 	onChange(event, newValue){
@@ -48,7 +47,6 @@ class AutocompleteBar extends Component {
 	getSuggestions(value) {
   const inputValue = value.trim().toLowerCase();
   const inputLength = inputValue.length;
-	console.log("getSuggestions: "+JSON.stringify(value))
   return inputLength === 0 ? [] : this.breeds.filter(breed =>
     breed.toLowerCase().slice(0, inputLength) === inputValue
   )
@@ -60,14 +58,14 @@ getSuggestionValue(suggestion){
 
 renderSuggestion(suggestion){
 	return(
-		<div style={{margin:"40px"}}>
+		<div style={{margin:"5px"}} className="button">
 			{suggestion}
 		</div>
 	)
 }
 
 	render(){
-		const { value, suggestions} = this.state;
+		const {value, suggestions} = this.state;
 
     const inputProps = {
       value,

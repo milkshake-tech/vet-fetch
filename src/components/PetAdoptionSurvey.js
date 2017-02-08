@@ -5,16 +5,21 @@ class PetAdoptionSurvey extends Component {
 
 	constructor(props){
 		super(props)
+		this.state = {
+			opacitySetting: 0
+		}
 	}
 
 	componentDidMount(){
-		console.log("PetAdoptionSurvey componentDidMount")
+		this.setState({opacitySetting: 1})
 	}
 
 	render(){
+		var {opacitySetting} = this.state
+
 		return(
 			<div>
-				<article className="panel secondary">
+				<article className="panel secondary" style={{opacity: opacitySetting, transitionProperty: "opacity", transitionDuration: "1s"}}>
 					<div className="image">
 						<img src="/images/pic01vetFetch.png" alt="" data-position="center center" />
 					</div>

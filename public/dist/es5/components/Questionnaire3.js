@@ -26,21 +26,39 @@ var Questionnaire3 = (function (Component) {
 		_classCallCheck(this, Questionnaire3);
 
 		_get(Object.getPrototypeOf(Questionnaire3.prototype), "constructor", this).call(this, props);
-		this.conditionsList = ["allergies", "Arthritis", "Cancer", "Diabetes", "heart-disease", "Orthopedic Conditions", "Skin Conditions", "Thyroid Conditions"];
+		this.conditionsList = ["Allergies", "Arthritis", "Cancer", "Diabetes", "Ear Infections", "Heart Disease", "Neutered or Spayed", "Orthopedic Conditions", "Skin Conditions", "Thyroid Conditions"];
 		this.highlightSelectedTile = this.highlightSelectedTile.bind(this);
 		this.state = {
 			highlight: false,
-			highlightToggleState: {}
+			highlightToggleState: {},
+			opacitySetting: 0
 		};
 	}
 
 	_inherits(Questionnaire3, Component);
 
 	_prototypeProperties(Questionnaire3, null, {
+		componentDidMount: {
+			value: function componentDidMount() {
+				this.setState({ opacitySetting: 1 });
+			},
+			writable: true,
+			configurable: true
+		},
 		highlightSelectedTile: {
 			value: function highlightSelectedTile(event) {
-				var highlightToggle = Object.assign({}, this.state.highlightToggleState);
+				var highlightToggleState = this.state.highlightToggleState;
+				var highlightToggle = Object.assign({}, highlightToggleState);
+
+				if (highlightToggle[event.target.id] == null) {
+					highlightToggle[event.target.id] = true;
+					console.log("new condition clicked: " + JSON.stringify(event.target.id) + ", " + JSON.stringify(highlightToggle[event.target.id]));
+
+					this.setState({ highlight: true, highlightToggleState: highlightToggle });
+					return;
+				}
 				highlightToggle[event.target.id] = !this.state.highlight;
+				console.log("condition clicked again: " + JSON.stringify(event.target.id) + ", " + JSON.stringify(highlightToggle[event.target.id]));
 
 				this.setState({ highlight: !this.state.highlight, highlightToggleState: highlightToggle });
 			},
@@ -49,27 +67,26 @@ var Questionnaire3 = (function (Component) {
 		},
 		render: {
 			value: function render() {
-				var highlightToggleState = this.state.highlightToggleState;
-				// console.log("this.state.highlightToggleState: "+JSON.stringify(this.state.highlightToggleState))
-				var highlightState = "";
+				var _state = this.state;
+				var highlightToggleState = _state.highlightToggleState;
+				var opacitySetting = _state.opacitySetting;
+				var highlightState = {};
+				var highlightColor = "";
+
 				for (var _iterator = this.conditionsList[Symbol.iterator](), _step; !(_step = _iterator.next()).done;) {
 					var condition = _step.value;
-					// console.log("condition: "+JSON.stringify(condition))
 					var conditionName = condition;
-					console.log("highlightToggleState: " + JSON.stringify(highlightToggleState));
-					console.log("highlightToggleState[condition]: " + JSON.stringify(highlightToggleState[conditionName]));
 					if (highlightToggleState[conditionName] == true) {
-						highlightState = "lightgreen";
+						highlightState[conditionName] = "lightgreen";
+						console.log("highlight color for: " + JSON.stringify(conditionName) + ", " + JSON.stringify(highlightState));
 					}
 				}
-				console.log("highlightState: " + JSON.stringify(highlightState));
-
 
 				var _this = this;
 				var conditionTile = this.conditionsList.map(function (condition, i) {
 					return React.createElement(
 						"div",
-						{ onClick: _this.highlightSelectedTile, key: i, id: condition, style: { margin: "10px", backgroundColor: highlightState }, className: "button" },
+						{ onClick: _this.highlightSelectedTile, key: i, id: condition, style: { margin: "10px", backgroundColor: highlightState[condition] }, className: "button" },
 						condition
 					);
 				});
@@ -79,7 +96,7 @@ var Questionnaire3 = (function (Component) {
 					null,
 					React.createElement(
 						"article",
-						{ id: "work", className: "panel secondary" },
+						{ id: "work", className: "panel secondary", style: { opacity: opacitySetting, transitionProperty: "opacity", transitionDuration: "1s" } },
 						React.createElement(
 							"div",
 							{ className: "image" },
@@ -105,18 +122,9 @@ var Questionnaire3 = (function (Component) {
 								"div",
 								{ className: "inner" },
 								React.createElement(
-									"header",
-									null,
-									React.createElement(
-										"h2",
-										null,
-										"Pre-Existing Conditions"
-									),
-									React.createElement(
-										"p",
-										null,
-										"Does your dog have a history of any of the following?"
-									)
+									"h2",
+									{ style: { margin: "25px" } },
+									"Does your dog have a history of any of the following?"
 								),
 								React.createElement(
 									"div",

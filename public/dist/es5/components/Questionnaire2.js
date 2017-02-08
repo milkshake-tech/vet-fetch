@@ -26,6 +26,9 @@ var Questionnaire2 = (function (Component) {
 		_classCallCheck(this, Questionnaire2);
 
 		_get(Object.getPrototypeOf(Questionnaire2.prototype), "constructor", this).call(this, props);
+		this.state = {
+			opacitySetting: 0
+		};
 	}
 
 	_inherits(Questionnaire2, Component);
@@ -33,24 +36,22 @@ var Questionnaire2 = (function (Component) {
 	_prototypeProperties(Questionnaire2, null, {
 		componentDidMount: {
 			value: function componentDidMount() {
-				console.log("Questionnaire2 componentDidMount");
+				this.setState({ opacitySetting: 1 });
 			},
 			writable: true,
 			configurable: true
 		},
 		render: {
 			value: function render() {
+				var opacitySetting = this.state.opacitySetting;
+
+
 				return React.createElement(
 					"div",
 					null,
 					React.createElement(
 						"article",
-						{ id: "work", className: "panel secondary" },
-						React.createElement(
-							"div",
-							{ className: "image" },
-							React.createElement("img", { src: "/images/dogface.png", alt: "", "data-position": "center center" })
-						),
+						{ id: "work", className: "panel secondary", style: { opacity: opacitySetting, transitionProperty: "opacity", transitionDuration: "1s" } },
 						React.createElement(
 							"div",
 							{ className: "content" },
@@ -72,7 +73,7 @@ var Questionnaire2 = (function (Component) {
 								{ className: "inner" },
 								React.createElement(
 									"h2",
-									null,
+									{ style: { margin: "25px" } },
 									"Breed"
 								),
 								React.createElement(AutocompleteBar, null),

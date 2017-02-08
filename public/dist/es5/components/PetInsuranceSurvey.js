@@ -24,6 +24,9 @@ var PetInsuranceSurvey = (function (Component) {
 		_classCallCheck(this, PetInsuranceSurvey);
 
 		_get(Object.getPrototypeOf(PetInsuranceSurvey.prototype), "constructor", this).call(this, props);
+		this.state = {
+			opacitySetting: 0
+		};
 	}
 
 	_inherits(PetInsuranceSurvey, Component);
@@ -31,19 +34,20 @@ var PetInsuranceSurvey = (function (Component) {
 	_prototypeProperties(PetInsuranceSurvey, null, {
 		componentDidMount: {
 			value: function componentDidMount() {
-				console.log("PetInsuranceSurvey componentDidMount");
+				this.setState({ opacitySetting: 1 });
 			},
 			writable: true,
 			configurable: true
 		},
 		render: {
 			value: function render() {
+				var opacitySetting = this.state.opacitySetting;
 				return React.createElement(
 					"div",
 					null,
 					React.createElement(
 						"article",
-						{ id: "work", className: "panel secondary" },
+						{ id: "work", className: "panel secondary", style: { opacity: opacitySetting, transitionProperty: "opacity", transitionDuration: "1s" } },
 						React.createElement(
 							"div",
 							{ className: "image" },
