@@ -42,9 +42,9 @@ class Questionnaire1 extends Component {
 							<div style={{textAlign: "center"}}className="row">
 								<div className="col-md-6">
 										<h2>Pick your pet</h2>
-										<a onClick={this.petTypeSelected} style={{borderBottom: "none", padding: '10px', cursor:"pointer"}}><img style={{margin:"20px", display:dogImgDisplay}} id="dog" src="/images/dog.png" data-position="center center" /></a>
+										<a onClick={this.petTypeSelected} style={{borderBottom: "none", padding: '10px', cursor:"pointer"}}><img style={{margin:"20px", display:dogImgDisplay}} id="dog" src="/images/dog2.png" data-position="center center" /></a>
 
-										<a onClick={this.petTypeSelected} style={{borderBottom: "none", padding: '10px', cursor:"pointer"}}><img style={{margin:"20px", display:catImgDisplay}} id="cat" src="/images/cat.png" data-position="center center" /></a>
+										<a onClick={this.petTypeSelected} style={{borderBottom: "none", padding: '10px', cursor:"pointer"}}><img style={{margin:"20px", display:catImgDisplay}} id="cat" src="/images/cat2.png" data-position="center center" /></a>
 								</div>
 							</div>
 						</div>

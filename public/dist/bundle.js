@@ -31261,12 +31261,12 @@
 										_react2.default.createElement(
 											'a',
 											{ onClick: this.petTypeSelected, style: { borderBottom: "none", padding: '10px', cursor: "pointer" } },
-											_react2.default.createElement('img', { style: { margin: "20px", display: dogImgDisplay }, id: 'dog', src: '/images/dog.png', 'data-position': 'center center' })
+											_react2.default.createElement('img', { style: { margin: "20px", display: dogImgDisplay }, id: 'dog', src: '/images/dog2.png', 'data-position': 'center center' })
 										),
 										_react2.default.createElement(
 											'a',
 											{ onClick: this.petTypeSelected, style: { borderBottom: "none", padding: '10px', cursor: "pointer" } },
-											_react2.default.createElement('img', { style: { margin: "20px", display: catImgDisplay }, id: 'cat', src: '/images/cat.png', 'data-position': 'center center' })
+											_react2.default.createElement('img', { style: { margin: "20px", display: catImgDisplay }, id: 'cat', src: '/images/cat2.png', 'data-position': 'center center' })
 										)
 									)
 								)
