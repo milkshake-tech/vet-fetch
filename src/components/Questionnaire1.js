@@ -5,6 +5,7 @@ class Questionnaire1 extends Component {
 
 	constructor(props){
 		super(props)
+		this.dogImgDisplay = "/images/dog.png"
 		this.petTypeSelected = this.petTypeSelected.bind(this)
 		this.state = {
 			displaySelectionCheck: {
@@ -27,7 +28,7 @@ class Questionnaire1 extends Component {
 
 	render(){
 		var {displaySelectionCheck, opacitySetting} = this.state
-		var dogImgDisplay = displaySelectionCheck.dog == true ? "images/check.png" : "/images/dog.png"
+		this.dogImgDisplay = displaySelectionCheck.dog == true ? "images/check.png" : "/images/dog.png"
 		var catImgDisplay = displaySelectionCheck.cat == true ? "images/check.png" : "/images/cat.png"
 
 		return(
@@ -41,7 +42,7 @@ class Questionnaire1 extends Component {
 							<div style={{textAlign: "center"}}className="row">
 								<div className="col-md-6">
 										<h2>Pick your pet</h2>
-										<a onClick={this.petTypeSelected} style={{borderBottom: "none", padding: '10px', cursor:"pointer"}}><img style={{margin:"20px"}} id="dog" src={dogImgDisplay} data-position="center center" /></a>
+										<a onClick={this.petTypeSelected} style={{borderBottom: "none", padding: '10px', cursor:"pointer"}}><img style={{margin:"20px"}} id="dog" src={this.dogImgDisplay} data-position="center center" /></a>
 
 										<a onClick={this.petTypeSelected} style={{borderBottom: "none", padding: '10px', cursor:"pointer"}}><img style={{margin:"20px"}} id="cat" src={catImgDisplay} data-position="center center" /></a>
 								</div>
