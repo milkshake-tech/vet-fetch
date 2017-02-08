@@ -1,5 +1,6 @@
 import AutocompleteBar from './AutocompleteBar'
 import Footer from './Footer'
+import InsuranceDetail from './InsuranceDetail'
 import InsuranceResults from './InsuranceResults'
 import Landing from './Landing'
 import PetAdoptionSurvey from './PetAdoptionSurvey'
@@ -12,6 +13,7 @@ import UserCapture from './UserCapture'
 export {
 	AutocompleteBar,
 	Footer,
+	InsuranceDetail,
 	InsuranceResults,
 	Landing,
 	PetAdoptionSurvey,

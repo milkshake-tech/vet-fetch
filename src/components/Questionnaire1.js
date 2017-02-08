@@ -27,8 +27,7 @@ class Questionnaire1 extends Component {
 
 	render(){
 		var {displaySelectionCheck, opacitySetting} = this.state
-		// var dogImgDisplay = displaySelectionCheck.dog == true ? "images/check.png" : "/images/dog.png"
-		// var catImgDisplay = displaySelectionCheck.cat == true ? "images/check.png" : "/images/cat.png"
+
 		var catImgDisplay = displaySelectionCheck.dog == true ? "none" : "inline"
 		var dogImgDisplay = displaySelectionCheck.cat == true ? "none" : "inline"
 		return(

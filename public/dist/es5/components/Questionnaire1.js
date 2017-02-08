@@ -57,8 +57,8 @@ var Questionnaire1 = (function (Component) {
 				var _state = this.state;
 				var displaySelectionCheck = _state.displaySelectionCheck;
 				var opacitySetting = _state.opacitySetting;
-				// var dogImgDisplay = displaySelectionCheck.dog == true ? "images/check.png" : "/images/dog.png"
-				// var catImgDisplay = displaySelectionCheck.cat == true ? "images/check.png" : "/images/cat.png"
+
+
 				var catImgDisplay = displaySelectionCheck.dog == true ? "none" : "inline";
 				var dogImgDisplay = displaySelectionCheck.cat == true ? "none" : "inline";
 				return React.createElement(

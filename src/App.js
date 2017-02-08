@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import ReactDOM from 'react-dom'
 import { Router, Route, IndexRoute, browserHistory } from 'react-router'
 import Main from './components/Main'
-import {Landing, InsuranceResults, PetAdoptionSurvey, PetInsuranceSurvey, Questionnaire1, Questionnaire2, Questionnaire3, UserCapture} from './components'
+import {Landing, InsuranceDetail, InsuranceResults, PetAdoptionSurvey, PetInsuranceSurvey, Questionnaire1, Questionnaire2, Questionnaire3, UserCapture} from './components'
 import store from './stores/store'
 import { Provider } from 'react-redux'
 
@@ -16,6 +16,7 @@ const app = (
 					<Route path="/survey-2" component={Questionnaire2} />
 					<Route path="/survey-3" component={Questionnaire3} />
 					<Route path="/survey-results" component={InsuranceResults} />
+					<Route path="/survey-result" component={InsuranceDetail} />
 				<Route path="/signup" component={UserCapture} />
 				<Route path="/adoption" component={PetAdoptionSurvey} />
 			</Route>

@@ -85,6 +85,7 @@
 				_react2.default.createElement(_reactRouter.Route, { path: '/survey-2', component: _components.Questionnaire2 }),
 				_react2.default.createElement(_reactRouter.Route, { path: '/survey-3', component: _components.Questionnaire3 }),
 				_react2.default.createElement(_reactRouter.Route, { path: '/survey-results', component: _components.InsuranceResults }),
+				_react2.default.createElement(_reactRouter.Route, { path: '/survey-result', component: _components.InsuranceDetail }),
 				_react2.default.createElement(_reactRouter.Route, { path: '/signup', component: _components.UserCapture }),
 				_react2.default.createElement(_reactRouter.Route, { path: '/adoption', component: _components.PetAdoptionSurvey })
 			)
@@ -28593,7 +28594,7 @@
 	Object.defineProperty(exports, "__esModule", {
 		value: true
 	});
-	exports.UserCapture = exports.Questionnaire3 = exports.Questionnaire2 = exports.Questionnaire1 = exports.PetInsuranceSurvey = exports.PetAdoptionSurvey = exports.Landing = exports.InsuranceResults = exports.Footer = exports.AutocompleteBar = undefined;
+	exports.UserCapture = exports.Questionnaire3 = exports.Questionnaire2 = exports.Questionnaire1 = exports.PetInsuranceSurvey = exports.PetAdoptionSurvey = exports.Landing = exports.InsuranceResults = exports.InsuranceDetail = exports.Footer = exports.AutocompleteBar = undefined;
 	
 	var _AutocompleteBar = __webpack_require__(264);
 	
@@ -28603,35 +28604,39 @@
 	
 	var _Footer2 = _interopRequireDefault(_Footer);
 	
-	var _InsuranceResults = __webpack_require__(279);
+	var _InsuranceDetail = __webpack_require__(279);
+	
+	var _InsuranceDetail2 = _interopRequireDefault(_InsuranceDetail);
+	
+	var _InsuranceResults = __webpack_require__(281);
 	
 	var _InsuranceResults2 = _interopRequireDefault(_InsuranceResults);
 	
-	var _Landing = __webpack_require__(281);
+	var _Landing = __webpack_require__(282);
 	
 	var _Landing2 = _interopRequireDefault(_Landing);
 	
-	var _PetAdoptionSurvey = __webpack_require__(282);
+	var _PetAdoptionSurvey = __webpack_require__(283);
 	
 	var _PetAdoptionSurvey2 = _interopRequireDefault(_PetAdoptionSurvey);
 	
-	var _PetInsuranceSurvey = __webpack_require__(283);
+	var _PetInsuranceSurvey = __webpack_require__(284);
 	
 	var _PetInsuranceSurvey2 = _interopRequireDefault(_PetInsuranceSurvey);
 	
-	var _Questionnaire = __webpack_require__(284);
+	var _Questionnaire = __webpack_require__(285);
 	
 	var _Questionnaire2 = _interopRequireDefault(_Questionnaire);
 	
-	var _Questionnaire3 = __webpack_require__(285);
+	var _Questionnaire3 = __webpack_require__(286);
 	
 	var _Questionnaire4 = _interopRequireDefault(_Questionnaire3);
 	
-	var _Questionnaire5 = __webpack_require__(286);
+	var _Questionnaire5 = __webpack_require__(287);
 	
 	var _Questionnaire6 = _interopRequireDefault(_Questionnaire5);
 	
-	var _UserCapture = __webpack_require__(287);
+	var _UserCapture = __webpack_require__(288);
 	
 	var _UserCapture2 = _interopRequireDefault(_UserCapture);
 	
@@ -28639,6 +28644,7 @@
 	
 	exports.AutocompleteBar = _AutocompleteBar2.default;
 	exports.Footer = _Footer2.default;
+	exports.InsuranceDetail = _InsuranceDetail2.default;
 	exports.InsuranceResults = _InsuranceResults2.default;
 	exports.Landing = _Landing2.default;
 	exports.PetAdoptionSurvey = _PetAdoptionSurvey2.default;
@@ -30696,6 +30702,146 @@
 	
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 	
+	var InsuranceDetail = function (_Component) {
+		_inherits(InsuranceDetail, _Component);
+	
+		function InsuranceDetail(props) {
+			_classCallCheck(this, InsuranceDetail);
+	
+			var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(InsuranceDetail).call(this, props));
+	
+			_this.insuranceResults = _InsurancePlans2.default;
+			_this.state = {
+				opacitySetting: 0
+			};
+			return _this;
+		}
+	
+		_createClass(InsuranceDetail, [{
+			key: 'componentDidMount',
+			value: function componentDidMount() {
+				console.log("InsuranceDetail componentDidMount: " + JSON.stringify(this.props.location.state));
+				this.setState({ opacitySetting: 1 });
+			}
+		}, {
+			key: 'render',
+			value: function render() {
+				var opacitySetting = this.state.opacitySetting;
+	
+				var plan = this.props.location.state.plan;
+	
+				return _react2.default.createElement(
+					'div',
+					null,
+					_react2.default.createElement(
+						'article',
+						{ id: 'work', className: 'panel secondary', style: { opacity: opacitySetting, transitionProperty: "opacity", transitionDuration: "1.25s" } },
+						_react2.default.createElement(
+							'div',
+							{ className: 'image' },
+							_react2.default.createElement('img', { src: '/images/sittingdog.png', alt: '', 'data-position': 'center center' })
+						),
+						_react2.default.createElement(
+							'div',
+							{ className: 'content' },
+							_react2.default.createElement(
+								'ul',
+								{ className: 'actions spinX' },
+								_react2.default.createElement(
+									'li',
+									null,
+									_react2.default.createElement(
+										_reactRouter.Link,
+										{ to: '/survey-results', className: 'button small back' },
+										'Back'
+									)
+								)
+							),
+							_react2.default.createElement(
+								'div',
+								{ className: 'inner' },
+								_react2.default.createElement(
+									'header',
+									null,
+									_react2.default.createElement(
+										'h2',
+										null,
+										plan.company
+									)
+								),
+								_react2.default.createElement(
+									'p',
+									null,
+									'Plan: ',
+									plan.plan
+								),
+								_react2.default.createElement(
+									'p',
+									null,
+									'Cost: $',
+									plan.premium,
+									'/month '
+								),
+								_react2.default.createElement(
+									_reactRouter.Link,
+									{ to: '/signup', style: { margin: "25px" }, className: 'button' },
+									'Save for Later'
+								)
+							)
+						)
+					)
+				);
+			}
+		}]);
+	
+		return InsuranceDetail;
+	}(_react.Component);
+	
+	exports.default = InsuranceDetail;
+
+/***/ },
+/* 280 */
+/***/ function(module, exports) {
+
+	"use strict";
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.default = {
+	  insurancePlans: [{ "company": "Embrace", "plan": "Budget Conscious", "premium": "13.69" }, { "company": "Healthy Paws", "plan": "Dog & Puppy Insurance", "premium": "18.89" }, { "company": "Pet First", "plan": "Core Basic", "premium": "24.95" }]
+	};
+
+/***/ },
+/* 281 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+		value: true
+	});
+	
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	
+	var _react = __webpack_require__(1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _reactRouter = __webpack_require__(172);
+	
+	var _InsurancePlans = __webpack_require__(280);
+	
+	var _InsurancePlans2 = _interopRequireDefault(_InsurancePlans);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	
 	var InsuranceResults = function (_Component) {
 		_inherits(InsuranceResults, _Component);
 	
@@ -30727,14 +30873,16 @@
 						'div',
 						{ key: i, style: { margin: "5px" }, className: 'button' },
 						_react2.default.createElement(
-							'p',
-							{ style: { fontSize: '10px' } },
-							result.company,
-							': ',
-							result.plan,
-							' | $',
-							result.premium,
-							'/month'
+							_reactRouter.Link,
+							{ to: { pathname: '/survey-result', state: { plan: result } } },
+							_react2.default.createElement(
+								'p',
+								{ style: { fontSize: '10px' } },
+								result.company,
+								' | $',
+								result.premium,
+								'/month'
+							)
 						)
 					);
 				});
@@ -30796,20 +30944,7 @@
 	exports.default = InsuranceResults;
 
 /***/ },
-/* 280 */
-/***/ function(module, exports) {
-
-	"use strict";
-	
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	exports.default = {
-	  insurancePlans: [{ "company": "Embrace", "plan": "Budget Conscious", "premium": "13.69" }, { "company": "Healthy Paws", "plan": "Dog & Puppy Insurance", "premium": "18.89" }, { "company": "Pet First", "plan": "Core Basic", "premium": "24.95" }]
-	};
-
-/***/ },
-/* 281 */
+/* 282 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -30937,7 +31072,7 @@
 	exports.default = (0, _reactRedux.connect)(stateToProps)(Landing);
 
 /***/ },
-/* 282 */
+/* 283 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -31044,7 +31179,7 @@
 	exports.default = PetAdoptionSurvey;
 
 /***/ },
-/* 283 */
+/* 284 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -31155,7 +31290,7 @@
 	exports.default = PetInsuranceSurvey;
 
 /***/ },
-/* 284 */
+/* 285 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -31217,8 +31352,7 @@
 				var _state = this.state;
 				var displaySelectionCheck = _state.displaySelectionCheck;
 				var opacitySetting = _state.opacitySetting;
-				// var dogImgDisplay = displaySelectionCheck.dog == true ? "images/check.png" : "/images/dog.png"
-				// var catImgDisplay = displaySelectionCheck.cat == true ? "images/check.png" : "/images/cat.png"
+	
 	
 				var catImgDisplay = displaySelectionCheck.dog == true ? "none" : "inline";
 				var dogImgDisplay = displaySelectionCheck.cat == true ? "none" : "inline";
@@ -31319,7 +31453,7 @@
 	exports.default = Questionnaire1;
 
 /***/ },
-/* 285 */
+/* 286 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -31422,7 +31556,7 @@
 	exports.default = Questionnaire2;
 
 /***/ },
-/* 286 */
+/* 287 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -31603,7 +31737,7 @@
 	exports.default = Questionnaire3;
 
 /***/ },
-/* 287 */
+/* 288 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -31661,7 +31795,7 @@
 						_react2.default.createElement(
 							'div',
 							{ className: 'image' },
-							_react2.default.createElement('img', { src: '/images/flamingo.png', alt: '', 'data-position': 'center center' })
+							_react2.default.createElement('img', { src: '/images/standingdog.png', alt: '', 'data-position': 'center center' })
 						),
 						_react2.default.createElement(
 							'div',

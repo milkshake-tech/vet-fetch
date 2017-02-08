@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { Link, browserHistory } from 'react-router'
 import InsurancePlans from '../utils/InsurancePlans'
 
-class InsuranceResults extends Component {
+class InsuranceDetail extends Component {
 
 	constructor(props){
 		super(props)
@@ -13,19 +13,14 @@ class InsuranceResults extends Component {
 	}
 
 	componentDidMount(){
+		console.log("InsuranceDetail componentDidMount: "+JSON.stringify(this.props.location.state))
 		this.setState({opacitySetting: 1})
 	}
 
 	render(){
 		var {opacitySetting} = this.state
-		var plansArray = this.insuranceResults.insurancePlans
-		var insuranceResultsList = plansArray.map(function(result, i){
-			return(
-				<div key={i} style={{margin: "5px"}} className="button">
-					<Link to={{ pathname: '/survey-result', state: {plan: result} }}><p style={{fontSize: '10px'}}>{result.company} | ${result.premium}/month</p></Link>
-				</div>
-			)
-		})
+		var plan = this.props.location.state.plan
+
 		return(
 			<div>
 				<article id="work" className="panel secondary" style={{opacity: opacitySetting, transitionProperty: "opacity", transitionDuration: "1.25s"}}>
@@ -34,13 +29,14 @@ class InsuranceResults extends Component {
 					</div>
 					<div className="content">
 						<ul className="actions spinX">
-							<li><Link to="/survey-3" className="button small back">Back</Link></li>
+							<li><Link to="/survey-results" className="button small back">Back</Link></li>
 						</ul>
 						<div className="inner">
 							<header>
-								<h2>Plans for you</h2>
+								<h2>{plan.company}</h2>
 							</header>
-							{insuranceResultsList}
+							<p>Plan: {plan.plan}</p>
+							<p>Cost: ${plan.premium}/month </p>
 							<Link to="/signup" style={{margin: "25px"}} className="button">Save for Later</Link>
 						</div>
 					</div>
@@ -50,4 +46,4 @@ class InsuranceResults extends Component {
 	}
 }
 
-export default InsuranceResults
+export default InsuranceDetail

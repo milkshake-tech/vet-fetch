@@ -6,6 +6,8 @@ var AutocompleteBar = _interopRequire(require("./AutocompleteBar"));
 
 var Footer = _interopRequire(require("./Footer"));
 
+var InsuranceDetail = _interopRequire(require("./InsuranceDetail"));
+
 var InsuranceResults = _interopRequire(require("./InsuranceResults"));
 
 var Landing = _interopRequire(require("./Landing"));
@@ -24,6 +26,7 @@ var UserCapture = _interopRequire(require("./UserCapture"));
 
 exports.AutocompleteBar = AutocompleteBar;
 exports.Footer = Footer;
+exports.InsuranceDetail = InsuranceDetail;
 exports.InsuranceResults = InsuranceResults;
 exports.Landing = Landing;
 exports.PetAdoptionSurvey = PetAdoptionSurvey;
