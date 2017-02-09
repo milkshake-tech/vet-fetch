@@ -13,7 +13,6 @@ class InsuranceDetail extends Component {
 	}
 
 	componentDidMount(){
-		console.log("InsuranceDetail componentDidMount: "+JSON.stringify(this.props.location.state))
 		this.setState({opacitySetting: 1})
 	}
 
@@ -37,6 +36,8 @@ class InsuranceDetail extends Component {
 							</header>
 							<p>Plan: {plan.plan}</p>
 							<p>Cost: ${plan.premium}/month </p>
+							<p>Deductible: ${plan.deductible} </p>
+							<p>Visit: <a href={plan.website}>{plan.website}</a> </p>
 							<Link to="/signup" style={{margin: "25px"}} className="button">Save for Later</Link>
 						</div>
 					</div>

@@ -37,7 +37,6 @@ var InsuranceDetail = (function (Component) {
 	_prototypeProperties(InsuranceDetail, null, {
 		componentDidMount: {
 			value: function componentDidMount() {
-				console.log("InsuranceDetail componentDidMount: " + JSON.stringify(this.props.location.state));
 				this.setState({ opacitySetting: 1 });
 			},
 			writable: true,
@@ -99,6 +98,24 @@ var InsuranceDetail = (function (Component) {
 									"Cost: $",
 									plan.premium,
 									"/month "
+								),
+								React.createElement(
+									"p",
+									null,
+									"Deductible: $",
+									plan.deductible,
+									" "
+								),
+								React.createElement(
+									"p",
+									null,
+									"Visit: ",
+									React.createElement(
+										"a",
+										{ href: plan.website },
+										plan.website
+									),
+									" "
 								),
 								React.createElement(
 									Link,

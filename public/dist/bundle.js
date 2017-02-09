@@ -30720,7 +30720,6 @@
 		_createClass(InsuranceDetail, [{
 			key: 'componentDidMount',
 			value: function componentDidMount() {
-				console.log("InsuranceDetail componentDidMount: " + JSON.stringify(this.props.location.state));
 				this.setState({ opacitySetting: 1 });
 			}
 		}, {
@@ -30783,6 +30782,24 @@
 									'/month '
 								),
 								_react2.default.createElement(
+									'p',
+									null,
+									'Deductible: $',
+									plan.deductible,
+									' '
+								),
+								_react2.default.createElement(
+									'p',
+									null,
+									'Visit: ',
+									_react2.default.createElement(
+										'a',
+										{ href: plan.website },
+										plan.website
+									),
+									' '
+								),
+								_react2.default.createElement(
 									_reactRouter.Link,
 									{ to: '/signup', style: { margin: "25px" }, className: 'button' },
 									'Save for Later'
@@ -30809,7 +30826,7 @@
 	  value: true
 	});
 	exports.default = {
-	  insurancePlans: [{ "company": "Embrace", "plan": "Budget Conscious", "premium": "13.69" }, { "company": "Healthy Paws", "plan": "Dog & Puppy Insurance", "premium": "18.89" }, { "company": "Pet First", "plan": "Core Basic", "premium": "24.95" }]
+	  insurancePlans: [{ "company": "Embrace", "plan": "Budget Conscious", "premium": "13.69", "deductible": "500.00", "website": "http://www.embracepetinsurance.com/" }, { "company": "Healthy Paws", "plan": "Dog & Puppy Insurance", "premium": "18.89", "deductible": "500.00", "website": "https://www.healthypawspetinsurance.com/" }, { "company": "Pet First", "plan": "Core Basic", "premium": "24.95", "deductible": "400.00", "website": "https://www.petfirst.com/" }]
 	};
 
 /***/ },
@@ -31795,7 +31812,7 @@
 						_react2.default.createElement(
 							'div',
 							{ className: 'image' },
-							_react2.default.createElement('img', { src: '/images/standingdog.png', alt: '', 'data-position': 'center center' })
+							_react2.default.createElement('img', { src: '/images/flamingo.png', alt: '', 'data-position': 'center center' })
 						),
 						_react2.default.createElement(
 							'div',
