@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-var profileController = require('../controllers/ProfileController');
+var userController = require('../controllers/userController');
 var bcrypt = require('bcryptjs')
 
 router.get('/:action', function(req, res, next){

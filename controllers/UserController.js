@@ -1,4 +1,4 @@
-var Profile = require('../models/Profile')
+var User = require('../models/User')
 var bcrypt = require('bcryptjs')
 
 module.exports = {
@@ -6,31 +6,31 @@ module.exports = {
 
 		if (params.id != null){
 
-			Profile.findById(params.id, function(err, profile){
+			User.findById(params.id, function(err, user){
 				if (err){
 					callback(err, null)
 					return
 				}
 
-				if (profile == null){
+				if (user == null){
 					callback(err, null)
 					return
 				}
 
 				if(callback != null){
 					if(isRaw == true){
-						callback(null, profile)
+						callback(null, user)
 						return
 					}
 
-					callback(null, profile.summary())
+					callback(null, user.summary())
 				}
-				
+
 			})
 			return
 		}
-		
-		Profile.find(params, function(err, profiles){
+
+		User.find(params, function(err, users){
 
 			if(err){
 				if(callback != null)
@@ -38,44 +38,44 @@ module.exports = {
 				return
 			}
 
-			if (profiles == null){
+			if (users == null){
 
 				callback(err, null)
-				
+
 				return
 			}
 
 			if(callback != null){
 				if(isRaw == true){
-					callback(null, profiles)
+					callback(null, users)
 					return
 				}
 
 				var summaries = []
-				for (var i=0; i<profiles.length; i++){
-					var profile = profiles[i]
-					summaries.push(profile.summary())
+				for (var i=0; i<users.length; i++){
+					var user = users[i]
+					summaries.push(user.summary())
 				}
 				callback(null, summaries)
-			}	
+			}
 		})
 	},
 
 	getById: function(id, isRaw, callback){
-		Profile.findById(id, function(err, profile){
+		User.findById(id, function(err, user){
 			if(err){
 				if(callback != null)
-					callback({message: 'Profile Not Found'}, null)
+					callback({message: 'User Not Found'}, null)
 				return
 			}
-			
+
 			if (callback != null){
 				if(isRaw == true){
-					callback(null, profile)
+					callback(null, user)
 					return
 				}
-				callback(null, profile.summary())
-			}	
+				callback(null, user.summary())
+			}
 		})
 	},
 
@@ -83,8 +83,8 @@ module.exports = {
 		var password = params['password'] // plain text password
 		var hashedPassword = bcrypt.hashSync(password, 10)
 		params['password'] = hashedPassword
-		
-		Profile.create(params, function(err, profile){
+
+		User.create(params, function(err, user){
 			if(err){
 				if(callback != null)
 					callback(err, null)
@@ -92,25 +92,25 @@ module.exports = {
 			}
 
 			if(callback != null)
-				callback(null, profile.summary())
+				callback(null, user.summary())
 		})
 	},
 
 	put: function(id, params, callback){
-		Profile.findByIdAndUpdate(id, params, {new: true}, function(err, profile){
+		User.findByIdAndUpdate(id, params, {new: true}, function(err, user){
 			if(err){
 				if (callback != null)
 					callback(err, null)
 				return
 			}
 
-			if (profile == null){
+			if (user == null){
 				callback(err, null)
 				return
 			}
 
 			if (callback != null)
-				callback(null, profile.summary())
+				callback(null, user.summary())
 		})
 	}
 }

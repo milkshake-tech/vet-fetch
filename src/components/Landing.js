@@ -49,7 +49,7 @@ class Landing extends Component {
 const stateToProps = function(state) {
 
 	return {
-		currentUser: state.accountReducer.currentUser,
+		user: state.userReducer.user,
 	}
 }
 

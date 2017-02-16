@@ -3,10 +3,10 @@ import store from '../stores/store'
 
 export default {
 
-	receivedCurrentUser: function(user){
+	receivedUser: function(user){
 		return {
-			type: constants.RECEIVED_CURRENT_USER,
-			currentUser: user	
+			type: constants.RECEIVED_USER,
+			user: user
 		}
 	},
 

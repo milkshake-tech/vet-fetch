@@ -11,19 +11,12 @@ export default {
 			if(err){
 				if (completion != null)
 					completion(err, null)
-				return	
+				return
 			}
 
 			if (completion != null){
-
 				completion(null, res.body)
-				return	
-				// if (res.body.confirmation == 'Success'){
-				// 	completion(null, res.body)
-				// }
-				// else {
-				// 	completion({message: res.body.message}, null)
-				// }
+				return
 			}
 		})
 	},
@@ -37,14 +30,14 @@ export default {
 			if(err){
 				if (completion != null)
 					completion(err, null)
-				return	
+				return
 			}
 
 			if (completion != null){
 				completion(null, res.body)
-				return	
+				return
 			}
-		})	
+		})
 	},
 
 	handlePost: function(endpoint, body, completion){
@@ -53,7 +46,7 @@ export default {
 		.send(body)
 		.set('Accept', 'application/json')
 		.end(function(err, res){
-			if (err){ 
+			if (err){
 				if (completion != null)
 					completion(err, null)
 
@@ -84,12 +77,12 @@ export default {
 		.send(body)
 		.set('Accept', 'application/json')
 		.end(function(err, res){
-			if (err){ 
+			if (err){
 				if (completion != null)
 					completion(err, null)
 				return
 			}
-			
+
 			if (completion != null){
 				if (res.body.confirmation == 'Success'){
 		    		completion(null, res.body)
@@ -99,6 +92,5 @@ export default {
 				}
 			}
 		});
-	}	
+	}
 }
-

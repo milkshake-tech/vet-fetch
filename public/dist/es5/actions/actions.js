@@ -8,10 +8,10 @@ var store = _interopRequire(require("../stores/store"));
 
 module.exports = {
 
-	receivedCurrentUser: function (user) {
+	receivedUser: function (user) {
 		return {
-			type: constants.RECEIVED_CURRENT_USER,
-			currentUser: user
+			type: constants.RECEIVED_USER,
+			user: user
 		};
 	},
 

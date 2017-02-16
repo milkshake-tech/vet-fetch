@@ -1,13 +1,13 @@
 import { createStore, applyMiddleware, combineReducers } from 'redux'
 import thunk from 'redux-thunk'
-import accountReducer from '../reducers/accountReducer'
+import userReducer from '../reducers/userReducer'
 import petReducer from '../reducers/petReducer'
 import displayReducer from '../reducers/displayReducer'
 import searchReducer from '../reducers/searchReducer'
 
 // Combine reducers
 var reducers = combineReducers({
-	accountReducer: accountReducer,
+	userReducer: userReducer,
 	petReducer: petReducer,
 	displayReducer: displayReducer,
 	searchReducer: searchReducer
@@ -19,4 +19,4 @@ var store = createStore(
 		applyMiddleware(thunk)
 		);
 
-export default store; 
+export default store;

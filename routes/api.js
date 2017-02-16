@@ -1,12 +1,12 @@
 var express = require('express');
 var router = express.Router();
 var petController = require('../controllers/PetController');
-var profileController = require('../controllers/ProfileController');
+var userController = require('../controllers/UserController');
 var vetController = require('../controllers/VetController')
 
 var controllers = {
 	pet: petController,
-	profile: profileController,
+	user: userController,
 	vet: vetController
 }
 
@@ -66,7 +66,7 @@ router.get('/:resource/:id', function(req, res, next){
 		})
 		return
 	})
-	
+
 })
 
 router.post('/:resource', function(req, res, next){
@@ -92,7 +92,7 @@ router.post('/:resource', function(req, res, next){
 
 		if (resource == 'profile') //install cookie
 			req.session.user = result.id
-		
+
 			res.json({
 				confirmation: 'Success',
 				result: result
@@ -102,12 +102,12 @@ router.post('/:resource', function(req, res, next){
 			var signUpEmail = params.email
 			var username = params.username
 			var emailContent = 'Hi '+username+'! Welcome to Vet Fetch'
-			
+
 			console.log('SIGN UP POST PARAMS: '+JSON.stringify(params))
-			
+
 			var sendgrid = require('sendgrid')(process.env.SENDGRID_API_KEY)
 			// var sendgrid = require('sendgrid')(sgkey)
-			
+
 			var request = sendgrid.emptyRequest({
 				method: 'POST',
 				path: '/v3/mail/send',
@@ -140,7 +140,7 @@ router.post('/:resource', function(req, res, next){
 				console.log('SENDGRID ==='+JSON.stringify(response.body))
 				console.log('SENDGRID HEADERS==='+JSON.stringify(response.headers))
 			})
-			
+
 		return
 	})
 })

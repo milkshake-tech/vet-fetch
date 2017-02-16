@@ -113,7 +113,7 @@ var Landing = (function (Component) {
 
 var stateToProps = function (state) {
 	return {
-		currentUser: state.accountReducer.currentUser };
+		user: state.userReducer.user };
 };
 
 module.exports = connect(stateToProps)(Landing);

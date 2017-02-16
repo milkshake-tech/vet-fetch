@@ -9,7 +9,7 @@ var applyMiddleware = _redux.applyMiddleware;
 var combineReducers = _redux.combineReducers;
 var thunk = _interopRequire(require("redux-thunk"));
 
-var accountReducer = _interopRequire(require("../reducers/accountReducer"));
+var userReducer = _interopRequire(require("../reducers/userReducer"));
 
 var petReducer = _interopRequire(require("../reducers/petReducer"));
 
@@ -19,7 +19,7 @@ var searchReducer = _interopRequire(require("../reducers/searchReducer"));
 
 // Combine reducers
 var reducers = combineReducers({
-	accountReducer: accountReducer,
+	userReducer: userReducer,
 	petReducer: petReducer,
 	displayReducer: displayReducer,
 	searchReducer: searchReducer

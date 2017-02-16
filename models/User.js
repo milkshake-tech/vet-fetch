@@ -1,21 +1,21 @@
 var mongoose = require('mongoose')
 
-var ProfileSchema = new mongoose.Schema({
+var UserSchema = new mongoose.Schema({
 	firstName:{type:String, lowercase: true, trim: true, default: ''},
 	lastName:{type:String, lowercase: true, trim: true, default: ''},
-	username:{type:String, lowercase: true, trim: true, default: ''},
 	email:{type:String, lowercase: true, trim: true, default: ''},
+	phone:{type:String, lowercase: true, trim: true, default: ''},
 	password:{type: String, default: ''},
 	image: {type: String, trim: true, default: ''},
 	timestamp:{type: String, default: Date.now}
 })
 
-ProfileSchema.methods.summary = function(){
+UserSchema.methods.summary = function(){
 	var summary = {
 		firstName: this.firstName,
 		lastName: this.lastName,
-		username: this.username,
-		email: this.email, 
+		email: this.email,
+		phone: this.phone,
 		timestamp: this.timestamp,
 		image: this.image,
 		id: this._id
@@ -24,4 +24,4 @@ ProfileSchema.methods.summary = function(){
 	return summary
 }
 
-module.exports = mongoose.model('ProfileSchema', ProfileSchema)
+module.exports = mongoose.model('UserSchema', UserSchema)
