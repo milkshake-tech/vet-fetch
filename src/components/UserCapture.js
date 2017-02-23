@@ -81,7 +81,7 @@ class UserCapture extends Component {
 
 							<Link onClick={this.saveUser} style={{margin: "20px"}} className="button">Submit</Link>
 							<div style={{display: errorAlertDisplay}}> "Oops, your password entries don't match. Please try again." </div>
-							<div style={{display: successAlertDisplay}}> Thanks for signing up. Check out your saved results here. </div>
+							<div style={{display: successAlertDisplay}}> Thanks for signing up. Check out your <Link to="/profile"> profile.</Link> </div>
 
 						</div>
 					</div>

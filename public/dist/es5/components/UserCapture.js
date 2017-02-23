@@ -168,7 +168,13 @@ var UserCapture = (function (Component) {
 								React.createElement(
 									"div",
 									{ style: { display: successAlertDisplay } },
-									" Thanks for signing up. Check out your saved results here. "
+									" Thanks for signing up. Check out your ",
+									React.createElement(
+										Link,
+										{ to: "/profile" },
+										" profile."
+									),
+									" "
 								)
 							)
 						)

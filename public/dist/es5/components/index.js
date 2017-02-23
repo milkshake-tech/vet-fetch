@@ -24,6 +24,8 @@ var Questionnaire3 = _interopRequire(require("./Questionnaire3"));
 
 var UserCapture = _interopRequire(require("./UserCapture"));
 
+var UserProfile = _interopRequire(require("./UserProfile"));
+
 exports.AutocompleteBar = AutocompleteBar;
 exports.Footer = Footer;
 exports.InsuranceDetail = InsuranceDetail;
@@ -35,6 +37,7 @@ exports.Questionnaire1 = Questionnaire1;
 exports.Questionnaire2 = Questionnaire2;
 exports.Questionnaire3 = Questionnaire3;
 exports.UserCapture = UserCapture;
+exports.UserProfile = UserProfile;
 Object.defineProperty(exports, "__esModule", {
 	value: true
 });

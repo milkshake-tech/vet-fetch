@@ -86,6 +86,7 @@
 				_react2.default.createElement(_reactRouter.Route, { path: '/survey-3', component: _components.Questionnaire3 }),
 				_react2.default.createElement(_reactRouter.Route, { path: '/survey-results', component: _components.InsuranceResults }),
 				_react2.default.createElement(_reactRouter.Route, { path: '/survey-result', component: _components.InsuranceDetail }),
+				_react2.default.createElement(_reactRouter.Route, { path: '/profile', component: _components.UserProfile }),
 				_react2.default.createElement(_reactRouter.Route, { path: '/signup', component: _components.UserCapture }),
 				_react2.default.createElement(_reactRouter.Route, { path: '/adoption', component: _components.PetAdoptionSurvey })
 			)
@@ -28593,7 +28594,7 @@
 	Object.defineProperty(exports, "__esModule", {
 		value: true
 	});
-	exports.UserCapture = exports.Questionnaire3 = exports.Questionnaire2 = exports.Questionnaire1 = exports.PetInsuranceSurvey = exports.PetAdoptionSurvey = exports.Landing = exports.InsuranceResults = exports.InsuranceDetail = exports.Footer = exports.AutocompleteBar = undefined;
+	exports.UserProfile = exports.UserCapture = exports.Questionnaire3 = exports.Questionnaire2 = exports.Questionnaire1 = exports.PetInsuranceSurvey = exports.PetAdoptionSurvey = exports.Landing = exports.InsuranceResults = exports.InsuranceDetail = exports.Footer = exports.AutocompleteBar = undefined;
 	
 	var _AutocompleteBar = __webpack_require__(264);
 	
@@ -28639,6 +28640,10 @@
 	
 	var _UserCapture2 = _interopRequireDefault(_UserCapture);
 	
+	var _UserProfile = __webpack_require__(295);
+	
+	var _UserProfile2 = _interopRequireDefault(_UserProfile);
+	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	exports.AutocompleteBar = _AutocompleteBar2.default;
@@ -28652,6 +28657,7 @@
 	exports.Questionnaire2 = _Questionnaire4.default;
 	exports.Questionnaire3 = _Questionnaire6.default;
 	exports.UserCapture = _UserCapture2.default;
+	exports.UserProfile = _UserProfile2.default;
 
 /***/ },
 /* 264 */
@@ -31931,7 +31937,13 @@
 								_react2.default.createElement(
 									'div',
 									{ style: { display: successAlertDisplay } },
-									' Thanks for signing up. Check out your saved results here. '
+									' Thanks for signing up. Check out your ',
+									_react2.default.createElement(
+										_reactRouter.Link,
+										{ to: '/profile' },
+										' profile.'
+									),
+									' '
 								)
 							)
 						)
@@ -33605,6 +33617,189 @@
 	
 	module.exports = request;
 
+
+/***/ },
+/* 295 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+		value: true
+	});
+	
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	
+	var _react = __webpack_require__(1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _reactRouter = __webpack_require__(172);
+	
+	var _reactRedux = __webpack_require__(250);
+	
+	var _store = __webpack_require__(229);
+	
+	var _store2 = _interopRequireDefault(_store);
+	
+	var _actions = __webpack_require__(249);
+	
+	var _actions2 = _interopRequireDefault(_actions);
+	
+	var _APIManager = __webpack_require__(289);
+	
+	var _APIManager2 = _interopRequireDefault(_APIManager);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	
+	var UserProfile = function (_Component) {
+		_inherits(UserProfile, _Component);
+	
+		function UserProfile(props) {
+			_classCallCheck(this, UserProfile);
+	
+			var _this2 = _possibleConstructorReturn(this, Object.getPrototypeOf(UserProfile).call(this, props));
+	
+			_this2.state = {
+				opacitySetting: 0
+			};
+			return _this2;
+		}
+	
+		_createClass(UserProfile, [{
+			key: 'componentDidMount',
+			value: function componentDidMount() {
+				this.setState({ opacitySetting: 1 });
+				var _this = this;
+	
+				_APIManager2.default.handleGet('/user/currentuser', null, function (err, response) {
+					if (err) {
+						alert(JSON.stringify(err));
+						return;
+					}
+					if (response.confirmation == "Fail") {
+						console.log("res: " + JSON.stringify(response));
+						return;
+					}
+	
+					if (response.confirmation == "Success") {
+						console.log("res: " + JSON.stringify(response));
+						_this.props.captureCurrentUser(response.user);
+						return;
+					}
+				});
+			}
+		}, {
+			key: 'render',
+			value: function render() {
+				var opacitySetting = this.state.opacitySetting;
+	
+				console.log("this.props.user: " + JSON.stringify(this.props.user));
+				var user = this.props.user;
+	
+	
+				return _react2.default.createElement(
+					'div',
+					null,
+					_react2.default.createElement(
+						'article',
+						{ id: 'work', className: 'panel secondary', style: { opacity: opacitySetting, transitionProperty: "opacity", transitionDuration: "1s" } },
+						_react2.default.createElement(
+							'div',
+							{ className: 'content' },
+							_react2.default.createElement(
+								'ul',
+								{ className: 'actions spinX' },
+								_react2.default.createElement(
+									'li',
+									null,
+									' '
+								)
+							),
+							_react2.default.createElement(
+								'div',
+								{ className: 'inner' },
+								_react2.default.createElement(
+									'header',
+									null,
+									_react2.default.createElement(
+										'h2',
+										null,
+										'Profile'
+									)
+								),
+								_react2.default.createElement(
+									'p',
+									null,
+									'Contact email: ',
+									user.email
+								)
+							)
+						),
+						_react2.default.createElement(
+							'div',
+							{ className: 'content' },
+							_react2.default.createElement(
+								'ul',
+								{ className: 'actions spinX' },
+								_react2.default.createElement(
+									'li',
+									null,
+									_react2.default.createElement(
+										_reactRouter.Link,
+										{ to: '/survey-results', className: 'button small back' },
+										'Back'
+									)
+								)
+							),
+							_react2.default.createElement(
+								'div',
+								{ className: 'inner' },
+								_react2.default.createElement(
+									'header',
+									null,
+									_react2.default.createElement(
+										'h2',
+										null,
+										'Pets'
+									)
+								),
+								_react2.default.createElement(
+									'div',
+									null,
+									_react2.default.createElement('img', { style: { cursor: "pointer" }, src: '/images/dog2.png' })
+								)
+							)
+						)
+					)
+				);
+			}
+		}]);
+	
+		return UserProfile;
+	}(_react.Component);
+	
+	var stateToProps = function stateToProps(state) {
+		return {
+			user: state.userReducer.user
+		};
+	};
+	
+	var dispatchToProps = function dispatchToProps(dispatch) {
+		return {
+			captureCurrentUser: function captureCurrentUser(user) {
+				return dispatch(_actions2.default.receivedUser(user));
+			}
+		};
+	};
+	
+	exports.default = (0, _reactRedux.connect)(stateToProps, dispatchToProps)(UserProfile);
 
 /***/ }
 /******/ ]);
