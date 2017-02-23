@@ -9,6 +9,7 @@ import Questionnaire1 from './Questionnaire1'
 import Questionnaire2 from './Questionnaire2'
 import Questionnaire3 from './Questionnaire3'
 import UserCapture from './UserCapture'
+import UserProfile from './UserProfile'
 
 export {
 	AutocompleteBar,
@@ -21,5 +22,6 @@ export {
 	Questionnaire1,
 	Questionnaire2,
 	Questionnaire3,
-	UserCapture
+	UserCapture,
+	UserProfile
 }
