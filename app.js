@@ -11,9 +11,9 @@ var request = require('request');
 
 var routes = require('./routes/index');
 var api = require('./routes/api');
-var account = require('./routes/account');
+var user = require('./routes/user');
 
-var mongoUrl = process.env.MONGODB_URI || 'mongodb://localhost/vetfetch' 
+var mongoUrl = process.env.MONGODB_URI || 'mongodb://localhost/vetfetch'
 mongoose.connect(mongoUrl, function(err, res){
   if(err){
     console.log('DB Connection Failed:'+err)
@@ -49,7 +49,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', routes);
 app.use('/api', api);
-app.use('/account', account);
+app.use('/user', user);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

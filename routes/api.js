@@ -90,7 +90,7 @@ router.post('/:resource', function(req, res, next){
 			return
 		}
 
-		if (resource == 'profile') //install cookie
+		if (resource == 'user') //install cookie
 			req.session.user = result.id
 
 			res.json({

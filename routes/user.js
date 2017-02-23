@@ -9,7 +9,7 @@ router.get('/:action', function(req, res, next){
 	if (action == 'logout'){
 
 		var userId = req.session.user
-		profileController.get({id: userId}, null, function(err, result){
+		userController.get({id: userId}, null, function(err, result){
 
 			if (err){
 				res.json({
@@ -35,9 +35,7 @@ router.get('/:action', function(req, res, next){
 				confirmation: 'Fail',
 				message: 'No Current User: No session in place.'
 			})
-
-		return
-
+			return
 		}
 
 		if (req.session.user == null){
@@ -45,13 +43,11 @@ router.get('/:action', function(req, res, next){
 				confirmation: 'Fail',
 				message: 'No Current User: No user in current session.'
 			})
-
-		return
-
+			return
 		}
 
 		var userId = req.session.user
-		profileController.get({id: userId}, null, function(err, result){
+		userController.get({id: userId}, null, function(err, result){
 
 			if (err){
 				res.json({
@@ -78,7 +74,7 @@ router.post('/:action', function(req, res, next){
 		var credentials = req.body
 		var email = credentials.email.toLowerCase()
 
-		profileController.get({email: email}, true, function(err, results){
+		userController.get({email: email}, true, function(err, results){
 			// console.log("ACCOUNT ROUTER GET RESULTS:" +JSON.stringify(results))
 
 			if (results.length == 0){
