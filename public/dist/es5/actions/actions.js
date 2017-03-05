@@ -15,6 +15,13 @@ module.exports = {
 		};
 	},
 
+	receivedVet: function (vet) {
+		return {
+			type: constants.RECEIVED_VET,
+			vet: vet
+		};
+	},
+
 	registerPet: function (pet) {
 		return {
 			type: constants.REGISTER_PET,
@@ -69,6 +76,13 @@ module.exports = {
 		return {
 			type: constants.SHOW_REGISTER_PET,
 			showContent: showContent
+		};
+	},
+
+	showSideMenu: function (left) {
+		return {
+			type: constants.RECEIVE_SIDEMENU_STATE,
+			left: left
 		};
 	},
 

@@ -31,10 +31,10 @@ class Landing extends Component {
 							<nav id="nav">
 								<ul className="actions vertical special spinY">
 									<li>
-										<Link to='/survey' className="button">Looking for pet insurance</Link>
+										<Link to='/findvet' className="button">Find vetenarian near you</Link>
 									</li>
 									<li>
-										<Link to="/adoption" className="button">Looking for a pet</Link>
+										<Link to="/vet-portal" className="button">Vet</Link>
 									</li>
 								</ul>
 							</nav>

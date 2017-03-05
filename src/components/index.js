@@ -1,4 +1,5 @@
 import AutocompleteBar from './AutocompleteBar'
+import FindVet from './FindVet'
 import Footer from './Footer'
 import InsuranceDetail from './InsuranceDetail'
 import InsuranceResults from './InsuranceResults'
@@ -10,9 +11,15 @@ import Questionnaire2 from './Questionnaire2'
 import Questionnaire3 from './Questionnaire3'
 import UserCapture from './UserCapture'
 import UserProfile from './UserProfile'
+import VetHome from './VetHome'
+import VetPortal from './VetPortal'
+import VetQuestionnaire1 from './VetQuestionnaire1'
+import VetQuestionnaire2 from './VetQuestionnaire2'
+import VetQuestionnaire3 from './VetQuestionnaire3'
 
 export {
 	AutocompleteBar,
+	FindVet,
 	Footer,
 	InsuranceDetail,
 	InsuranceResults,
@@ -23,5 +30,10 @@ export {
 	Questionnaire2,
 	Questionnaire3,
 	UserCapture,
-	UserProfile
+	UserProfile,
+	VetHome,
+	VetPortal,
+	VetQuestionnaire1,
+	VetQuestionnaire2,
+	VetQuestionnaire3
 }

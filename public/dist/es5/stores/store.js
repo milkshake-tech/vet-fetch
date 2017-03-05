@@ -17,12 +17,18 @@ var displayReducer = _interopRequire(require("../reducers/displayReducer"));
 
 var searchReducer = _interopRequire(require("../reducers/searchReducer"));
 
+var vetReducer = _interopRequire(require("../reducers/vetReducer"));
+
+var UIReducer = _interopRequire(require("../reducers/UIReducer"));
+
 // Combine reducers
 var reducers = combineReducers({
 	userReducer: userReducer,
 	petReducer: petReducer,
 	displayReducer: displayReducer,
-	searchReducer: searchReducer
+	searchReducer: searchReducer,
+	vetReducer: vetReducer,
+	UIReducer: UIReducer
 });
 
 // Create createStore

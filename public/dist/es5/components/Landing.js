@@ -83,8 +83,8 @@ var Landing = (function (Component) {
 											null,
 											React.createElement(
 												Link,
-												{ to: "/survey", className: "button" },
-												"Looking for pet insurance"
+												{ to: "/findvet", className: "button" },
+												"Find vetenarian near you"
 											)
 										),
 										React.createElement(
@@ -92,8 +92,8 @@ var Landing = (function (Component) {
 											null,
 											React.createElement(
 												Link,
-												{ to: "/adoption", className: "button" },
-												"Looking for a pet"
+												{ to: "/vet-portal", className: "button" },
+												"Vet"
 											)
 										)
 									)

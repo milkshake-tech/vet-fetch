@@ -10,6 +10,13 @@ export default {
 		}
 	},
 
+	receivedVet: function(vet){
+		return {
+			type: constants.RECEIVED_VET,
+			vet: vet
+		}
+	},
+
 	registerPet: function(pet){
 		return{
 			type: constants.REGISTER_PET,
@@ -65,6 +72,13 @@ export default {
 		return{
 			type: constants.SHOW_REGISTER_PET,
 			showContent: showContent
+		}
+	},
+
+	showSideMenu: (left) => {
+		return {
+			type: constants.RECEIVE_SIDEMENU_STATE,
+			left: left
 		}
 	},
 

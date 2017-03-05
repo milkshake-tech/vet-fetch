@@ -60,13 +60,13 @@
 	
 	var _Main2 = _interopRequireDefault(_Main);
 	
-	var _components = __webpack_require__(263);
+	var _components = __webpack_require__(265);
 	
 	var _store = __webpack_require__(229);
 	
 	var _store2 = _interopRequireDefault(_store);
 	
-	var _reactRedux = __webpack_require__(250);
+	var _reactRedux = __webpack_require__(252);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
@@ -80,6 +80,7 @@
 				_reactRouter.Route,
 				{ path: '/', component: _Main2.default },
 				_react2.default.createElement(_reactRouter.IndexRoute, { component: _components.Landing }),
+				_react2.default.createElement(_reactRouter.Route, { path: '/findvet', component: _components.FindVet }),
 				_react2.default.createElement(_reactRouter.Route, { path: '/survey', component: _components.PetInsuranceSurvey }),
 				_react2.default.createElement(_reactRouter.Route, { path: '/survey-1', component: _components.Questionnaire1 }),
 				_react2.default.createElement(_reactRouter.Route, { path: '/survey-2', component: _components.Questionnaire2 }),
@@ -88,7 +89,12 @@
 				_react2.default.createElement(_reactRouter.Route, { path: '/survey-result', component: _components.InsuranceDetail }),
 				_react2.default.createElement(_reactRouter.Route, { path: '/profile', component: _components.UserProfile }),
 				_react2.default.createElement(_reactRouter.Route, { path: '/signup', component: _components.UserCapture }),
-				_react2.default.createElement(_reactRouter.Route, { path: '/adoption', component: _components.PetAdoptionSurvey })
+				_react2.default.createElement(_reactRouter.Route, { path: '/adoption', component: _components.PetAdoptionSurvey }),
+				_react2.default.createElement(_reactRouter.Route, { path: '/vet-home', component: _components.VetHome }),
+				_react2.default.createElement(_reactRouter.Route, { path: '/vet-portal', component: _components.VetPortal }),
+				_react2.default.createElement(_reactRouter.Route, { path: '/vet-survey-1', component: _components.VetQuestionnaire1 }),
+				_react2.default.createElement(_reactRouter.Route, { path: '/vet-survey-2', component: _components.VetQuestionnaire2 }),
+				_react2.default.createElement(_reactRouter.Route, { path: '/vet-survey-3', component: _components.VetQuestionnaire3 })
 			)
 		)
 	);
@@ -26268,13 +26274,13 @@
 	
 	var _store2 = _interopRequireDefault(_store);
 	
-	var _actions = __webpack_require__(249);
+	var _actions = __webpack_require__(251);
 	
 	var _actions2 = _interopRequireDefault(_actions);
 	
-	var _reactRedux = __webpack_require__(250);
+	var _reactRedux = __webpack_require__(252);
 	
-	var _components = __webpack_require__(263);
+	var _components = __webpack_require__(265);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
@@ -26362,6 +26368,14 @@
 	
 	var _searchReducer2 = _interopRequireDefault(_searchReducer);
 	
+	var _vetReducer = __webpack_require__(249);
+	
+	var _vetReducer2 = _interopRequireDefault(_vetReducer);
+	
+	var _UIReducer = __webpack_require__(250);
+	
+	var _UIReducer2 = _interopRequireDefault(_UIReducer);
+	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	// Combine reducers
@@ -26369,7 +26383,9 @@
 		userReducer: _userReducer2.default,
 		petReducer: _petReducer2.default,
 		displayReducer: _displayReducer2.default,
-		searchReducer: _searchReducer2.default
+		searchReducer: _searchReducer2.default,
+		vetReducer: _vetReducer2.default,
+		UIReducer: _UIReducer2.default
 	});
 	
 	// Create createStore
@@ -27296,6 +27312,7 @@
 	module.exports = {
 	
 		RECEIVED_USER: 'RECEIVED_USER',
+		RECEIVED_VET: 'RECEIVED_VET',
 		REGISTER_PET: 'REGISTER_PET',
 		RECEIVED_PETS: 'RECEIVED_PETS',
 		RECEIVED_PET_EDIT: 'RECEIVED_PET_EDIT',
@@ -27306,7 +27323,8 @@
 		SHOW_EDIT_PROFILE: 'SHOW_EDIT_PROFILE',
 		RECEIVED_SEARCH: 'RECEIVED_SEARCH',
 		RECEIVED_SEARCH_RESULTS: 'RECEIVED_SEARCH_RESULTS',
-		RECEIVED_USER_SEARCH_HISTORY: 'RECEIVED_USER_SEARCH_HISTORY'
+		RECEIVED_USER_SEARCH_HISTORY: 'RECEIVED_USER_SEARCH_HISTORY',
+		RECEIVE_SIDEMENU_STATE: 'RECEIVE_SIDEMENU_STATE'
 	
 	};
 
@@ -27610,6 +27628,87 @@
 		value: true
 	});
 	
+	exports.default = function () {
+		var state = arguments.length <= 0 || arguments[0] === undefined ? initialState : arguments[0];
+		var action = arguments[1];
+	
+		var newState = Object.assign({}, state);
+		switch (action.type) {
+			case _constants2.default.RECEIVED_VET:
+				newState['vet'] = action.vet;
+				console.log("RECEIVED_VET NEW STATE: " + JSON.stringify(newState.vet));
+	
+				return newState;
+	
+			default:
+				return state;
+		}
+	};
+	
+	var _constants = __webpack_require__(245);
+	
+	var _constants2 = _interopRequireDefault(_constants);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	var initialState = {
+		vet: {
+			id: null,
+			firstName: '',
+			lastName: '',
+			practiceName: '',
+			zipcode: '',
+			email: '',
+			password: ''
+		}
+	};
+
+/***/ },
+/* 250 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	
+	Object.defineProperty(exports, "__esModule", {
+		value: true
+	});
+	
+	var _constants = __webpack_require__(245);
+	
+	var _constants2 = _interopRequireDefault(_constants);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	var initialState = {
+		left: false
+	};
+	
+	exports.default = function () {
+		var state = arguments.length <= 0 || arguments[0] === undefined ? initialState : arguments[0];
+		var action = arguments[1];
+	
+		var newState = Object.assign({}, state);
+	
+		switch (action.type) {
+			case _constants2.default.RECEIVE_SIDEMENU_STATE:
+				newState["left"] = action.left;
+				return newState;
+	
+			default:
+				return state;
+		}
+	};
+
+/***/ },
+/* 251 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+		value: true
+	});
+	
 	var _constants = __webpack_require__(245);
 	
 	var _constants2 = _interopRequireDefault(_constants);
@@ -27626,6 +27725,13 @@
 			return {
 				type: _constants2.default.RECEIVED_USER,
 				user: user
+			};
+		},
+	
+		receivedVet: function receivedVet(vet) {
+			return {
+				type: _constants2.default.RECEIVED_VET,
+				vet: vet
 			};
 		},
 	
@@ -27686,6 +27792,13 @@
 			};
 		},
 	
+		showSideMenu: function showSideMenu(left) {
+			return {
+				type: _constants2.default.RECEIVE_SIDEMENU_STATE,
+				left: left
+			};
+		},
+	
 		showEditProfile: function showEditProfile(showContent) {
 			return {
 				type: _constants2.default.SHOW_EDIT_PROFILE,
@@ -27716,7 +27829,7 @@
 	};
 
 /***/ },
-/* 250 */
+/* 252 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -27724,11 +27837,11 @@
 	exports.__esModule = true;
 	exports.connect = exports.Provider = undefined;
 	
-	var _Provider = __webpack_require__(251);
+	var _Provider = __webpack_require__(253);
 	
 	var _Provider2 = _interopRequireDefault(_Provider);
 	
-	var _connect = __webpack_require__(254);
+	var _connect = __webpack_require__(256);
 	
 	var _connect2 = _interopRequireDefault(_connect);
 	
@@ -27738,7 +27851,7 @@
 	exports.connect = _connect2["default"];
 
 /***/ },
-/* 251 */
+/* 253 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {'use strict';
@@ -27748,11 +27861,11 @@
 	
 	var _react = __webpack_require__(1);
 	
-	var _storeShape = __webpack_require__(252);
+	var _storeShape = __webpack_require__(254);
 	
 	var _storeShape2 = _interopRequireDefault(_storeShape);
 	
-	var _warning = __webpack_require__(253);
+	var _warning = __webpack_require__(255);
 	
 	var _warning2 = _interopRequireDefault(_warning);
 	
@@ -27822,7 +27935,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
 
 /***/ },
-/* 252 */
+/* 254 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -27838,7 +27951,7 @@
 	});
 
 /***/ },
-/* 253 */
+/* 255 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -27867,7 +27980,7 @@
 	}
 
 /***/ },
-/* 254 */
+/* 256 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {'use strict';
@@ -27879,31 +27992,31 @@
 	
 	var _react = __webpack_require__(1);
 	
-	var _storeShape = __webpack_require__(252);
+	var _storeShape = __webpack_require__(254);
 	
 	var _storeShape2 = _interopRequireDefault(_storeShape);
 	
-	var _shallowEqual = __webpack_require__(255);
+	var _shallowEqual = __webpack_require__(257);
 	
 	var _shallowEqual2 = _interopRequireDefault(_shallowEqual);
 	
-	var _wrapActionCreators = __webpack_require__(256);
+	var _wrapActionCreators = __webpack_require__(258);
 	
 	var _wrapActionCreators2 = _interopRequireDefault(_wrapActionCreators);
 	
-	var _warning = __webpack_require__(253);
+	var _warning = __webpack_require__(255);
 	
 	var _warning2 = _interopRequireDefault(_warning);
 	
-	var _isPlainObject = __webpack_require__(257);
+	var _isPlainObject = __webpack_require__(259);
 	
 	var _isPlainObject2 = _interopRequireDefault(_isPlainObject);
 	
-	var _hoistNonReactStatics = __webpack_require__(261);
+	var _hoistNonReactStatics = __webpack_require__(263);
 	
 	var _hoistNonReactStatics2 = _interopRequireDefault(_hoistNonReactStatics);
 	
-	var _invariant = __webpack_require__(262);
+	var _invariant = __webpack_require__(264);
 	
 	var _invariant2 = _interopRequireDefault(_invariant);
 	
@@ -28266,7 +28379,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
 
 /***/ },
-/* 255 */
+/* 257 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -28297,7 +28410,7 @@
 	}
 
 /***/ },
-/* 256 */
+/* 258 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -28314,12 +28427,12 @@
 	}
 
 /***/ },
-/* 257 */
+/* 259 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var getPrototype = __webpack_require__(258),
-	    isHostObject = __webpack_require__(259),
-	    isObjectLike = __webpack_require__(260);
+	var getPrototype = __webpack_require__(260),
+	    isHostObject = __webpack_require__(261),
+	    isObjectLike = __webpack_require__(262);
 	
 	/** `Object#toString` result references. */
 	var objectTag = '[object Object]';
@@ -28390,7 +28503,7 @@
 
 
 /***/ },
-/* 258 */
+/* 260 */
 /***/ function(module, exports) {
 
 	/* Built-in method references for those with the same name as other `lodash` methods. */
@@ -28411,7 +28524,7 @@
 
 
 /***/ },
-/* 259 */
+/* 261 */
 /***/ function(module, exports) {
 
 	/**
@@ -28437,7 +28550,7 @@
 
 
 /***/ },
-/* 260 */
+/* 262 */
 /***/ function(module, exports) {
 
 	/**
@@ -28472,7 +28585,7 @@
 
 
 /***/ },
-/* 261 */
+/* 263 */
 /***/ function(module, exports) {
 
 	/**
@@ -28528,7 +28641,7 @@
 
 
 /***/ },
-/* 262 */
+/* 264 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -28586,7 +28699,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
 
 /***/ },
-/* 263 */
+/* 265 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -28594,59 +28707,84 @@
 	Object.defineProperty(exports, "__esModule", {
 		value: true
 	});
-	exports.UserProfile = exports.UserCapture = exports.Questionnaire3 = exports.Questionnaire2 = exports.Questionnaire1 = exports.PetInsuranceSurvey = exports.PetAdoptionSurvey = exports.Landing = exports.InsuranceResults = exports.InsuranceDetail = exports.Footer = exports.AutocompleteBar = undefined;
+	exports.VetQuestionnaire3 = exports.VetQuestionnaire2 = exports.VetQuestionnaire1 = exports.VetPortal = exports.VetHome = exports.UserProfile = exports.UserCapture = exports.Questionnaire3 = exports.Questionnaire2 = exports.Questionnaire1 = exports.PetInsuranceSurvey = exports.PetAdoptionSurvey = exports.Landing = exports.InsuranceResults = exports.InsuranceDetail = exports.Footer = exports.FindVet = exports.AutocompleteBar = undefined;
 	
-	var _AutocompleteBar = __webpack_require__(264);
+	var _AutocompleteBar = __webpack_require__(266);
 	
 	var _AutocompleteBar2 = _interopRequireDefault(_AutocompleteBar);
 	
-	var _Footer = __webpack_require__(278);
+	var _FindVet = __webpack_require__(280);
+	
+	var _FindVet2 = _interopRequireDefault(_FindVet);
+	
+	var _Footer = __webpack_require__(281);
 	
 	var _Footer2 = _interopRequireDefault(_Footer);
 	
-	var _InsuranceDetail = __webpack_require__(279);
+	var _InsuranceDetail = __webpack_require__(282);
 	
 	var _InsuranceDetail2 = _interopRequireDefault(_InsuranceDetail);
 	
-	var _InsuranceResults = __webpack_require__(281);
+	var _InsuranceResults = __webpack_require__(284);
 	
 	var _InsuranceResults2 = _interopRequireDefault(_InsuranceResults);
 	
-	var _Landing = __webpack_require__(282);
+	var _Landing = __webpack_require__(285);
 	
 	var _Landing2 = _interopRequireDefault(_Landing);
 	
-	var _PetAdoptionSurvey = __webpack_require__(283);
+	var _PetAdoptionSurvey = __webpack_require__(286);
 	
 	var _PetAdoptionSurvey2 = _interopRequireDefault(_PetAdoptionSurvey);
 	
-	var _PetInsuranceSurvey = __webpack_require__(284);
+	var _PetInsuranceSurvey = __webpack_require__(287);
 	
 	var _PetInsuranceSurvey2 = _interopRequireDefault(_PetInsuranceSurvey);
 	
-	var _Questionnaire = __webpack_require__(285);
+	var _Questionnaire = __webpack_require__(288);
 	
 	var _Questionnaire2 = _interopRequireDefault(_Questionnaire);
 	
-	var _Questionnaire3 = __webpack_require__(286);
+	var _Questionnaire3 = __webpack_require__(289);
 	
 	var _Questionnaire4 = _interopRequireDefault(_Questionnaire3);
 	
-	var _Questionnaire5 = __webpack_require__(287);
+	var _Questionnaire5 = __webpack_require__(290);
 	
 	var _Questionnaire6 = _interopRequireDefault(_Questionnaire5);
 	
-	var _UserCapture = __webpack_require__(288);
+	var _UserCapture = __webpack_require__(291);
 	
 	var _UserCapture2 = _interopRequireDefault(_UserCapture);
 	
-	var _UserProfile = __webpack_require__(295);
+	var _UserProfile = __webpack_require__(298);
 	
 	var _UserProfile2 = _interopRequireDefault(_UserProfile);
+	
+	var _VetHome = __webpack_require__(299);
+	
+	var _VetHome2 = _interopRequireDefault(_VetHome);
+	
+	var _VetPortal = __webpack_require__(303);
+	
+	var _VetPortal2 = _interopRequireDefault(_VetPortal);
+	
+	var _VetQuestionnaire = __webpack_require__(304);
+	
+	var _VetQuestionnaire2 = _interopRequireDefault(_VetQuestionnaire);
+	
+	var _VetQuestionnaire3 = __webpack_require__(305);
+	
+	var _VetQuestionnaire4 = _interopRequireDefault(_VetQuestionnaire3);
+	
+	var _VetQuestionnaire5 = __webpack_require__(306);
+	
+	var _VetQuestionnaire6 = _interopRequireDefault(_VetQuestionnaire5);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	exports.AutocompleteBar = _AutocompleteBar2.default;
+	exports.FindVet = _FindVet2.default;
 	exports.Footer = _Footer2.default;
 	exports.InsuranceDetail = _InsuranceDetail2.default;
 	exports.InsuranceResults = _InsuranceResults2.default;
@@ -28658,9 +28796,14 @@
 	exports.Questionnaire3 = _Questionnaire6.default;
 	exports.UserCapture = _UserCapture2.default;
 	exports.UserProfile = _UserProfile2.default;
+	exports.VetHome = _VetHome2.default;
+	exports.VetPortal = _VetPortal2.default;
+	exports.VetQuestionnaire1 = _VetQuestionnaire2.default;
+	exports.VetQuestionnaire2 = _VetQuestionnaire4.default;
+	exports.VetQuestionnaire3 = _VetQuestionnaire6.default;
 
 /***/ },
-/* 264 */
+/* 266 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -28677,11 +28820,11 @@
 	
 	var _reactRouter = __webpack_require__(172);
 	
-	var _reactAutosuggest = __webpack_require__(265);
+	var _reactAutosuggest = __webpack_require__(267);
 	
 	var _reactAutosuggest2 = _interopRequireDefault(_reactAutosuggest);
 	
-	var _DogBreeds = __webpack_require__(277);
+	var _DogBreeds = __webpack_require__(279);
 	
 	var _DogBreeds2 = _interopRequireDefault(_DogBreeds);
 	
@@ -28799,15 +28942,15 @@
 	exports.default = AutocompleteBar;
 
 /***/ },
-/* 265 */
+/* 267 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
-	module.exports = __webpack_require__(266).default;
+	module.exports = __webpack_require__(268).default;
 
 /***/ },
-/* 266 */
+/* 268 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -28824,11 +28967,11 @@
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _arrays = __webpack_require__(267);
+	var _arrays = __webpack_require__(269);
 	
 	var _arrays2 = _interopRequireDefault(_arrays);
 	
-	var _reactAutowhatever = __webpack_require__(268);
+	var _reactAutowhatever = __webpack_require__(270);
 	
 	var _reactAutowhatever2 = _interopRequireDefault(_reactAutowhatever);
 	
@@ -29533,7 +29676,7 @@
 	exports.default = Autosuggest;
 
 /***/ },
-/* 267 */
+/* 269 */
 /***/ function(module, exports) {
 
 	module.exports = function shallowEqualArrays(arrA, arrB) {
@@ -29558,15 +29701,15 @@
 
 
 /***/ },
-/* 268 */
+/* 270 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
-	module.exports = __webpack_require__(269).default;
+	module.exports = __webpack_require__(271).default;
 
 /***/ },
-/* 269 */
+/* 271 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -29585,19 +29728,19 @@
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _sectionIterator = __webpack_require__(270);
+	var _sectionIterator = __webpack_require__(272);
 	
 	var _sectionIterator2 = _interopRequireDefault(_sectionIterator);
 	
-	var _reactThemeable = __webpack_require__(271);
+	var _reactThemeable = __webpack_require__(273);
 	
 	var _reactThemeable2 = _interopRequireDefault(_reactThemeable);
 	
-	var _SectionTitle = __webpack_require__(273);
+	var _SectionTitle = __webpack_require__(275);
 	
 	var _SectionTitle2 = _interopRequireDefault(_SectionTitle);
 	
-	var _ItemsList = __webpack_require__(275);
+	var _ItemsList = __webpack_require__(277);
 	
 	var _ItemsList2 = _interopRequireDefault(_ItemsList);
 	
@@ -29982,7 +30125,7 @@
 	exports.default = Autowhatever;
 
 /***/ },
-/* 270 */
+/* 272 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -30098,7 +30241,7 @@
 
 
 /***/ },
-/* 271 */
+/* 273 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -30113,7 +30256,7 @@
 	
 	function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) arr2[i] = arr[i]; return arr2; } else { return Array.from(arr); } }
 	
-	var _objectAssign = __webpack_require__(272);
+	var _objectAssign = __webpack_require__(274);
 	
 	var _objectAssign2 = _interopRequireDefault(_objectAssign);
 	
@@ -30145,7 +30288,7 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 272 */
+/* 274 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -30190,7 +30333,7 @@
 
 
 /***/ },
-/* 273 */
+/* 275 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -30205,7 +30348,7 @@
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _compareObjects = __webpack_require__(274);
+	var _compareObjects = __webpack_require__(276);
 	
 	var _compareObjects2 = _interopRequireDefault(_compareObjects);
 	
@@ -30266,7 +30409,7 @@
 	exports.default = SectionTitle;
 
 /***/ },
-/* 274 */
+/* 276 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -30333,7 +30476,7 @@
 	}
 
 /***/ },
-/* 275 */
+/* 277 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -30350,11 +30493,11 @@
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _Item = __webpack_require__(276);
+	var _Item = __webpack_require__(278);
 	
 	var _Item2 = _interopRequireDefault(_Item);
 	
-	var _compareObjects = __webpack_require__(274);
+	var _compareObjects = __webpack_require__(276);
 	
 	var _compareObjects2 = _interopRequireDefault(_compareObjects);
 	
@@ -30458,7 +30601,7 @@
 	exports.default = ItemsList;
 
 /***/ },
-/* 276 */
+/* 278 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -30475,7 +30618,7 @@
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _compareObjects = __webpack_require__(274);
+	var _compareObjects = __webpack_require__(276);
 	
 	var _compareObjects2 = _interopRequireDefault(_compareObjects);
 	
@@ -30611,7 +30754,7 @@
 	exports.default = Item;
 
 /***/ },
-/* 277 */
+/* 279 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -30624,7 +30767,114 @@
 	};
 
 /***/ },
-/* 278 */
+/* 280 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+		value: true
+	});
+	
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	
+	var _react = __webpack_require__(1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _reactRouter = __webpack_require__(172);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	
+	var FindVet = function (_Component) {
+		_inherits(FindVet, _Component);
+	
+		function FindVet(props) {
+			_classCallCheck(this, FindVet);
+	
+			var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(FindVet).call(this, props));
+	
+			_this.state = {
+				opacitySetting: 0
+			};
+			return _this;
+		}
+	
+		_createClass(FindVet, [{
+			key: 'componentDidMount',
+			value: function componentDidMount() {
+				this.setState({ opacitySetting: 1 });
+			}
+		}, {
+			key: 'render',
+			value: function render() {
+				var opacitySetting = this.state.opacitySetting;
+	
+				return _react2.default.createElement(
+					'div',
+					null,
+					_react2.default.createElement(
+						'article',
+						{ id: 'work', className: 'panel secondary', style: { opacity: opacitySetting, transitionProperty: "opacity", transitionDuration: "1s" } },
+						_react2.default.createElement(
+							'div',
+							{ className: 'image' },
+							_react2.default.createElement('img', { src: '/images/survey.png', alt: '', 'data-position': 'center center' })
+						),
+						_react2.default.createElement(
+							'div',
+							{ className: 'content' },
+							_react2.default.createElement(
+								'ul',
+								{ className: 'actions spinX' },
+								_react2.default.createElement(
+									'li',
+									null,
+									_react2.default.createElement(
+										_reactRouter.Link,
+										{ to: '/', className: 'button small back' },
+										'Back'
+									)
+								)
+							),
+							_react2.default.createElement(
+								'div',
+								{ className: 'inner' },
+								_react2.default.createElement(
+									'header',
+									null,
+									_react2.default.createElement(
+										'h2',
+										null,
+										'Find a vetenarian near you'
+									),
+									_react2.default.createElement('input', { type: 'text', placeholder: 'Enter your zipcode' })
+								),
+								_react2.default.createElement(
+									_reactRouter.Link,
+									{ to: '/survey-1', className: 'button' },
+									'Search'
+								)
+							)
+						)
+					)
+				);
+			}
+		}]);
+	
+		return FindVet;
+	}(_react.Component);
+	
+	exports.default = FindVet;
+
+/***/ },
+/* 281 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -30678,7 +30928,7 @@
 	exports.default = Footer;
 
 /***/ },
-/* 279 */
+/* 282 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -30695,7 +30945,7 @@
 	
 	var _reactRouter = __webpack_require__(172);
 	
-	var _InsurancePlans = __webpack_require__(280);
+	var _InsurancePlans = __webpack_require__(283);
 	
 	var _InsurancePlans2 = _interopRequireDefault(_InsurancePlans);
 	
@@ -30822,7 +31072,7 @@
 	exports.default = InsuranceDetail;
 
 /***/ },
-/* 280 */
+/* 283 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -30835,7 +31085,7 @@
 	};
 
 /***/ },
-/* 281 */
+/* 284 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -30852,7 +31102,7 @@
 	
 	var _reactRouter = __webpack_require__(172);
 	
-	var _InsurancePlans = __webpack_require__(280);
+	var _InsurancePlans = __webpack_require__(283);
 	
 	var _InsurancePlans2 = _interopRequireDefault(_InsurancePlans);
 	
@@ -30966,7 +31216,7 @@
 	exports.default = InsuranceResults;
 
 /***/ },
-/* 282 */
+/* 285 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -30987,11 +31237,11 @@
 	
 	var _store2 = _interopRequireDefault(_store);
 	
-	var _actions = __webpack_require__(249);
+	var _actions = __webpack_require__(251);
 	
 	var _actions2 = _interopRequireDefault(_actions);
 	
-	var _reactRedux = __webpack_require__(250);
+	var _reactRedux = __webpack_require__(252);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
@@ -31059,8 +31309,8 @@
 											null,
 											_react2.default.createElement(
 												_reactRouter.Link,
-												{ to: '/survey', className: 'button' },
-												'Looking for pet insurance'
+												{ to: '/findvet', className: 'button' },
+												'Find vetenarian near you'
 											)
 										),
 										_react2.default.createElement(
@@ -31068,8 +31318,8 @@
 											null,
 											_react2.default.createElement(
 												_reactRouter.Link,
-												{ to: '/adoption', className: 'button' },
-												'Looking for a pet'
+												{ to: '/vet-portal', className: 'button' },
+												'Vet'
 											)
 										)
 									)
@@ -31094,7 +31344,7 @@
 	exports.default = (0, _reactRedux.connect)(stateToProps)(Landing);
 
 /***/ },
-/* 283 */
+/* 286 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -31201,7 +31451,7 @@
 	exports.default = PetAdoptionSurvey;
 
 /***/ },
-/* 284 */
+/* 287 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -31312,7 +31562,7 @@
 	exports.default = PetInsuranceSurvey;
 
 /***/ },
-/* 285 */
+/* 288 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -31475,7 +31725,7 @@
 	exports.default = Questionnaire1;
 
 /***/ },
-/* 286 */
+/* 289 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -31492,7 +31742,7 @@
 	
 	var _reactRouter = __webpack_require__(172);
 	
-	var _AutocompleteBar = __webpack_require__(264);
+	var _AutocompleteBar = __webpack_require__(266);
 	
 	var _AutocompleteBar2 = _interopRequireDefault(_AutocompleteBar);
 	
@@ -31578,7 +31828,7 @@
 	exports.default = Questionnaire2;
 
 /***/ },
-/* 287 */
+/* 290 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -31595,7 +31845,7 @@
 	
 	var _reactRouter = __webpack_require__(172);
 	
-	var _AutocompleteBar = __webpack_require__(264);
+	var _AutocompleteBar = __webpack_require__(266);
 	
 	var _AutocompleteBar2 = _interopRequireDefault(_AutocompleteBar);
 	
@@ -31759,7 +32009,7 @@
 	exports.default = Questionnaire3;
 
 /***/ },
-/* 288 */
+/* 291 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -31776,17 +32026,17 @@
 	
 	var _reactRouter = __webpack_require__(172);
 	
-	var _reactRedux = __webpack_require__(250);
+	var _reactRedux = __webpack_require__(252);
 	
 	var _store = __webpack_require__(229);
 	
 	var _store2 = _interopRequireDefault(_store);
 	
-	var _actions = __webpack_require__(249);
+	var _actions = __webpack_require__(251);
 	
 	var _actions2 = _interopRequireDefault(_actions);
 	
-	var _APIManager = __webpack_require__(289);
+	var _APIManager = __webpack_require__(292);
 	
 	var _APIManager2 = _interopRequireDefault(_APIManager);
 	
@@ -31972,7 +32222,7 @@
 	exports.default = (0, _reactRedux.connect)(stateToProps, dispatchToProps)(UserCapture);
 
 /***/ },
-/* 289 */
+/* 292 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -31981,7 +32231,7 @@
 		value: true
 	});
 	
-	var _superagent = __webpack_require__(290);
+	var _superagent = __webpack_require__(293);
 	
 	var _superagent2 = _interopRequireDefault(_superagent);
 	
@@ -32060,7 +32310,7 @@
 	};
 
 /***/ },
-/* 290 */
+/* 293 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -32077,9 +32327,9 @@
 	  root = this;
 	}
 	
-	var Emitter = __webpack_require__(291);
-	var requestBase = __webpack_require__(292);
-	var isObject = __webpack_require__(293);
+	var Emitter = __webpack_require__(294);
+	var requestBase = __webpack_require__(295);
+	var isObject = __webpack_require__(296);
 	
 	/**
 	 * Noop.
@@ -32091,7 +32341,7 @@
 	 * Expose `request`.
 	 */
 	
-	var request = module.exports = __webpack_require__(294).bind(null, Request);
+	var request = module.exports = __webpack_require__(297).bind(null, Request);
 	
 	/**
 	 * Determine XHR.
@@ -33040,7 +33290,7 @@
 
 
 /***/ },
-/* 291 */
+/* 294 */
 /***/ function(module, exports, __webpack_require__) {
 
 	
@@ -33209,13 +33459,13 @@
 
 
 /***/ },
-/* 292 */
+/* 295 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
 	 * Module of mixed-in functions shared between node and client code
 	 */
-	var isObject = __webpack_require__(293);
+	var isObject = __webpack_require__(296);
 	
 	/**
 	 * Clear previous timeout.
@@ -33562,7 +33812,7 @@
 
 
 /***/ },
-/* 293 */
+/* 296 */
 /***/ function(module, exports) {
 
 	/**
@@ -33581,7 +33831,7 @@
 
 
 /***/ },
-/* 294 */
+/* 297 */
 /***/ function(module, exports) {
 
 	// The node and browser modules expose versions of this with the
@@ -33619,7 +33869,7 @@
 
 
 /***/ },
-/* 295 */
+/* 298 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -33636,17 +33886,17 @@
 	
 	var _reactRouter = __webpack_require__(172);
 	
-	var _reactRedux = __webpack_require__(250);
+	var _reactRedux = __webpack_require__(252);
 	
 	var _store = __webpack_require__(229);
 	
 	var _store2 = _interopRequireDefault(_store);
 	
-	var _actions = __webpack_require__(249);
+	var _actions = __webpack_require__(251);
 	
 	var _actions2 = _interopRequireDefault(_actions);
 	
-	var _APIManager = __webpack_require__(289);
+	var _APIManager = __webpack_require__(292);
 	
 	var _APIManager2 = _interopRequireDefault(_APIManager);
 	
@@ -33800,6 +34050,1079 @@
 	};
 	
 	exports.default = (0, _reactRedux.connect)(stateToProps, dispatchToProps)(UserProfile);
+
+/***/ },
+/* 299 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+		value: true
+	});
+	
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	
+	var _react = __webpack_require__(1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _reactRouter = __webpack_require__(172);
+	
+	var _reactRedux = __webpack_require__(252);
+	
+	var _store = __webpack_require__(229);
+	
+	var _store2 = _interopRequireDefault(_store);
+	
+	var _actions = __webpack_require__(251);
+	
+	var _actions2 = _interopRequireDefault(_actions);
+	
+	var _APIManager = __webpack_require__(292);
+	
+	var _APIManager2 = _interopRequireDefault(_APIManager);
+	
+	var _view = __webpack_require__(300);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	
+	var VetHome = function (_Component) {
+		_inherits(VetHome, _Component);
+	
+		function VetHome(props) {
+			_classCallCheck(this, VetHome);
+	
+			var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(VetHome).call(this, props));
+	
+			_this.state = {
+				opacitySetting: 0
+			};
+			return _this;
+		}
+	
+		_createClass(VetHome, [{
+			key: 'componentDidMount',
+			value: function componentDidMount() {
+				this.setState({ opacitySetting: 1 });
+			}
+		}, {
+			key: 'render',
+			value: function render() {
+				var opacitySetting = this.state.opacitySetting;
+				var vet = this.props.vet;
+	
+	
+				return _react2.default.createElement(
+					'div',
+					null,
+					_react2.default.createElement(_view.TopBar, null),
+					_react2.default.createElement(_view.SideMenu, null),
+					_react2.default.createElement(
+						'div',
+						{ className: 'content-page', style: { marginLeft: "0px" } },
+						_react2.default.createElement(
+							'div',
+							{ className: 'content' },
+							_react2.default.createElement(
+								'div',
+								{ className: 'container' },
+								_react2.default.createElement(
+									'div',
+									{ className: 'row' },
+									_react2.default.createElement(
+										'div',
+										null,
+										'content goes here'
+									)
+								)
+							)
+						)
+					)
+				);
+			}
+		}]);
+	
+		return VetHome;
+	}(_react.Component);
+	
+	var stateToProps = function stateToProps(state) {
+		return {
+			vet: state.vetReducer.vet
+		};
+	};
+	
+	exports.default = (0, _reactRedux.connect)(stateToProps)(VetHome);
+
+/***/ },
+/* 300 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.TopBar = exports.SideMenu = undefined;
+	
+	var _TopBar = __webpack_require__(301);
+	
+	var _TopBar2 = _interopRequireDefault(_TopBar);
+	
+	var _SideMenu = __webpack_require__(302);
+	
+	var _SideMenu2 = _interopRequireDefault(_SideMenu);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	exports.SideMenu = _SideMenu2.default;
+	exports.TopBar = _TopBar2.default;
+
+/***/ },
+/* 301 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+		value: true
+	});
+	
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	
+	var _react = __webpack_require__(1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _reactRouter = __webpack_require__(172);
+	
+	var _reactRedux = __webpack_require__(252);
+	
+	var _store = __webpack_require__(229);
+	
+	var _store2 = _interopRequireDefault(_store);
+	
+	var _actions = __webpack_require__(251);
+	
+	var _actions2 = _interopRequireDefault(_actions);
+	
+	var _APIManager = __webpack_require__(292);
+	
+	var _APIManager2 = _interopRequireDefault(_APIManager);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	
+	var TopBar = function (_Component) {
+		_inherits(TopBar, _Component);
+	
+		function TopBar(props, context) {
+			_classCallCheck(this, TopBar);
+	
+			var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(TopBar).call(this, props, context));
+	
+			_this.logout = _this.logout.bind(_this);
+			_this.toggleMenu = _this.toggleMenu.bind(_this);
+			return _this;
+		}
+	
+		_createClass(TopBar, [{
+			key: 'toggleMenu',
+			value: function toggleMenu(event) {
+				var left = this.props.left;
+	
+				this.props.toogleSideMenu(!left);
+			}
+		}, {
+			key: 'logout',
+			value: function logout(event) {
+				// event.preventDefault()
+				// APIManager.handleGet('/user/logout', null, function(err, response){
+				// 	if (err){
+				// 		alert(err.message)
+				// 		return
+				// 	}
+				//
+				// 	if (response.confirmation == "Fail"){
+				// 		alert(response.message)
+				// 		return
+				// 	}
+				//
+				// 	if (response.confirmation == "Success"){
+				// 		alert(response.message)
+				// 		window.location.href = "/"
+				// 		return
+				// 	}
+				// })
+			}
+		}, {
+			key: 'render',
+			value: function render() {
+				return _react2.default.createElement(
+					'div',
+					{ className: 'topbar' },
+					_react2.default.createElement(
+						'div',
+						{ className: 'topbar-left', style: { float: "right" } },
+						_react2.default.createElement(
+							'div',
+							{ className: 'text-center' },
+							_react2.default.createElement(
+								_reactRouter.Link,
+								{ to: '/vet-home', className: 'logo' },
+								_react2.default.createElement(
+									'i',
+									{ className: 'icon-c-logo' },
+									' ',
+									_react2.default.createElement('img', { src: '', height: '42' }),
+									' '
+								),
+								_react2.default.createElement(
+									'span',
+									null,
+									_react2.default.createElement('img', { src: '', height: '20' })
+								)
+							)
+						)
+					),
+					_react2.default.createElement(
+						'div',
+						{ className: 'navbar navbar-default', role: 'navigation', style: { backgroundColor: 'white' } },
+						_react2.default.createElement(
+							'div',
+							{ className: 'container' },
+							_react2.default.createElement(
+								'div',
+								{ className: '' },
+								_react2.default.createElement(
+									'div',
+									{ className: 'pull-left' },
+									_react2.default.createElement(
+										'button',
+										{ onClick: this.toggleMenu, style: { color: '#36404a' }, className: 'button-menu-mobile waves-effect waves-light' },
+										_react2.default.createElement('i', { className: 'md md-menu' })
+									),
+									_react2.default.createElement('span', { className: 'clearfix' })
+								)
+							)
+						)
+					)
+				);
+			}
+		}]);
+	
+		return TopBar;
+	}(_react.Component);
+	
+	var stateToProps = function stateToProps(state) {
+		return {
+			left: state.UIReducer.left
+		};
+	};
+	
+	var dispatchToProps = function dispatchToProps(dispatch) {
+		return {
+			toogleSideMenu: function toogleSideMenu(left) {
+				return dispatch(_actions2.default.showSideMenu(left));
+			}
+		};
+	};
+	exports.default = (0, _reactRedux.connect)(stateToProps, dispatchToProps)(TopBar);
+
+/***/ },
+/* 302 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+		value: true
+	});
+	
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	
+	var _react = __webpack_require__(1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _reactRouter = __webpack_require__(172);
+	
+	var _reactRedux = __webpack_require__(252);
+	
+	var _store = __webpack_require__(229);
+	
+	var _store2 = _interopRequireDefault(_store);
+	
+	var _actions = __webpack_require__(251);
+	
+	var _actions2 = _interopRequireDefault(_actions);
+	
+	var _APIManager = __webpack_require__(292);
+	
+	var _APIManager2 = _interopRequireDefault(_APIManager);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	
+	var SideMenu = function (_Component) {
+		_inherits(SideMenu, _Component);
+	
+		function SideMenu(props) {
+			_classCallCheck(this, SideMenu);
+	
+			var _this2 = _possibleConstructorReturn(this, Object.getPrototypeOf(SideMenu).call(this, props));
+	
+			_this2.logout = _this2.logout.bind(_this2);
+			_this2.closeMenu = _this2.closeMenu.bind(_this2);
+			return _this2;
+		}
+	
+		_createClass(SideMenu, [{
+			key: 'closeMenu',
+			value: function closeMenu(event) {
+				var _this3 = this;
+	
+				var left = this.props.left;
+	
+	
+				setTimeout(function () {
+					_this3.props.toggleSideMenu(false);
+				}, 200);
+			}
+		}, {
+			key: 'logout',
+			value: function logout(event) {
+				event.preventDefault();
+				var _this = this;
+				_APIManager2.default.handleGet('/user/logout', null, function (err, response) {
+					if (err) {
+						alert("Error logging out: " + JSON.stringify(err.message));
+						return;
+					}
+	
+					if (response.confirmation == "Fail") {
+						alert("Log out failed: " + JSON.stringify(response.message));
+						return;
+					}
+	
+					if (response.confirmation == "Success") {
+						window.location.href = "/";
+						return;
+					}
+				});
+			}
+		}, {
+			key: 'render',
+			value: function render() {
+				var left = this.props.left;
+	
+				var toggleDisplay = left == true ? "0px" : "-170px";
+				var overlayDisplay = left == true ? "inline" : "none";
+				return _react2.default.createElement(
+					'div',
+					null,
+					_react2.default.createElement(
+						'div',
+						{ className: 'left side-menu', style: { height: "100%", backgroundColor: 'white', display: "inline", transitionProperty: "left", transitionDuration: "0.5s", left: toggleDisplay, width: "170px", position: "fixed", zIndex: "1000" } },
+						_react2.default.createElement(
+							'div',
+							{ className: 'slimScrollDiv' },
+							_react2.default.createElement(
+								'div',
+								{ className: 'sidebar-inner slimscrollleft' },
+								_react2.default.createElement(
+									'div',
+									{ id: 'sidebar-menu' },
+									_react2.default.createElement(
+										'ul',
+										null,
+										_react2.default.createElement(
+											'li',
+											{ className: 'text-muted menu-title' },
+											'Navigation'
+										),
+										_react2.default.createElement(
+											'li',
+											{ className: 'has_sub' },
+											_react2.default.createElement(
+												_reactRouter.Link,
+												{ onClick: this.closeMenu, className: 'waves-effect', to: '/homeDashboard' },
+												_react2.default.createElement('i', { className: 'ti-home' }),
+												' ',
+												_react2.default.createElement(
+													'span',
+													null,
+													' Home '
+												)
+											)
+										),
+										_react2.default.createElement(
+											'li',
+											{ className: 'has_sub' },
+											_react2.default.createElement(
+												_reactRouter.Link,
+												{ onClick: this.closeMenu, className: 'waves-effect', to: '/deliveriesDashboard' },
+												_react2.default.createElement('i', { className: 'icon-basket' }),
+												' ',
+												_react2.default.createElement(
+													'span',
+													null,
+													' Claims '
+												)
+											)
+										),
+										_react2.default.createElement(
+											'li',
+											{ className: 'has_sub' },
+											_react2.default.createElement(
+												_reactRouter.Link,
+												{ onClick: this.closeMenu, className: 'waves-effect', to: '/wines' },
+												_react2.default.createElement('i', { className: 'icon-trophy' }),
+												' ',
+												_react2.default.createElement(
+													'span',
+													null,
+													' Billing '
+												)
+											)
+										),
+										_react2.default.createElement(
+											'li',
+											{ className: 'has_sub' },
+											_react2.default.createElement(
+												_reactRouter.Link,
+												{ onClick: this.closeMenu, className: 'waves-effect', to: '/calendar' },
+												_react2.default.createElement('i', { className: 'icon-calender' }),
+												' ',
+												_react2.default.createElement(
+													'span',
+													null,
+													' Calendar '
+												)
+											)
+										),
+										_react2.default.createElement(
+											'li',
+											{ className: 'has_sub' },
+											_react2.default.createElement(
+												_reactRouter.Link,
+												{ onClick: this.closeMenu, className: 'waves-effect', to: '/account' },
+												_react2.default.createElement('i', { className: 'icon-user' }),
+												' ',
+												_react2.default.createElement(
+													'span',
+													null,
+													' Account '
+												)
+											)
+										),
+										_react2.default.createElement(
+											'li',
+											{ className: 'has_sub' },
+											_react2.default.createElement(
+												_reactRouter.Link,
+												{ className: 'waves-effect', to: '#', onClick: this.logout },
+												_react2.default.createElement('i', { className: 'ti-power-off m-r-10 text-danger' }),
+												' ',
+												_react2.default.createElement(
+													'span',
+													null,
+													' Logout '
+												)
+											)
+										)
+									),
+									_react2.default.createElement('div', { className: 'clearfix' })
+								)
+							),
+							_react2.default.createElement('div', { className: 'clearfix' })
+						)
+					),
+					_react2.default.createElement('div', { onClick: this.closeMenu, style: { display: overlayDisplay, opacity: "0.5", width: "100%", height: "100%", backgroundColor: "#000000", marginTop: "60px", position: "absolute", zIndex: "900" } })
+				);
+			}
+		}]);
+	
+		return SideMenu;
+	}(_react.Component);
+	
+	var stateToProps = function stateToProps(state) {
+		return {
+			left: state.UIReducer.left
+		};
+	};
+	
+	var dispatchToProps = function dispatchToProps(dispatch) {
+		return {
+			toggleSideMenu: function toggleSideMenu(left) {
+				return dispatch(_actions2.default.showSideMenu(left));
+			}
+		};
+	};
+	exports.default = (0, _reactRedux.connect)(stateToProps, dispatchToProps)(SideMenu);
+
+/***/ },
+/* 303 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+		value: true
+	});
+	
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	
+	var _react = __webpack_require__(1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _reactRouter = __webpack_require__(172);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	
+	var VetPortal = function (_Component) {
+		_inherits(VetPortal, _Component);
+	
+		function VetPortal(props) {
+			_classCallCheck(this, VetPortal);
+	
+			var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(VetPortal).call(this, props));
+	
+			_this.state = {
+				opacitySetting: 0
+			};
+			return _this;
+		}
+	
+		_createClass(VetPortal, [{
+			key: 'componentDidMount',
+			value: function componentDidMount() {
+				this.setState({ opacitySetting: 1 });
+			}
+		}, {
+			key: 'render',
+			value: function render() {
+				var opacitySetting = this.state.opacitySetting;
+	
+				return _react2.default.createElement(
+					'div',
+					null,
+					_react2.default.createElement(
+						'article',
+						{ id: 'work', className: 'panel secondary', style: { opacity: opacitySetting, transitionProperty: "opacity", transitionDuration: "1s" } },
+						_react2.default.createElement(
+							'div',
+							{ className: 'image' },
+							_react2.default.createElement('img', { src: '/images/survey.png', alt: '', 'data-position': 'center center' })
+						),
+						_react2.default.createElement(
+							'div',
+							{ className: 'content' },
+							_react2.default.createElement(
+								'ul',
+								{ className: 'actions spinX' },
+								_react2.default.createElement(
+									'li',
+									null,
+									_react2.default.createElement(
+										_reactRouter.Link,
+										{ to: '/', className: 'button small back' },
+										'Back'
+									)
+								)
+							),
+							_react2.default.createElement(
+								'div',
+								{ className: 'inner' },
+								_react2.default.createElement(
+									'header',
+									null,
+									_react2.default.createElement(
+										'h2',
+										null,
+										'Tell us about your vetinary practice'
+									),
+									_react2.default.createElement(
+										'p',
+										null,
+										'Answer a few questions about your clinic.'
+									)
+								),
+								_react2.default.createElement(
+									_reactRouter.Link,
+									{ to: '/vet-survey-1', className: 'button' },
+									'Get Started'
+								),
+								_react2.default.createElement(
+									'p',
+									null,
+									'Already using VetFetch? Sign in here'
+								)
+							)
+						)
+					)
+				);
+			}
+		}]);
+	
+		return VetPortal;
+	}(_react.Component);
+	
+	exports.default = VetPortal;
+
+/***/ },
+/* 304 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+		value: true
+	});
+	
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	
+	var _react = __webpack_require__(1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _reactRedux = __webpack_require__(252);
+	
+	var _reactRouter = __webpack_require__(172);
+	
+	var _store = __webpack_require__(229);
+	
+	var _store2 = _interopRequireDefault(_store);
+	
+	var _actions = __webpack_require__(251);
+	
+	var _actions2 = _interopRequireDefault(_actions);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	
+	var VetQuestionnaire1 = function (_Component) {
+		_inherits(VetQuestionnaire1, _Component);
+	
+		function VetQuestionnaire1(props) {
+			_classCallCheck(this, VetQuestionnaire1);
+	
+			var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(VetQuestionnaire1).call(this, props));
+	
+			_this.captureVet = _this.captureVet.bind(_this);
+			_this.state = {
+				opacitySetting: 0
+			};
+			return _this;
+		}
+	
+		_createClass(VetQuestionnaire1, [{
+			key: 'componentDidMount',
+			value: function componentDidMount() {
+				this.setState({ opacitySetting: 1 });
+			}
+		}, {
+			key: 'captureVet',
+			value: function captureVet(event) {
+				event.preventDefault();
+				var vetProfile = Object.assign({}, this.props.vet);
+				vetProfile[event.target.id] = event.target.value;
+				this.props.captureVetProfile(vetProfile);
+			}
+		}, {
+			key: 'render',
+			value: function render() {
+				var opacitySetting = this.state.opacitySetting;
+	
+	
+				return _react2.default.createElement(
+					'div',
+					null,
+					_react2.default.createElement(
+						'article',
+						{ id: 'work', className: 'panel secondary', style: { opacity: opacitySetting, transitionProperty: "opacity", transitionDuration: "1s" } },
+						_react2.default.createElement(
+							'div',
+							{ className: 'content' },
+							_react2.default.createElement(
+								'ul',
+								{ className: 'actions spinX' },
+								_react2.default.createElement(
+									'li',
+									null,
+									_react2.default.createElement(
+										_reactRouter.Link,
+										{ to: '/vet-portal', className: 'button small back' },
+										'Back'
+									)
+								)
+							),
+							_react2.default.createElement(
+								'div',
+								{ className: 'inner', style: { textAlign: 'center' } },
+								_react2.default.createElement(
+									'h2',
+									{ style: { margin: "25px" } },
+									'Name'
+								),
+								_react2.default.createElement(
+									'p',
+									{ style: { margin: "10px" } },
+									_react2.default.createElement('input', { onChange: this.captureVet, id: 'firstName', style: { margin: "auto", borderRight: "none", borderLeft: "none", borderTop: "none", fontSize: "25px", width: "200px" }, placeholder: 'First', className: 'col-md-3', type: 'text' })
+								),
+								_react2.default.createElement(
+									'p',
+									{ style: { margin: "10px" } },
+									_react2.default.createElement('input', { onChange: this.captureVet, id: 'lastName', style: { margin: "auto", borderRight: "none", borderLeft: "none", borderTop: "none", fontSize: "25px", width: "200px" }, placeholder: 'Last', className: 'col-md-3', type: 'text' })
+								),
+								_react2.default.createElement(
+									_reactRouter.Link,
+									{ style: { margin: "20px" }, to: '/vet-survey-2', className: 'button' },
+									'Next'
+								)
+							)
+						)
+					)
+				);
+			}
+		}]);
+	
+		return VetQuestionnaire1;
+	}(_react.Component);
+	
+	var stateToProps = function stateToProps(state) {
+		return {
+			vet: state.vetReducer.vet
+		};
+	};
+	
+	var dispatchToProps = function dispatchToProps(dispatch) {
+		return {
+			captureVetProfile: function captureVetProfile(vet) {
+				return dispatch(_actions2.default.receivedVet(vet));
+			}
+		};
+	};
+	
+	exports.default = (0, _reactRedux.connect)(stateToProps, dispatchToProps)(VetQuestionnaire1);
+
+/***/ },
+/* 305 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+		value: true
+	});
+	
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	
+	var _react = __webpack_require__(1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _reactRedux = __webpack_require__(252);
+	
+	var _reactRouter = __webpack_require__(172);
+	
+	var _store = __webpack_require__(229);
+	
+	var _store2 = _interopRequireDefault(_store);
+	
+	var _actions = __webpack_require__(251);
+	
+	var _actions2 = _interopRequireDefault(_actions);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	
+	var VetQuestionnaire2 = function (_Component) {
+		_inherits(VetQuestionnaire2, _Component);
+	
+		function VetQuestionnaire2(props) {
+			_classCallCheck(this, VetQuestionnaire2);
+	
+			var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(VetQuestionnaire2).call(this, props));
+	
+			_this.captureVet = _this.captureVet.bind(_this);
+			_this.state = {
+				opacitySetting: 0
+			};
+			return _this;
+		}
+	
+		_createClass(VetQuestionnaire2, [{
+			key: 'componentDidMount',
+			value: function componentDidMount() {
+				this.setState({ opacitySetting: 1 });
+			}
+		}, {
+			key: 'captureVet',
+			value: function captureVet(event) {
+				event.preventDefault();
+				var vetProfile = Object.assign({}, this.props.vet);
+				vetProfile[event.target.id] = event.target.value;
+				this.props.captureVetProfile(vetProfile);
+			}
+		}, {
+			key: 'render',
+			value: function render() {
+				var opacitySetting = this.state.opacitySetting;
+	
+	
+				return _react2.default.createElement(
+					'div',
+					null,
+					_react2.default.createElement(
+						'article',
+						{ id: 'work', className: 'panel secondary', style: { opacity: opacitySetting, transitionProperty: "opacity", transitionDuration: "1s" } },
+						_react2.default.createElement(
+							'div',
+							{ className: 'content' },
+							_react2.default.createElement(
+								'ul',
+								{ className: 'actions spinX' },
+								_react2.default.createElement(
+									'li',
+									null,
+									_react2.default.createElement(
+										_reactRouter.Link,
+										{ to: '/vet-survey-1', className: 'button small back' },
+										'Back'
+									)
+								)
+							),
+							_react2.default.createElement(
+								'div',
+								{ className: 'inner', style: { textAlign: 'center' } },
+								_react2.default.createElement(
+									'h2',
+									{ style: { margin: "25px" } },
+									'Tell us about your practice'
+								),
+								_react2.default.createElement(
+									'p',
+									{ style: { margin: "10px" } },
+									_react2.default.createElement('input', { onChange: this.captureVet, id: 'practiceName', style: { margin: "auto", borderRight: "none", borderLeft: "none", borderTop: "none", fontSize: "25px", width: "250px" }, placeholder: 'Practice Name', className: 'col-md-3', type: 'text' })
+								),
+								_react2.default.createElement(
+									'p',
+									{ style: { margin: "10px" } },
+									_react2.default.createElement('input', { onChange: this.captureVet, id: 'zipcode', style: { margin: "auto", borderRight: "none", borderLeft: "none", borderTop: "none", fontSize: "25px", width: "200px" }, placeholder: 'Zipcode', className: 'col-md-3', type: 'text' })
+								),
+								_react2.default.createElement(
+									_reactRouter.Link,
+									{ style: { margin: "20px" }, to: '/vet-survey-3', className: 'button' },
+									'Next'
+								)
+							)
+						)
+					)
+				);
+			}
+		}]);
+	
+		return VetQuestionnaire2;
+	}(_react.Component);
+	
+	var stateToProps = function stateToProps(state) {
+		return {
+			vet: state.vetReducer.vet
+		};
+	};
+	
+	var dispatchToProps = function dispatchToProps(dispatch) {
+		return {
+			captureVetProfile: function captureVetProfile(vet) {
+				return dispatch(_actions2.default.receivedVet(vet));
+			}
+		};
+	};
+	
+	exports.default = (0, _reactRedux.connect)(stateToProps, dispatchToProps)(VetQuestionnaire2);
+
+/***/ },
+/* 306 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+		value: true
+	});
+	
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	
+	var _react = __webpack_require__(1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _reactRedux = __webpack_require__(252);
+	
+	var _reactRouter = __webpack_require__(172);
+	
+	var _store = __webpack_require__(229);
+	
+	var _store2 = _interopRequireDefault(_store);
+	
+	var _actions = __webpack_require__(251);
+	
+	var _actions2 = _interopRequireDefault(_actions);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	
+	var VetQuestionnaire3 = function (_Component) {
+		_inherits(VetQuestionnaire3, _Component);
+	
+		function VetQuestionnaire3(props) {
+			_classCallCheck(this, VetQuestionnaire3);
+	
+			var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(VetQuestionnaire3).call(this, props));
+	
+			_this.captureVet = _this.captureVet.bind(_this);
+			_this.saveVetProfile = _this.saveVetProfile.bind(_this);
+			_this.state = {
+				opacitySetting: 0
+			};
+			return _this;
+		}
+	
+		_createClass(VetQuestionnaire3, [{
+			key: 'componentDidMount',
+			value: function componentDidMount() {
+				this.setState({ opacitySetting: 1 });
+				//TODO: GET customers within vet zipcode and flash alert
+			}
+		}, {
+			key: 'captureVet',
+			value: function captureVet(event) {
+				event.preventDefault();
+				var vetProfile = Object.assign({}, this.props.vet);
+				vetProfile[event.target.id] = event.target.value;
+				this.props.captureVetProfile(vetProfile);
+			}
+		}, {
+			key: 'saveVetProfile',
+			value: function saveVetProfile(event) {
+				console.log("saveVetProfile: " + JSON.stringify(this.props.vet));
+				//TODO: POST vet
+			}
+		}, {
+			key: 'render',
+			value: function render() {
+				var opacitySetting = this.state.opacitySetting;
+	
+	
+				return _react2.default.createElement(
+					'div',
+					null,
+					_react2.default.createElement(
+						'article',
+						{ id: 'work', className: 'panel secondary', style: { opacity: opacitySetting, transitionProperty: "opacity", transitionDuration: "1s" } },
+						_react2.default.createElement(
+							'div',
+							{ className: 'content' },
+							_react2.default.createElement(
+								'ul',
+								{ className: 'actions spinX' },
+								_react2.default.createElement(
+									'li',
+									null,
+									_react2.default.createElement(
+										_reactRouter.Link,
+										{ to: '/vet-survey-2', className: 'button small back' },
+										'Back'
+									)
+								)
+							),
+							_react2.default.createElement(
+								'div',
+								{ className: 'inner', style: { textAlign: 'center' } },
+								_react2.default.createElement(
+									'h2',
+									{ style: { margin: "25px" } },
+									'Create Profile'
+								),
+								_react2.default.createElement(
+									'p',
+									{ style: { margin: "10px" } },
+									_react2.default.createElement('input', { onChange: this.captureVet, id: 'email', style: { margin: "auto", borderRight: "none", borderLeft: "none", borderTop: "none", fontSize: "25px", width: "250px" }, placeholder: 'Email', className: 'col-md-3', type: 'text' })
+								),
+								_react2.default.createElement(
+									'p',
+									{ style: { margin: "10px" } },
+									_react2.default.createElement('input', { onChange: this.captureVet, id: 'password', style: { margin: "auto", borderRight: "none", borderLeft: "none", borderTop: "none", fontSize: "25px", width: "200px" }, placeholder: 'Password', className: 'col-md-3', type: 'password' })
+								),
+								_react2.default.createElement(
+									_reactRouter.Link,
+									{ style: { margin: "20px" }, onClick: this.saveVetProfile, to: '/vet-home', className: 'button' },
+									'Login'
+								)
+							)
+						)
+					)
+				);
+			}
+		}]);
+	
+		return VetQuestionnaire3;
+	}(_react.Component);
+	
+	var stateToProps = function stateToProps(state) {
+		return {
+			vet: state.vetReducer.vet
+		};
+	};
+	
+	var dispatchToProps = function dispatchToProps(dispatch) {
+		return {
+			captureVetProfile: function captureVetProfile(vet) {
+				return dispatch(_actions2.default.receivedVet(vet));
+			}
+		};
+	};
+	
+	exports.default = (0, _reactRedux.connect)(stateToProps, dispatchToProps)(VetQuestionnaire3);
 
 /***/ }
 /******/ ]);
