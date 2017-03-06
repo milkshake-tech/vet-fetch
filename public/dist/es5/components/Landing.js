@@ -84,7 +84,7 @@ var Landing = (function (Component) {
 											React.createElement(
 												Link,
 												{ to: "/findvet", className: "button" },
-												"Find vetenarian near you"
+												"Find veterinarian near you"
 											)
 										),
 										React.createElement(
@@ -93,10 +93,15 @@ var Landing = (function (Component) {
 											React.createElement(
 												Link,
 												{ to: "/vet-portal", className: "button" },
-												"Vet"
+												"Veterinarian Portal"
 											)
 										)
 									)
+								),
+								React.createElement(
+									"p",
+									null,
+									"Already using VetFetch? Sign in here"
 								)
 							)
 						)

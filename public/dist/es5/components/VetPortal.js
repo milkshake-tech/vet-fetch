@@ -90,11 +90,6 @@ var VetPortal = (function (Component) {
 									Link,
 									{ to: "/vet-survey-1", className: "button" },
 									"Get Started"
-								),
-								React.createElement(
-									"p",
-									null,
-									"Already using VetFetch? Sign in here"
 								)
 							)
 						)

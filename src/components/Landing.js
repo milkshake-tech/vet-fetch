@@ -31,13 +31,14 @@ class Landing extends Component {
 							<nav id="nav">
 								<ul className="actions vertical special spinY">
 									<li>
-										<Link to='/findvet' className="button">Find vetenarian near you</Link>
+										<Link to='/findvet' className="button">Find veterinarian near you</Link>
 									</li>
 									<li>
-										<Link to="/vet-portal" className="button">Vet</Link>
+										<Link to="/vet-portal" className="button">Veterinarian Portal</Link>
 									</li>
 								</ul>
 							</nav>
+							<p>Already using VetFetch? Sign in here</p>
 						</div>
 					</div>
 				</article>

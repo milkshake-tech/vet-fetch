@@ -32,7 +32,6 @@ class VetPortal extends Component {
 								<p>Answer a few questions about your clinic.</p>
 							</header>
 							<Link to="/vet-survey-1" className="button">Get Started</Link>
-							<p>Already using VetFetch? Sign in here</p>
 						</div>
 					</div>
 				</article>

@@ -31310,7 +31310,7 @@
 											_react2.default.createElement(
 												_reactRouter.Link,
 												{ to: '/findvet', className: 'button' },
-												'Find vetenarian near you'
+												'Find veterinarian near you'
 											)
 										),
 										_react2.default.createElement(
@@ -31319,10 +31319,15 @@
 											_react2.default.createElement(
 												_reactRouter.Link,
 												{ to: '/vet-portal', className: 'button' },
-												'Vet'
+												'Veterinarian Portal'
 											)
 										)
 									)
+								),
+								_react2.default.createElement(
+									'p',
+									null,
+									'Already using VetFetch? Sign in here'
 								)
 							)
 						)
@@ -34675,11 +34680,6 @@
 									_reactRouter.Link,
 									{ to: '/vet-survey-1', className: 'button' },
 									'Get Started'
-								),
-								_react2.default.createElement(
-									'p',
-									null,
-									'Already using VetFetch? Sign in here'
 								)
 							)
 						)
