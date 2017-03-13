@@ -1,0 +1,35 @@
+/*Input on landing page*/
+
+.customInput {
+	font-size: 2em;
+	font-family: 'Raleway', Helvetica, sans-serif;
+	width: 25%;
+	display: inline;
+	text-align: center;
+	margin: 0;
+	height: 3.5em;
+	border: none;
+  border-bottom: grey .5px solid;
+	outline: none;
+	background-color: #ffffff;
+	transition: background-color 0.25s;
+	transform: translateX(25px);
+	transition: transform 0.15s ease-in-out;
+}
+
+.customInput:focus {
+	background-color: #f4f4f4;
+	transition: background-color 0.25s;
+	transform: translateX(-25px);
+	transition: transform 0.15s ease-in-out;
+}
+
+.search-btn:focus {
+	outline: none;
+}
+
+@media screen and (max-width: 480px) {
+	.jumbotron {
+			max-width: max-width: calc(100vw - 6em);
+	}
+}

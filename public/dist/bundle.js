@@ -26808,28 +26808,16 @@
 		function Main(props, context) {
 			_classCallCheck(this, Main);
 	
-			var _this = _possibleConstructorReturn(this, (Main.__proto__ || Object.getPrototypeOf(Main)).call(this, props, context));
-	
-			_this.state = {
-				opacitySetting: 0
-			};
-			return _this;
+			return _possibleConstructorReturn(this, (Main.__proto__ || Object.getPrototypeOf(Main)).call(this, props, context));
 		}
 	
 		_createClass(Main, [{
-			key: 'componentDidMount',
-			value: function componentDidMount() {
-				this.setState({ opacitySetting: 1 });
-			}
-		}, {
 			key: 'render',
 			value: function render() {
-				var opacitySetting = this.state.opacitySetting;
-	
 	
 				return _react2.default.createElement(
 					'div',
-					{ style: { opacity: opacitySetting, transitionProperty: "opacity", transitionDuration: "1s" } },
+					null,
 					this.props.children,
 					_react2.default.createElement(_components.Footer, null)
 				);
@@ -31992,66 +31980,32 @@
 	
 				return _react2.default.createElement(
 					'div',
-					null,
+					{ id: 'home', className: 'jumbotron', style: { backgroundColor: 'white', textAlign: 'center' } },
 					_react2.default.createElement(
-						'article',
-						{ id: 'home', className: 'panel special' },
+						'div',
+						{ className: 'container', style: { marginTop: -5 + "em" } },
+						_react2.default.createElement('img', { src: '/images/vetFetch_blue.png' })
+					),
+					_react2.default.createElement(
+						'div',
+						{ className: 'row' },
+						_react2.default.createElement(
+							'h2',
+							{ style: { color: "#7ec2d9" } },
+							'Search. Book. Review.'
+						)
+					),
+					_react2.default.createElement(
+						'div',
+						{ className: 'row', style: { height: 10 + "em" } },
 						_react2.default.createElement(
 							'div',
-							{ className: 'image' },
-							_react2.default.createElement('img', { src: '/images/pic01vetFetch.png', alt: '', 'data-position': 'center center' })
-						),
-						_react2.default.createElement(
-							'div',
-							{ className: 'content' },
+							{ className: 'col-md-12', style: { textAlign: 'center', height: '100%', display: "flex", justifyContent: 'center', alignItems: 'center' } },
+							_react2.default.createElement('input', { className: 'customInput', placeholder: 'Enter your zip' }),
 							_react2.default.createElement(
-								'div',
-								{ className: 'inner' },
-								_react2.default.createElement(
-									'header',
-									null,
-									_react2.default.createElement(
-										'h1',
-										null,
-										'Vet Fetch'
-									),
-									_react2.default.createElement(
-										'p',
-										null,
-										'How can we help you?'
-									)
-								),
-								_react2.default.createElement(
-									'nav',
-									{ id: 'nav' },
-									_react2.default.createElement(
-										'ul',
-										{ className: 'actions vertical special spinY' },
-										_react2.default.createElement(
-											'li',
-											null,
-											_react2.default.createElement(
-												_reactRouter.Link,
-												{ to: '/findvet', className: 'button' },
-												'Find veterinarian near you'
-											)
-										),
-										_react2.default.createElement(
-											'li',
-											null,
-											_react2.default.createElement(
-												_reactRouter.Link,
-												{ to: '/vet-portal', className: 'button' },
-												'Veterinarian Portal'
-											)
-										)
-									)
-								),
-								_react2.default.createElement(
-									'p',
-									null,
-									'Already using VetFetch? Sign in here'
-								)
+								'button',
+								{ className: 'search-btn' },
+								'Submit'
 							)
 						)
 					)

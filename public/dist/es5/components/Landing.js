@@ -43,66 +43,32 @@ var Landing = (function (Component) {
 			value: function render() {
 				return React.createElement(
 					"div",
-					null,
+					{ id: "home", className: "jumbotron", style: { backgroundColor: "white", textAlign: "center" } },
 					React.createElement(
-						"article",
-						{ id: "home", className: "panel special" },
+						"div",
+						{ className: "container", style: { marginTop: -5 + "em" } },
+						React.createElement("img", { src: "/images/vetFetch_blue.png" })
+					),
+					React.createElement(
+						"div",
+						{ className: "row" },
+						React.createElement(
+							"h2",
+							{ style: { color: "#7ec2d9" } },
+							"Search. Book. Review."
+						)
+					),
+					React.createElement(
+						"div",
+						{ className: "row", style: { height: 10 + "em" } },
 						React.createElement(
 							"div",
-							{ className: "image" },
-							React.createElement("img", { src: "/images/pic01vetFetch.png", alt: "", "data-position": "center center" })
-						),
-						React.createElement(
-							"div",
-							{ className: "content" },
+							{ className: "col-md-12", style: { textAlign: "center", height: "100%", display: "flex", justifyContent: "center", alignItems: "center" } },
+							React.createElement("input", { className: "customInput", placeholder: "Enter your zip" }),
 							React.createElement(
-								"div",
-								{ className: "inner" },
-								React.createElement(
-									"header",
-									null,
-									React.createElement(
-										"h1",
-										null,
-										"Vet Fetch"
-									),
-									React.createElement(
-										"p",
-										null,
-										"How can we help you?"
-									)
-								),
-								React.createElement(
-									"nav",
-									{ id: "nav" },
-									React.createElement(
-										"ul",
-										{ className: "actions vertical special spinY" },
-										React.createElement(
-											"li",
-											null,
-											React.createElement(
-												Link,
-												{ to: "/findvet", className: "button" },
-												"Find veterinarian near you"
-											)
-										),
-										React.createElement(
-											"li",
-											null,
-											React.createElement(
-												Link,
-												{ to: "/vet-portal", className: "button" },
-												"Veterinarian Portal"
-											)
-										)
-									)
-								),
-								React.createElement(
-									"p",
-									null,
-									"Already using VetFetch? Sign in here"
-								)
+								"button",
+								{ className: "search-btn" },
+								"Submit"
 							)
 						)
 					)
@@ -118,7 +84,8 @@ var Landing = (function (Component) {
 
 var stateToProps = function (state) {
 	return {
-		user: state.userReducer.user };
+		user: state.userReducer.user
+	};
 };
 
 module.exports = connect(stateToProps)(Landing);
