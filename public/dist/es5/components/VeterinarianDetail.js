@@ -21,20 +21,20 @@ var Link = _reactRouter.Link;
 var browserHistory = _reactRouter.browserHistory;
 var InsurancePlans = _interopRequire(require("../utils/InsurancePlans"));
 
-var InsuranceResults = (function (Component) {
-	function InsuranceResults(props) {
-		_classCallCheck(this, InsuranceResults);
+var VeterinarianDetail = (function (Component) {
+	function VeterinarianDetail(props) {
+		_classCallCheck(this, VeterinarianDetail);
 
-		_get(Object.getPrototypeOf(InsuranceResults.prototype), "constructor", this).call(this, props);
+		_get(Object.getPrototypeOf(VeterinarianDetail.prototype), "constructor", this).call(this, props);
 		this.insuranceResults = InsurancePlans;
 		this.state = {
 			opacitySetting: 0
 		};
 	}
 
-	_inherits(InsuranceResults, Component);
+	_inherits(VeterinarianDetail, Component);
 
-	_prototypeProperties(InsuranceResults, null, {
+	_prototypeProperties(VeterinarianDetail, null, {
 		componentDidMount: {
 			value: function componentDidMount() {
 				this.setState({ opacitySetting: 1 });
@@ -45,25 +45,8 @@ var InsuranceResults = (function (Component) {
 		render: {
 			value: function render() {
 				var opacitySetting = this.state.opacitySetting;
-				var plansArray = this.insuranceResults.insurancePlans;
-				var insuranceResultsList = plansArray.map(function (result, i) {
-					return React.createElement(
-						"div",
-						{ key: i, style: { margin: "5px" }, className: "button" },
-						React.createElement(
-							Link,
-							{ to: { pathname: "/survey-result", state: { plan: result } } },
-							React.createElement(
-								"p",
-								{ style: { fontSize: "10px" } },
-								result.company,
-								" | $",
-								result.premium,
-								"/month"
-							)
-						)
-					);
-				});
+				var plan = this.props.location.state.plan;
+
 				return React.createElement(
 					"div",
 					null,
@@ -86,7 +69,7 @@ var InsuranceResults = (function (Component) {
 									null,
 									React.createElement(
 										Link,
-										{ to: "/survey-3", className: "button small back" },
+										{ to: "/survey-results", className: "button small back" },
 										"Back"
 									)
 								)
@@ -100,10 +83,40 @@ var InsuranceResults = (function (Component) {
 									React.createElement(
 										"h2",
 										null,
-										"Plans for you"
+										plan.company
 									)
 								),
-								insuranceResultsList,
+								React.createElement(
+									"p",
+									null,
+									"Plan: ",
+									plan.plan
+								),
+								React.createElement(
+									"p",
+									null,
+									"Cost: $",
+									plan.premium,
+									"/month "
+								),
+								React.createElement(
+									"p",
+									null,
+									"Deductible: $",
+									plan.deductible,
+									" "
+								),
+								React.createElement(
+									"p",
+									null,
+									"Visit: ",
+									React.createElement(
+										"a",
+										{ href: plan.website },
+										plan.website
+									),
+									" "
+								),
 								React.createElement(
 									Link,
 									{ to: "/signup", style: { margin: "25px" }, className: "button" },
@@ -119,7 +132,7 @@ var InsuranceResults = (function (Component) {
 		}
 	});
 
-	return InsuranceResults;
+	return VeterinarianDetail;
 })(Component);
 
-module.exports = InsuranceResults;
+module.exports = VeterinarianDetail;

@@ -4,51 +4,19 @@ var bcrypt = require('bcryptjs')
 module.exports = {
 	get: function(params, isRaw, callback){
 
-		if (params.id != null){
-
-			User.findById(params.id, function(err, user){
-				if (err){
-					callback(err, null)
-					return
-				}
-
-				if (user == null){
-					callback(err, null)
-					return
-				}
-
-				if(callback != null){
-					if(isRaw == true){
-						callback(null, user)
-						return
-					}
-
-					callback(null, user.summary())
-				}
-
-			})
-			return
-		}
-
 		User.find(params, function(err, users){
-
 			if(err){
 				if(callback != null)
-					callback(err, null)
-				return
+					return callback(err, null)
 			}
 
 			if (users == null){
-
-				callback(err, null)
-
-				return
+				return callback(err, null)
 			}
 
 			if(callback != null){
 				if(isRaw == true){
-					callback(null, users)
-					return
+					return callback(null, users)
 				}
 
 				var summaries = []

@@ -19,19 +19,23 @@ var _reactRouter = require("react-router");
 
 var Link = _reactRouter.Link;
 var browserHistory = _reactRouter.browserHistory;
-var FindVet = (function (Component) {
-	function FindVet(props) {
-		_classCallCheck(this, FindVet);
+var store = _interopRequire(require("../stores/store"));
 
-		_get(Object.getPrototypeOf(FindVet.prototype), "constructor", this).call(this, props);
+var connect = require("react-redux").connect;
+var SearchResultItem = require("../components").SearchResultItem;
+var SearchResults = (function (Component) {
+	function SearchResults(props) {
+		_classCallCheck(this, SearchResults);
+
+		_get(Object.getPrototypeOf(SearchResults.prototype), "constructor", this).call(this, props);
 		this.state = {
 			opacitySetting: 0
 		};
 	}
 
-	_inherits(FindVet, Component);
+	_inherits(SearchResults, Component);
 
-	_prototypeProperties(FindVet, null, {
+	_prototypeProperties(SearchResults, null, {
 		componentDidMount: {
 			value: function componentDidMount() {
 				this.setState({ opacitySetting: 1 });
@@ -42,52 +46,41 @@ var FindVet = (function (Component) {
 		render: {
 			value: function render() {
 				var opacitySetting = this.state.opacitySetting;
+				var searchResults = this.props.searchResults;
+				var vetResultsList = searchResults.veterinarians.map(function (result, i) {
+					return React.createElement(SearchResultItem, { key: i, resultItem: result });
+				});
 				return React.createElement(
 					"div",
-					null,
+					{ className: "jumbotron", style: { textAlign: "center" } },
 					React.createElement(
-						"article",
-						{ id: "work", className: "panel secondary", style: { opacity: opacitySetting, transitionProperty: "opacity", transitionDuration: "1s" } },
+						"div",
+						{ className: "searchResultsRow" },
 						React.createElement(
 							"div",
-							{ className: "image" },
-							React.createElement("img", { src: "/images/survey.png", alt: "", "data-position": "center center" })
+							null,
+							React.createElement(
+								Link,
+								{ to: "/" },
+								React.createElement(
+									"div",
+									{ className: "button small back", style: { display: "block", marginBottom: 2 + "em", width: 10 + "em" } },
+									"Back"
+								)
+							),
+							React.createElement("img", { src: "/assets/images/sittingdog.png" })
 						),
 						React.createElement(
 							"div",
-							{ className: "content" },
+							null,
 							React.createElement(
-								"ul",
-								{ className: "actions spinX" },
-								React.createElement(
-									"li",
-									null,
-									React.createElement(
-										Link,
-										{ to: "/", className: "button small back" },
-										"Back"
-									)
-								)
+								"h3",
+								null,
+								searchResults.totalResults,
+								" veterinarians near ",
+								searchResults.zipcode
 							),
-							React.createElement(
-								"div",
-								{ className: "inner" },
-								React.createElement(
-									"header",
-									null,
-									React.createElement(
-										"h2",
-										null,
-										"Find a vetenarian near you"
-									),
-									React.createElement("input", { type: "text", placeholder: "Enter your zipcode" })
-								),
-								React.createElement(
-									Link,
-									{ to: "/survey-1", className: "button" },
-									"Search"
-								)
-							)
+							vetResultsList
 						)
 					)
 				);
@@ -97,7 +90,13 @@ var FindVet = (function (Component) {
 		}
 	});
 
-	return FindVet;
+	return SearchResults;
 })(Component);
 
-module.exports = FindVet;
+var stateToProps = function (state) {
+	return {
+		searchResults: state.searchReducer.searchResults
+	};
+};
+
+module.exports = connect(stateToProps)(SearchResults);

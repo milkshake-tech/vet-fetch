@@ -9,9 +9,9 @@ class Footer extends Component {
 	render() {
 
 		return (
-				<footer id="footer">
-					<p className="copyright">&copy; Vet Fetch</p>
-				</footer>
+			<footer className="footer">
+				<p>&copy; vetFetch</p>
+			</footer>
 		)
 	}
 }

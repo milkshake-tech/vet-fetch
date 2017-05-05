@@ -9,26 +9,20 @@ var applyMiddleware = _redux.applyMiddleware;
 var combineReducers = _redux.combineReducers;
 var thunk = _interopRequire(require("redux-thunk"));
 
-var userReducer = _interopRequire(require("../reducers/userReducer"));
+var displayReducer = _interopRequire(require("../reducers/displayReducer"));
 
 var petReducer = _interopRequire(require("../reducers/petReducer"));
 
-var displayReducer = _interopRequire(require("../reducers/displayReducer"));
-
 var searchReducer = _interopRequire(require("../reducers/searchReducer"));
 
-var vetReducer = _interopRequire(require("../reducers/vetReducer"));
-
-var UIReducer = _interopRequire(require("../reducers/UIReducer"));
+var userReducer = _interopRequire(require("../reducers/userReducer"));
 
 // Combine reducers
 var reducers = combineReducers({
-	userReducer: userReducer,
-	petReducer: petReducer,
 	displayReducer: displayReducer,
+	petReducer: petReducer,
 	searchReducer: searchReducer,
-	vetReducer: vetReducer,
-	UIReducer: UIReducer
+	userReducer: userReducer
 });
 
 // Create createStore

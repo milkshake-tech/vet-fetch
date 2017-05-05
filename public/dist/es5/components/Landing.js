@@ -21,21 +21,44 @@ var Link = _reactRouter.Link;
 var browserHistory = _reactRouter.browserHistory;
 var store = _interopRequire(require("../stores/store"));
 
-var actions = _interopRequire(require("../actions/actions"));
-
+var receivedSearchResults = require("../actions/actions").receivedSearchResults;
 var connect = require("react-redux").connect;
+var APIManager = _interopRequire(require("../utils/APIManager"));
+
 var Landing = (function (Component) {
 	function Landing(props, context) {
 		_classCallCheck(this, Landing);
 
-		_get(Object.getPrototypeOf(Landing.prototype), "constructor", this).call(this, props, context);
+		_get(Object.getPrototypeOf(Landing.prototype), "constructor", this).call(this, props);
+		this.captureZipcode = this.captureZipcode.bind(this);
+		this.searchVets = this.searchVets.bind(this);
+		this.state = {
+			searchZipcode: null
+		};
 	}
 
 	_inherits(Landing, Component);
 
 	_prototypeProperties(Landing, null, {
-		componentDidMount: {
-			value: function componentDidMount() {},
+		captureZipcode: {
+			value: function captureZipcode(event) {
+				this.setState({ searchZipcode: event.target.value });
+			},
+			writable: true,
+			configurable: true
+		},
+		searchVets: {
+			value: function searchVets() {
+				var _this = this;
+				APIManager.handleGet("/api/search", { zipcode: this.state.searchZipcode }, function (err, res) {
+					if (err) return alert("Oops something went wrong. Try a different search.");
+					if (res.confirmation === "Success") {
+						_this.props.fetchSearchResults(res.results);
+					}
+					browserHistory.push("/searchresults");
+					return;
+				});
+			},
 			writable: true,
 			configurable: true
 		},
@@ -43,15 +66,15 @@ var Landing = (function (Component) {
 			value: function render() {
 				return React.createElement(
 					"div",
-					{ id: "home", className: "jumbotron", style: { backgroundColor: "white", textAlign: "center" } },
+					{ className: "jumbotron", style: { textAlign: "center" } },
 					React.createElement(
 						"div",
-						{ className: "container", style: { marginTop: -5 + "em" } },
-						React.createElement("img", { src: "/images/vetFetch_blue.png" })
+						null,
+						React.createElement("img", { src: "/assets/images/vetFetch_blue.png" })
 					),
 					React.createElement(
 						"div",
-						{ className: "row" },
+						null,
 						React.createElement(
 							"h2",
 							{ style: { color: "#7ec2d9" } },
@@ -60,14 +83,18 @@ var Landing = (function (Component) {
 					),
 					React.createElement(
 						"div",
-						{ className: "row", style: { height: 10 + "em" } },
+						{ className: "searchRow" },
 						React.createElement(
 							"div",
-							{ className: "col-md-12", style: { textAlign: "center", height: "100%", display: "flex", justifyContent: "center", alignItems: "center" } },
-							React.createElement("input", { className: "customInput", placeholder: "Enter your zip" }),
+							{ style: { margin: 0.5 + "em" } },
+							React.createElement("input", { className: "customInput", placeholder: "Enter your zip", onChange: this.captureZipcode })
+						),
+						React.createElement(
+							"div",
+							{ style: { margin: 0.5 + "em" } },
 							React.createElement(
 								"button",
-								{ className: "search-btn" },
+								{ onClick: this.searchVets },
 								"Submit"
 							)
 						)
@@ -88,4 +115,12 @@ var stateToProps = function (state) {
 	};
 };
 
-module.exports = connect(stateToProps)(Landing);
+var dispatchToProps = function (dispatch) {
+	return {
+		fetchSearchResults: function (searchResults) {
+			return dispatch(receivedSearchResults(searchResults));
+		}
+	};
+};
+
+module.exports = connect(stateToProps, dispatchToProps)(Landing);

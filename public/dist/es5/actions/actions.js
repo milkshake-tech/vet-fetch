@@ -6,19 +6,19 @@ var constants = _interopRequire(require("../constants/constants"));
 
 var store = _interopRequire(require("../stores/store"));
 
-module.exports = {
+var receivedSearchResults = exports.receivedSearchResults = function (searchResults) {
+	return {
+		type: constants.RECEIVED_SEARCH_RESULTS,
+		searchResults: searchResults
+	};
+};
+
+exports["default"] = {
 
 	receivedUser: function (user) {
 		return {
 			type: constants.RECEIVED_USER,
 			user: user
-		};
-	},
-
-	receivedVet: function (vet) {
-		return {
-			type: constants.RECEIVED_VET,
-			vet: vet
 		};
 	},
 
@@ -79,38 +79,12 @@ module.exports = {
 		};
 	},
 
-	showSideMenu: function (left) {
-		return {
-			type: constants.RECEIVE_SIDEMENU_STATE,
-			left: left
-		};
-	},
-
 	showEditProfile: function (showContent) {
 		return {
 			type: constants.SHOW_EDIT_PROFILE,
 			showContent: showContent
 		};
-	},
-
-	receivedSearch: function (search) {
-		return {
-			type: constants.RECEIVED_SEARCH,
-			search: search
-		};
-	},
-
-	receivedSearchResults: function (searchResults) {
-		return {
-			type: constants.RECEIVED_SEARCH_RESULTS,
-			searchResults: searchResults
-		};
-	},
-
-	receivedUserSearchHistory: function (searchHistory) {
-		return {
-			type: constants.RECEIVED_USER_SEARCH_HISTORY,
-			searchHistory: searchHistory
-		};
-	}
-};
+	} };
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});

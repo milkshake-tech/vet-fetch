@@ -1,13 +1,13 @@
-var express = require('express');
-var router = express.Router();
-var petController = require('../controllers/PetController');
-var userController = require('../controllers/UserController');
-var vetController = require('../controllers/VetController')
+var express = require('express')
+var router = express.Router()
+var petController = require('../controllers/PetController')
+var searchController = require('../controllers/SearchController')
+var userController = require('../controllers/UserController')
 
 var controllers = {
 	pet: petController,
 	user: userController,
-	vet: vetController
+	search: searchController
 }
 
 router.get('/:resource', function(req, res, next) {
@@ -21,7 +21,7 @@ router.get('/:resource', function(req, res, next) {
 		})
 	}
 
-	controller.get(req.query, null, function(err, results){
+	controller.get(req.query, function(err, results){
 		if(err){
 			res.json({
 				confirmation: "Fail",
@@ -31,10 +31,10 @@ router.get('/:resource', function(req, res, next) {
 			}
 
 		res.json({
-  			confirmation: "Success",
-  			results: results
-  		})
-  			return
+			confirmation: "Success",
+			results: results
+		})
+  	return
 	})
 })
 

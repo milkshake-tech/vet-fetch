@@ -1,44 +1,61 @@
 import React, { Component } from 'react'
 import { Link, browserHistory } from 'react-router'
 import store from '../stores/store'
-import actions from '../actions/actions'
+import {receivedSearchResults} from '../actions/actions'
 import { connect } from 'react-redux'
+import APIManager from '../utils/APIManager'
 
 class Landing extends Component {
 
 	constructor(props, context){
-		super(props, context)
+		super(props)
+		this.captureZipcode = this.captureZipcode.bind(this)
+		this.searchVets = this.searchVets.bind(this)
+		this.state = {
+			searchZipcode: null
+		}
 	}
 
-	componentDidMount() {
+	captureZipcode(event){
+		this.setState({searchZipcode: event.target.value})
+	}
+
+	searchVets(){
+		let _this = this
+		APIManager.handleGet('/api/search', {zipcode: this.state.searchZipcode}, function(err, res){
+			if (err) return alert('Oops something went wrong. Try a different search.')
+			if (res.confirmation === 'Success') {
+				_this.props.fetchSearchResults(res.results)}
+				browserHistory.push('/searchresults')
+				return
+		})
 	}
 
 	render() {
 
 		return (
-			<div id="home" className="jumbotron" style={{backgroundColor: 'white', textAlign:'center'}}>
-			<div className="container" style={{marginTop: -5+"em"}}>
-					<img src="/images/vetFetch_blue.png" />
+			<div className='jumbotron' style={{textAlign:'center'}}>
+				<div>
+					<img src='/assets/images/vetFetch_blue.png'/>
 				</div>
-				<div className="row">
-					<h2 style={{color: "#7ec2d9"}}>Search. Book. Review.</h2>
+				<div >
+					<h2 style={{color: '#7ec2d9'}}>Search. Book. Review.</h2>
 				</div>
-				<div className="row" style={{height: 10+"em"}}>
-					<div className="col-md-12" style={{textAlign: 'center', height: '100%', display:"flex", justifyContent:'center', alignItems:'center'}}>
-						<input className="customInput" placeholder='Enter your zip' />
-						<button className="search-btn">Submit</button>
-					</div>
+				<div className="searchRow">
+					<div style={{margin: .5+'em'}}><input className="customInput" placeholder='Enter your zip' onChange={this.captureZipcode}/></div>
+					<div style={{margin: .5+'em'}}><button onClick={this.searchVets}>Submit</button></div>
 				</div>
 			</div>
 		)
 	}
 }
 
-const stateToProps = function(state) {
+const stateToProps = (state) => ({
+	user: state.userReducer.user
+})
 
-	return {
-		user: state.userReducer.user
-	}
-}
+const dispatchToProps = (dispatch) => ({
+	fetchSearchResults: (searchResults) => dispatch(receivedSearchResults(searchResults))
+})
 
-export default connect (stateToProps)(Landing)
+export default connect (stateToProps, dispatchToProps)(Landing)

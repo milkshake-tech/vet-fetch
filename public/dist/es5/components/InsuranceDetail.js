@@ -21,20 +21,20 @@ var Link = _reactRouter.Link;
 var browserHistory = _reactRouter.browserHistory;
 var InsurancePlans = _interopRequire(require("../utils/InsurancePlans"));
 
-var InsuranceDetail = (function (Component) {
-	function InsuranceDetail(props) {
-		_classCallCheck(this, InsuranceDetail);
+var VeterinarianDetail = (function (Component) {
+	function VeterinarianDetail(props) {
+		_classCallCheck(this, VeterinarianDetail);
 
-		_get(Object.getPrototypeOf(InsuranceDetail.prototype), "constructor", this).call(this, props);
+		_get(Object.getPrototypeOf(VeterinarianDetail.prototype), "constructor", this).call(this, props);
 		this.insuranceResults = InsurancePlans;
 		this.state = {
 			opacitySetting: 0
 		};
 	}
 
-	_inherits(InsuranceDetail, Component);
+	_inherits(VeterinarianDetail, Component);
 
-	_prototypeProperties(InsuranceDetail, null, {
+	_prototypeProperties(VeterinarianDetail, null, {
 		componentDidMount: {
 			value: function componentDidMount() {
 				this.setState({ opacitySetting: 1 });
@@ -132,7 +132,7 @@ var InsuranceDetail = (function (Component) {
 		}
 	});
 
-	return InsuranceDetail;
+	return VeterinarianDetail;
 })(Component);
 
-module.exports = InsuranceDetail;
+module.exports = VeterinarianDetail;

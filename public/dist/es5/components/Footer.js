@@ -29,11 +29,11 @@ var Footer = (function (Component) {
 			value: function render() {
 				return React.createElement(
 					"footer",
-					{ id: "footer" },
+					{ className: "footer" },
 					React.createElement(
 						"p",
-						{ className: "copyright" },
-						"© Vet Fetch"
+						null,
+						"© vetFetch"
 					)
 				);
 			},

@@ -1,20 +1,16 @@
 import { createStore, applyMiddleware, combineReducers } from 'redux'
 import thunk from 'redux-thunk'
-import userReducer from '../reducers/userReducer'
-import petReducer from '../reducers/petReducer'
 import displayReducer from '../reducers/displayReducer'
+import petReducer from '../reducers/petReducer'
 import searchReducer from '../reducers/searchReducer'
-import vetReducer from '../reducers/vetReducer'
-import UIReducer from '../reducers/UIReducer'
+import userReducer from '../reducers/userReducer'
 
 // Combine reducers
 var reducers = combineReducers({
-	userReducer: userReducer,
-	petReducer: petReducer,
 	displayReducer: displayReducer,
+	petReducer: petReducer,
 	searchReducer: searchReducer,
-	vetReducer: vetReducer,
-	UIReducer: UIReducer
+	userReducer: userReducer
 });
 
 // Create createStore

@@ -1,19 +1,17 @@
 import constants from '../constants/constants'
 import store from '../stores/store'
 
+export const receivedSearchResults = (searchResults) => ({
+	type: constants.RECEIVED_SEARCH_RESULTS,
+	searchResults
+})
+
 export default {
 
 	receivedUser: function(user){
 		return {
 			type: constants.RECEIVED_USER,
 			user: user
-		}
-	},
-
-	receivedVet: function(vet){
-		return {
-			type: constants.RECEIVED_VET,
-			vet: vet
 		}
 	},
 
@@ -75,13 +73,6 @@ export default {
 		}
 	},
 
-	showSideMenu: (left) => {
-		return {
-			type: constants.RECEIVE_SIDEMENU_STATE,
-			left: left
-		}
-	},
-
 	showEditProfile: function(showContent){
 		return{
 			type: constants.SHOW_EDIT_PROFILE,
@@ -89,24 +80,4 @@ export default {
 		}
 	},
 
-	receivedSearch: function(search){
-		return{
-			type: constants.RECEIVED_SEARCH,
-			search: search
-		}
-	},
-
-	receivedSearchResults: function(searchResults){
-		return{
-			type: constants.RECEIVED_SEARCH_RESULTS,
-			searchResults: searchResults
-		}
-	},
-
-	receivedUserSearchHistory: function(searchHistory){
-		return{
-			type: constants.RECEIVED_USER_SEARCH_HISTORY,
-			searchHistory: searchHistory
-		}
-	}
 }

@@ -15,49 +15,58 @@ var _react = require("react");
 var React = _interopRequire(_react);
 
 var Component = _react.Component;
-var navigation = _interopRequire(require("../utils/navigation"));
+var _reactRouter = require("react-router");
 
-var RegisterPet = _interopRequire(require("../components/RegisterPet"));
+var Link = _reactRouter.Link;
+var browserHistory = _reactRouter.browserHistory;
+var SearchResultItem = (function (Component) {
+	function SearchResultItem(props) {
+		_classCallCheck(this, SearchResultItem);
 
-var PetList = _interopRequire(require("../components/PetList"));
-
-var PetProfile = _interopRequire(require("../components/PetProfile"));
-
-var PetsLanding = _interopRequire(require("../components/PetsLanding"));
-
-var Pets = (function (Component) {
-	function Pets(props, context) {
-		_classCallCheck(this, Pets);
-
-		_get(Object.getPrototypeOf(Pets.prototype), "constructor", this).call(this, props, context);
+		_get(Object.getPrototypeOf(SearchResultItem.prototype), "constructor", this).call(this, props);
 	}
 
-	_inherits(Pets, Component);
+	_inherits(SearchResultItem, Component);
 
-	_prototypeProperties(Pets, null, {
+	_prototypeProperties(SearchResultItem, null, {
+		componentDidMount: {
+			value: function componentDidMount() {},
+			writable: true,
+			configurable: true
+		},
 		render: {
 			value: function render() {
-				var loggedIn = this.props.currentUser || {};
-				console.log("PETS user: " + JSON.stringify(loggedIn));
-
-				var content = null;
-				if (loggedIn.id != null) {
-					switch (this.props.showRegisterPet) {
-						case false:
-							return content = React.createElement(PetList, { currentUser: this.props.currentUser, petsArray: this.props.petsArray });
-						case true:
-							return content = React.createElement(RegisterPet, { currentUser: this.props.currentUser });
-					}
-				} else {
-					content = React.createElement(PetsLanding, { currentUser: this.props.currentUser, petsArray: this.props.petsArray });
-				}
-
-
-
+				var resultItem = this.props.resultItem;
+				console.log("RESULT ITEM: " + JSON.stringify(resultItem));
 				return React.createElement(
 					"div",
-					null,
-					content
+					{ className: "button", style: { height: "auto", margin: 1 + "em", display: "block" } },
+					React.createElement(
+						"p",
+						{ style: { fontSize: 10 + "px" } },
+						resultItem.venue.name
+					),
+					React.createElement(
+						"div",
+						null,
+						React.createElement("img", { src: "/assets/images/mappin.png", style: { display: "inline" } }),
+						React.createElement(
+							"p",
+							{ style: { fontSize: 10 + "px", display: "inline" } },
+							" ",
+							resultItem.venue.location.address,
+							", ",
+							resultItem.venue.location.city,
+							", ",
+							resultItem.venue.location.state,
+							" ",
+							resultItem.venue.location.postalCode,
+							" ",
+							React.createElement("br", null),
+							" ",
+							resultItem.venue.contact.formattedPhone
+						)
+					)
 				);
 			},
 			writable: true,
@@ -65,7 +74,7 @@ var Pets = (function (Component) {
 		}
 	});
 
-	return Pets;
+	return SearchResultItem;
 })(Component);
 
-module.exports = Pets;
+module.exports = SearchResultItem;
