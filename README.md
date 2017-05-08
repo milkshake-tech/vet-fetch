@@ -10,10 +10,10 @@ Open terminal and run:
 npm install
 npm start
 ```
-Then open 3 new tabs and run each of the corresponding commands:
 
-```
+To start project, run commands below:
+
 mongod
-webpack -w
-gulp
+npm run dev
+nodemon
 ```
