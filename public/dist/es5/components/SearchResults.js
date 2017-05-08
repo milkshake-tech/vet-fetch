@@ -22,12 +22,17 @@ var browserHistory = _reactRouter.browserHistory;
 var store = _interopRequire(require("../stores/store"));
 
 var connect = require("react-redux").connect;
+var receivedSearchResults = require("../actions/actions").receivedSearchResults;
 var SearchResultItem = require("../components").SearchResultItem;
+var APIManager = _interopRequire(require("../utils/APIManager"));
+
 var SearchResults = (function (Component) {
 	function SearchResults(props) {
 		_classCallCheck(this, SearchResults);
 
 		_get(Object.getPrototypeOf(SearchResults.prototype), "constructor", this).call(this, props);
+		this.resultsPagination = this.resultsPagination.bind(this);
+		this.startPetSurvey = this.startPetSurvey.bind(this);
 		this.state = {
 			opacitySetting: 0
 		};
@@ -43,13 +48,51 @@ var SearchResults = (function (Component) {
 			writable: true,
 			configurable: true
 		},
+		resultsPagination: {
+			value: function resultsPagination(event) {
+				var searchResults = this.props.searchResults;
+				var searchOffset = parseInt(searchResults.offset) + parseInt(event.target.id);
+				if (searchOffset < 0) {
+					searchOffset = 0;
+				}
+				var _this = this;
+				APIManager.handleGet("/api/search", { zipcode: searchResults.zipcode, offset: searchOffset }, function (err, res) {
+					if (err) return alert("Oops something went wrong loading your results.");
+					if (res.confirmation === "Success") {
+						_this.props.fetchSearchResults(res.results);
+						return;
+					}
+				});
+			},
+			writable: true,
+			configurable: true
+		},
+		startPetSurvey: {
+			value: function startPetSurvey() {
+				browserHistory.push("/survey-1");
+			},
+			writable: true,
+			configurable: true
+		},
 		render: {
 			value: function render() {
 				var opacitySetting = this.state.opacitySetting;
 				var searchResults = this.props.searchResults;
+				var displayedSearchResults = 10 + parseInt(searchResults.offset);
+				if (displayedSearchResults > searchResults.totalResults) {
+					displayedSearchResults = searchResults.totalResults;
+				}
 				var vetResultsList = searchResults.veterinarians.map(function (result, i) {
 					return React.createElement(SearchResultItem, { key: i, resultItem: result });
 				});
+				if (searchResults.veterinarians.length === 0) {
+					vetResultsList = React.createElement(
+						"p",
+						{ style: { marginTop: 1 + "em" } },
+						"'Woof! Looks like they are no more search results to display.'"
+					);
+					displayedSearchResults = 0;
+				}
 				return React.createElement(
 					"div",
 					{ className: "jumbotron", style: { textAlign: "center" } },
@@ -64,11 +107,21 @@ var SearchResults = (function (Component) {
 								{ to: "/" },
 								React.createElement(
 									"div",
-									{ className: "button small back", style: { display: "block", marginBottom: 2 + "em", width: 10 + "em" } },
-									"Back"
+									{ className: "button small back", style: { display: "block", marginBottom: 2 + "em", marginLeft: 2 + "em", width: 22 + "em" } },
+									"Start a new search"
 								)
 							),
-							React.createElement("img", { src: "/assets/images/sittingdog.png" })
+							React.createElement("img", { src: "/assets/images/sittingdog.png", style: { margin: 2 + "em" } }),
+							React.createElement(
+								"p",
+								{ style: { display: "block", fontSize: 12 + "px" } },
+								"Psss...Save your pet records on vetFetch for your next appointment."
+							),
+							React.createElement(
+								"button",
+								{ style: { marginBottom: 4 + "em" }, onClick: this.startPetSurvey },
+								"Get started here, woof!"
+							)
 						),
 						React.createElement(
 							"div",
@@ -80,7 +133,34 @@ var SearchResults = (function (Component) {
 								" veterinarians near ",
 								searchResults.zipcode
 							),
-							vetResultsList
+							React.createElement(
+								"div",
+								{ style: { fontSize: 10 + "px" } },
+								React.createElement(
+									"button",
+									{ id: "-10", onClick: this.resultsPagination },
+									"Last"
+								),
+								React.createElement(
+									"p",
+									{ style: { display: "inline", fontSize: 11 + "px", marginLeft: 1 + "em", marginRight: 1 + "em" } },
+									"displaying ",
+									displayedSearchResults,
+									" of ",
+									searchResults.totalResults,
+									" results"
+								),
+								React.createElement(
+									"button",
+									{ id: "10", onClick: this.resultsPagination },
+									"Next"
+								)
+							),
+							React.createElement(
+								"div",
+								{ style: { marginTop: 2 + "em" } },
+								vetResultsList
+							)
 						)
 					)
 				);
@@ -99,4 +179,12 @@ var stateToProps = function (state) {
 	};
 };
 
-module.exports = connect(stateToProps)(SearchResults);
+var dispatchToProps = function (dispatch) {
+	return {
+		fetchSearchResults: function (searchResults) {
+			return dispatch(receivedSearchResults(searchResults));
+		}
+	};
+};
+
+module.exports = connect(stateToProps, dispatchToProps)(SearchResults);

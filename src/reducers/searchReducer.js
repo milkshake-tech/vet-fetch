@@ -2,8 +2,9 @@ import constants from '../constants/constants'
 
 var initialState = {
 	searchResults: {
-		veterinarians: [],
+		offset: 0,
 		totalResults: 0,
+		veterinarians: [],
 		zipcode: null
 	}
 }

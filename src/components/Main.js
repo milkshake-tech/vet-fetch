@@ -3,7 +3,7 @@ import { Link, browserHistory } from 'react-router'
 import store from '../stores/store'
 import actions from '../actions/actions'
 import { connect } from 'react-redux'
-import {Footer} from '../components'
+import {Footer, Header} from '../components'
 
 class Main extends Component {
 	constructor(props, context){
@@ -14,6 +14,7 @@ class Main extends Component {
 
 		return (
 			<div>
+				<Header />
 				{this.props.children}
 				<Footer />
 			</div>

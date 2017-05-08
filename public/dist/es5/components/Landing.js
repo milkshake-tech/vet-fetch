@@ -50,13 +50,13 @@ var Landing = (function (Component) {
 		searchVets: {
 			value: function searchVets() {
 				var _this = this;
-				APIManager.handleGet("/api/search", { zipcode: this.state.searchZipcode }, function (err, res) {
+				APIManager.handleGet("/api/search", { zipcode: this.state.searchZipcode, offset: 0 }, function (err, res) {
 					if (err) return alert("Oops something went wrong. Try a different search.");
 					if (res.confirmation === "Success") {
 						_this.props.fetchSearchResults(res.results);
+						browserHistory.push("/searchresults");
+						return;
 					}
-					browserHistory.push("/searchresults");
-					return;
 				});
 			},
 			writable: true,
@@ -70,7 +70,7 @@ var Landing = (function (Component) {
 					React.createElement(
 						"div",
 						null,
-						React.createElement("img", { src: "/assets/images/vetFetch_blue.png" })
+						React.createElement("img", { src: "/assets/images/vetFetch_blue.png", className: "landingLogo" })
 					),
 					React.createElement(
 						"div",
@@ -78,7 +78,7 @@ var Landing = (function (Component) {
 						React.createElement(
 							"h2",
 							{ style: { color: "#7ec2d9" } },
-							"Search. Book. Review."
+							"Find local care."
 						)
 					),
 					React.createElement(

@@ -31,37 +31,42 @@ class Questionnaire1 extends Component {
 		var catImgDisplay = displaySelectionCheck.dog == true ? "none" : "inline"
 		var dogImgDisplay = displaySelectionCheck.cat == true ? "none" : "inline"
 		return(
-			<div>
-				<article id="work" className="panel secondary" style={{opacity: opacitySetting, transitionProperty: "opacity", transitionDuration: "1s"}}>
-					<div className="content">
-						<ul className="actions spinX">
-							<li><Link to="/survey" className="button small back">Back</Link></li>
-						</ul>
-						<div className="inner">
-							<div style={{textAlign: "center"}}className="row">
-								<div className="col-md-6">
-										<h2>Pick your pet</h2>
-										<a onClick={this.petTypeSelected} style={{borderBottom: "none", padding: '10px', cursor:"pointer"}}><img style={{margin:"20px", display:dogImgDisplay}} id="dog" src="/images/dog2.png" data-position="center center" /></a>
+			<div className='jumbotron' style={{opacity: opacitySetting, transitionProperty: "opacity", transitionDuration: "1s"}}>
+				<div style={{display:'flex', justifyContent: 'space-around'}}>
 
-										<a onClick={this.petTypeSelected} style={{borderBottom: "none", padding: '10px', cursor:"pointer"}}><img style={{margin:"20px", display:catImgDisplay}} id="cat" src="/images/cat2.png" data-position="center center" /></a>
-								</div>
-							</div>
+					<div>
+						<Link to="/searchresults" className="button small back">Back</Link>
+
+						<div style={{marginTop:2+'em'}}>
+							<h2>Pick your pet</h2>
+							<a onClick={this.petTypeSelected} style={{borderBottom: "none", padding: '10px', cursor:"pointer"}}><img style={{margin:"20px", display:dogImgDisplay}} id="dog" src="/assets/images/dog2.png" data-position="center center" /></a>
+							<a onClick={this.petTypeSelected} style={{borderBottom: "none", padding: '10px', cursor:"pointer"}}><img style={{margin:"20px", display:catImgDisplay}} id="cat" src="/assets/images/cat2.png" data-position="center center" /></a>
 						</div>
 					</div>
-					<div className="content">
-						<div className="inner" style={{marginTop: "100px"}}>
-							<div style={{textAlign: "center"}} className="row">
-								<div className="col-md-6">
-										<h2>Age</h2>
-									<p style={{margin: "10px"}}><input style={{margin:"auto", borderRight:"none", borderLeft:"none", borderTop:"none", fontSize:"25px", width:"100px"}} className="col-md-3" type="text"/> years old.</p>
-								</div>
+
+					<div style={{marginTop:4.5+'em'}}>
+						<div style={{display: 'flex', justifyContent: 'space-around'}}>
+							<div style={{textAlign:'center'}}>
+								<h2>Age</h2>
+								<p style={{margin: "10px"}}><input style={{margin:"auto", borderRight:"none", borderLeft:"none", borderTop:"none", fontSize:"25px", width:"100px", placeholder:'2'}} type="text"/></p>
 							</div>
+
+							<div style={{textAlign:'center'}}>
+								<h2>Sex</h2>
+								<p style={{margin: "10px"}}>
+									<select style={{margin:"auto", borderRight:"none", borderLeft:"none", borderTop:"none", fontSize:"25px", width:"140px"}} type="text">
+										<option>Female</option>
+										<option>Male</option>
+									</select>
+									</p>
+							</div>
+
 						</div>
-						<div style={{textAlign: "center"}} className="row">
-							<Link to="/survey-2" style={{margin:"40px"}} className="button">Next</Link>
-						</div>
+
+						<Link to="/survey-2" style={{margin:"40px"}} className="button">Next</Link>
 					</div>
-				</article>
+
+				</div>
 			</div>
 		)
 	}

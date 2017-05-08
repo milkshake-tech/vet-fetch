@@ -81,7 +81,6 @@
 				{ path: '/', component: _Main2.default },
 				_react2.default.createElement(_reactRouter.IndexRoute, { component: _components.Landing }),
 				_react2.default.createElement(_reactRouter.Route, { path: '/searchresults', component: _components.SearchResults }),
-				_react2.default.createElement(_reactRouter.Route, { path: '/survey', component: _components.PetInsuranceSurvey }),
 				_react2.default.createElement(_reactRouter.Route, { path: '/survey-1', component: _components.Questionnaire1 }),
 				_react2.default.createElement(_reactRouter.Route, { path: '/survey-2', component: _components.Questionnaire2 }),
 				_react2.default.createElement(_reactRouter.Route, { path: '/survey-3', component: _components.Questionnaire3 }),
@@ -26298,6 +26297,7 @@
 				return _react2.default.createElement(
 					'div',
 					null,
+					_react2.default.createElement(_components.Header, null),
 					this.props.children,
 					_react2.default.createElement(_components.Footer, null)
 				);
@@ -27288,7 +27288,6 @@
 	'use strict';
 	
 	module.exports = {
-	
 		RECEIVED_USER: 'RECEIVED_USER',
 		REGISTER_PET: 'REGISTER_PET',
 		RECEIVED_PETS: 'RECEIVED_PETS',
@@ -27486,8 +27485,9 @@
 	
 	var initialState = {
 		searchResults: {
-			veterinarians: [],
+			offset: 0,
 			totalResults: 0,
+			veterinarians: [],
 			zipcode: null
 		}
 	};
@@ -28516,7 +28516,7 @@
 	Object.defineProperty(exports, "__esModule", {
 		value: true
 	});
-	exports.UserProfile = exports.UserCapture = exports.SearchResultItem = exports.SearchResults = exports.Questionnaire3 = exports.Questionnaire2 = exports.Questionnaire1 = exports.PetInsuranceSurvey = exports.Landing = exports.Footer = exports.AutocompleteBar = undefined;
+	exports.UserProfile = exports.UserCapture = exports.SearchResultItem = exports.SearchResults = exports.Questionnaire3 = exports.Questionnaire2 = exports.Questionnaire1 = exports.Landing = exports.Header = exports.Footer = exports.AutocompleteBar = undefined;
 	
 	var _AutocompleteBar = __webpack_require__(264);
 	
@@ -28526,21 +28526,21 @@
 	
 	var _Footer2 = _interopRequireDefault(_Footer);
 	
-	var _SearchResults = __webpack_require__(279);
+	var _Header = __webpack_require__(279);
+	
+	var _Header2 = _interopRequireDefault(_Header);
+	
+	var _SearchResults = __webpack_require__(280);
 	
 	var _SearchResults2 = _interopRequireDefault(_SearchResults);
 	
-	var _SearchResultItem = __webpack_require__(280);
+	var _SearchResultItem = __webpack_require__(287);
 	
 	var _SearchResultItem2 = _interopRequireDefault(_SearchResultItem);
 	
-	var _Landing = __webpack_require__(281);
+	var _Landing = __webpack_require__(288);
 	
 	var _Landing2 = _interopRequireDefault(_Landing);
-	
-	var _PetInsuranceSurvey = __webpack_require__(288);
-	
-	var _PetInsuranceSurvey2 = _interopRequireDefault(_PetInsuranceSurvey);
 	
 	var _Questionnaire = __webpack_require__(289);
 	
@@ -28566,8 +28566,8 @@
 	
 	exports.AutocompleteBar = _AutocompleteBar2.default;
 	exports.Footer = _Footer2.default;
+	exports.Header = _Header2.default;
 	exports.Landing = _Landing2.default;
-	exports.PetInsuranceSurvey = _PetInsuranceSurvey2.default;
 	exports.Questionnaire1 = _Questionnaire2.default;
 	exports.Questionnaire2 = _Questionnaire4.default;
 	exports.Questionnaire3 = _Questionnaire6.default;
@@ -30544,7 +30544,7 @@
 /* 278 */
 /***/ function(module, exports, __webpack_require__) {
 
-	"use strict";
+	'use strict';
 	
 	Object.defineProperty(exports, "__esModule", {
 		value: true
@@ -30574,16 +30574,56 @@
 		}
 	
 		_createClass(Footer, [{
-			key: "render",
+			key: 'render',
 			value: function render() {
 	
 				return _react2.default.createElement(
-					"footer",
-					{ className: "footer" },
+					'footer',
+					{ className: 'footer' },
 					_react2.default.createElement(
-						"p",
+						'div',
+						{ style: { textAlign: 'center' } },
+						_react2.default.createElement('img', { src: '/assets/images/vetFetch_blue_sm.png' }),
+						_react2.default.createElement(
+							'p',
+							null,
+							'© vetFetch 2017'
+						)
+					),
+					_react2.default.createElement(
+						'div',
 						null,
-						"© vetFetch"
+						_react2.default.createElement(
+							'p',
+							null,
+							'About'
+						),
+						_react2.default.createElement(
+							'p',
+							null,
+							'FAQ'
+						),
+						_react2.default.createElement(
+							'p',
+							null,
+							'Privacy Policy'
+						)
+					),
+					_react2.default.createElement(
+						'div',
+						null,
+						_react2.default.createElement(
+							'p',
+							null,
+							'Follow Us'
+						),
+						_react2.default.createElement(
+							'div',
+							null,
+							_react2.default.createElement('img', { src: '/assets/images/instagram.png', style: { marginRight: 1 + 'em' } }),
+							_react2.default.createElement('img', { src: '/assets/images/facebook.png', style: { marginRight: 1 + 'em' } }),
+							_react2.default.createElement('img', { src: '/assets/images/twitter.png' })
+						)
 					)
 				);
 			}
@@ -30598,7 +30638,7 @@
 /* 279 */
 /***/ function(module, exports, __webpack_require__) {
 
-	'use strict';
+	"use strict";
 	
 	Object.defineProperty(exports, "__esModule", {
 		value: true
@@ -30610,16 +30650,6 @@
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _reactRouter = __webpack_require__(172);
-	
-	var _store = __webpack_require__(229);
-	
-	var _store2 = _interopRequireDefault(_store);
-	
-	var _reactRedux = __webpack_require__(250);
-	
-	var _components = __webpack_require__(263);
-	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -30628,81 +30658,40 @@
 	
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 	
-	var SearchResults = function (_Component) {
-		_inherits(SearchResults, _Component);
+	var Header = function (_Component) {
+		_inherits(Header, _Component);
 	
-		function SearchResults(props) {
-			_classCallCheck(this, SearchResults);
+		function Header(props, context) {
+			_classCallCheck(this, Header);
 	
-			var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(SearchResults).call(this, props));
-	
-			_this.state = {
-				opacitySetting: 0
-			};
-			return _this;
+			return _possibleConstructorReturn(this, Object.getPrototypeOf(Header).call(this, props, context));
 		}
 	
-		_createClass(SearchResults, [{
-			key: 'componentDidMount',
-			value: function componentDidMount() {
-				this.setState({ opacitySetting: 1 });
-			}
-		}, {
-			key: 'render',
+		_createClass(Header, [{
+			key: "render",
 			value: function render() {
-				var opacitySetting = this.state.opacitySetting;
-				var searchResults = this.props.searchResults;
 	
-				var vetResultsList = searchResults.veterinarians.map(function (result, i) {
-					return _react2.default.createElement(_components.SearchResultItem, { key: i, resultItem: result });
-				});
 				return _react2.default.createElement(
-					'div',
-					{ className: 'jumbotron', style: { textAlign: 'center' } },
+					"div",
+					{ className: "header" },
 					_react2.default.createElement(
-						'div',
-						{ className: 'searchResultsRow' },
-						_react2.default.createElement(
-							'div',
-							null,
-							_react2.default.createElement(
-								_reactRouter.Link,
-								{ to: '/' },
-								_react2.default.createElement(
-									'div',
-									{ className: 'button small back', style: { display: 'block', marginBottom: 2 + 'em', width: 10 + 'em' } },
-									'Back'
-								)
-							),
-							_react2.default.createElement('img', { src: '/assets/images/sittingdog.png' })
-						),
-						_react2.default.createElement(
-							'div',
-							null,
-							_react2.default.createElement(
-								'h3',
-								null,
-								searchResults.totalResults,
-								' veterinarians near ',
-								searchResults.zipcode
-							),
-							vetResultsList
-						)
+						"div",
+						null,
+						"Home"
+					),
+					_react2.default.createElement(
+						"div",
+						null,
+						"Get help"
 					)
 				);
 			}
 		}]);
 	
-		return SearchResults;
+		return Header;
 	}(_react.Component);
 	
-	var stateToProps = function stateToProps(state) {
-		return {
-			searchResults: state.searchReducer.searchResults
-		};
-	};
-	
-	exports.default = (0, _reactRedux.connect)(stateToProps)(SearchResults);
+	exports.default = Header;
 
 /***/ },
 /* 280 */
@@ -30722,98 +30711,17 @@
 	
 	var _reactRouter = __webpack_require__(172);
 	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-	
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-	
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-	
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-	
-	var SearchResultItem = function (_Component) {
-		_inherits(SearchResultItem, _Component);
-	
-		function SearchResultItem(props) {
-			_classCallCheck(this, SearchResultItem);
-	
-			return _possibleConstructorReturn(this, Object.getPrototypeOf(SearchResultItem).call(this, props));
-		}
-	
-		_createClass(SearchResultItem, [{
-			key: 'componentDidMount',
-			value: function componentDidMount() {}
-		}, {
-			key: 'render',
-			value: function render() {
-				var resultItem = this.props.resultItem;
-	
-				console.log('RESULT ITEM: ' + JSON.stringify(resultItem));
-	
-				return _react2.default.createElement(
-					'div',
-					{ className: 'button', style: { height: 'auto', margin: 1 + 'em', display: 'block' } },
-					_react2.default.createElement(
-						'p',
-						{ style: { fontSize: 10 + 'px' } },
-						resultItem.venue.name
-					),
-					_react2.default.createElement(
-						'div',
-						null,
-						_react2.default.createElement('img', { src: '/assets/images/mappin.png', style: { display: 'inline' } }),
-						_react2.default.createElement(
-							'p',
-							{ style: { fontSize: 10 + 'px', display: 'inline' } },
-							' ',
-							resultItem.venue.location.address,
-							', ',
-							resultItem.venue.location.city,
-							', ',
-							resultItem.venue.location.state,
-							' ',
-							resultItem.venue.location.postalCode,
-							' ',
-							_react2.default.createElement('br', null),
-							' ',
-							resultItem.venue.contact.formattedPhone
-						)
-					)
-				);
-			}
-		}]);
-	
-		return SearchResultItem;
-	}(_react.Component);
-	
-	exports.default = SearchResultItem;
-
-/***/ },
-/* 281 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	Object.defineProperty(exports, "__esModule", {
-		value: true
-	});
-	
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-	
-	var _react = __webpack_require__(1);
-	
-	var _react2 = _interopRequireDefault(_react);
-	
-	var _reactRouter = __webpack_require__(172);
-	
 	var _store = __webpack_require__(229);
 	
 	var _store2 = _interopRequireDefault(_store);
 	
-	var _actions = __webpack_require__(249);
-	
 	var _reactRedux = __webpack_require__(250);
 	
-	var _APIManager = __webpack_require__(282);
+	var _actions = __webpack_require__(249);
+	
+	var _components = __webpack_require__(263);
+	
+	var _APIManager = __webpack_require__(281);
 	
 	var _APIManager2 = _interopRequireDefault(_APIManager);
 	
@@ -30825,76 +30733,138 @@
 	
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 	
-	var Landing = function (_Component) {
-		_inherits(Landing, _Component);
+	var SearchResults = function (_Component) {
+		_inherits(SearchResults, _Component);
 	
-		function Landing(props, context) {
-			_classCallCheck(this, Landing);
+		function SearchResults(props) {
+			_classCallCheck(this, SearchResults);
 	
-			var _this2 = _possibleConstructorReturn(this, Object.getPrototypeOf(Landing).call(this, props));
+			var _this2 = _possibleConstructorReturn(this, Object.getPrototypeOf(SearchResults).call(this, props));
 	
-			_this2.captureZipcode = _this2.captureZipcode.bind(_this2);
-			_this2.searchVets = _this2.searchVets.bind(_this2);
+			_this2.resultsPagination = _this2.resultsPagination.bind(_this2);
+			_this2.startPetSurvey = _this2.startPetSurvey.bind(_this2);
 			_this2.state = {
-				searchZipcode: null
+				opacitySetting: 0
 			};
 			return _this2;
 		}
 	
-		_createClass(Landing, [{
-			key: 'captureZipcode',
-			value: function captureZipcode(event) {
-				this.setState({ searchZipcode: event.target.value });
+		_createClass(SearchResults, [{
+			key: 'componentDidMount',
+			value: function componentDidMount() {
+				this.setState({ opacitySetting: 1 });
 			}
 		}, {
-			key: 'searchVets',
-			value: function searchVets() {
+			key: 'resultsPagination',
+			value: function resultsPagination(event) {
+				var searchResults = this.props.searchResults;
+	
+				var searchOffset = parseInt(searchResults.offset) + parseInt(event.target.id);
+				if (searchOffset < 0) {
+					searchOffset = 0;
+				}
 				var _this = this;
-				_APIManager2.default.handleGet('/api/search', { zipcode: this.state.searchZipcode }, function (err, res) {
-					if (err) return alert('Oops something went wrong. Try a different search.');
+				_APIManager2.default.handleGet('/api/search', { zipcode: searchResults.zipcode, offset: searchOffset }, function (err, res) {
+					if (err) return alert('Oops something went wrong loading your results.');
 					if (res.confirmation === 'Success') {
 						_this.props.fetchSearchResults(res.results);
+						return;
 					}
-					_reactRouter.browserHistory.push('/searchresults');
-					return;
 				});
+			}
+		}, {
+			key: 'startPetSurvey',
+			value: function startPetSurvey() {
+				_reactRouter.browserHistory.push('/survey-1');
 			}
 		}, {
 			key: 'render',
 			value: function render() {
+				var opacitySetting = this.state.opacitySetting;
+				var searchResults = this.props.searchResults;
 	
+				var displayedSearchResults = 10 + parseInt(searchResults.offset);
+				if (displayedSearchResults > searchResults.totalResults) {
+					displayedSearchResults = searchResults.totalResults;
+				}
+				var vetResultsList = searchResults.veterinarians.map(function (result, i) {
+					return _react2.default.createElement(_components.SearchResultItem, { key: i, resultItem: result });
+				});
+				if (searchResults.veterinarians.length === 0) {
+					vetResultsList = _react2.default.createElement(
+						'p',
+						{ style: { marginTop: 1 + 'em' } },
+						'\'Woof! Looks like they are no more search results to display.\''
+					);
+					displayedSearchResults = 0;
+				}
 				return _react2.default.createElement(
 					'div',
 					{ className: 'jumbotron', style: { textAlign: 'center' } },
 					_react2.default.createElement(
 						'div',
-						null,
-						_react2.default.createElement('img', { src: '/assets/images/vetFetch_blue.png' })
-					),
-					_react2.default.createElement(
-						'div',
-						null,
-						_react2.default.createElement(
-							'h2',
-							{ style: { color: '#7ec2d9' } },
-							'Search. Book. Review.'
-						)
-					),
-					_react2.default.createElement(
-						'div',
-						{ className: 'searchRow' },
+						{ className: 'searchResultsRow' },
 						_react2.default.createElement(
 							'div',
-							{ style: { margin: .5 + 'em' } },
-							_react2.default.createElement('input', { className: 'customInput', placeholder: 'Enter your zip', onChange: this.captureZipcode })
+							null,
+							_react2.default.createElement(
+								_reactRouter.Link,
+								{ to: '/' },
+								_react2.default.createElement(
+									'div',
+									{ className: 'button small back', style: { display: 'block', marginBottom: 2 + 'em', marginLeft: 2 + 'em', width: 22 + 'em' } },
+									'Start a new search'
+								)
+							),
+							_react2.default.createElement('img', { src: '/assets/images/sittingdog.png', style: { margin: 2 + 'em' } }),
+							_react2.default.createElement(
+								'p',
+								{ style: { display: 'block', fontSize: 12 + 'px' } },
+								'Psss...Save your pet records on vetFetch for your next appointment.'
+							),
+							_react2.default.createElement(
+								'button',
+								{ style: { marginBottom: 4 + 'em' }, onClick: this.startPetSurvey },
+								'Get started here, woof!'
+							)
 						),
 						_react2.default.createElement(
 							'div',
-							{ style: { margin: .5 + 'em' } },
+							null,
 							_react2.default.createElement(
-								'button',
-								{ onClick: this.searchVets },
-								'Submit'
+								'h3',
+								null,
+								searchResults.totalResults,
+								' veterinarians near ',
+								searchResults.zipcode
+							),
+							_react2.default.createElement(
+								'div',
+								{ style: { fontSize: 10 + 'px' } },
+								_react2.default.createElement(
+									'button',
+									{ id: '-10', onClick: this.resultsPagination },
+									'Last'
+								),
+								_react2.default.createElement(
+									'p',
+									{ style: { display: 'inline', fontSize: 11 + 'px', marginLeft: 1 + 'em', marginRight: 1 + 'em' } },
+									'displaying ',
+									displayedSearchResults,
+									' of ',
+									searchResults.totalResults,
+									' results'
+								),
+								_react2.default.createElement(
+									'button',
+									{ id: '10', onClick: this.resultsPagination },
+									'Next'
+								)
+							),
+							_react2.default.createElement(
+								'div',
+								{ style: { marginTop: 2 + 'em' } },
+								vetResultsList
 							)
 						)
 					)
@@ -30902,12 +30872,12 @@
 			}
 		}]);
 	
-		return Landing;
+		return SearchResults;
 	}(_react.Component);
 	
 	var stateToProps = function stateToProps(state) {
 		return {
-			user: state.userReducer.user
+			searchResults: state.searchReducer.searchResults
 		};
 	};
 	
@@ -30919,10 +30889,10 @@
 		};
 	};
 	
-	exports.default = (0, _reactRedux.connect)(stateToProps, dispatchToProps)(Landing);
+	exports.default = (0, _reactRedux.connect)(stateToProps, dispatchToProps)(SearchResults);
 
 /***/ },
-/* 282 */
+/* 281 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -30931,7 +30901,7 @@
 		value: true
 	});
 	
-	var _superagent = __webpack_require__(283);
+	var _superagent = __webpack_require__(282);
 	
 	var _superagent2 = _interopRequireDefault(_superagent);
 	
@@ -31010,7 +30980,7 @@
 	};
 
 /***/ },
-/* 283 */
+/* 282 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -31027,9 +30997,9 @@
 	  root = this;
 	}
 	
-	var Emitter = __webpack_require__(284);
-	var requestBase = __webpack_require__(285);
-	var isObject = __webpack_require__(286);
+	var Emitter = __webpack_require__(283);
+	var requestBase = __webpack_require__(284);
+	var isObject = __webpack_require__(285);
 	
 	/**
 	 * Noop.
@@ -31041,7 +31011,7 @@
 	 * Expose `request`.
 	 */
 	
-	var request = module.exports = __webpack_require__(287).bind(null, Request);
+	var request = module.exports = __webpack_require__(286).bind(null, Request);
 	
 	/**
 	 * Determine XHR.
@@ -31990,7 +31960,7 @@
 
 
 /***/ },
-/* 284 */
+/* 283 */
 /***/ function(module, exports, __webpack_require__) {
 
 	
@@ -32159,13 +32129,13 @@
 
 
 /***/ },
-/* 285 */
+/* 284 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
 	 * Module of mixed-in functions shared between node and client code
 	 */
-	var isObject = __webpack_require__(286);
+	var isObject = __webpack_require__(285);
 	
 	/**
 	 * Clear previous timeout.
@@ -32512,7 +32482,7 @@
 
 
 /***/ },
-/* 286 */
+/* 285 */
 /***/ function(module, exports) {
 
 	/**
@@ -32531,7 +32501,7 @@
 
 
 /***/ },
-/* 287 */
+/* 286 */
 /***/ function(module, exports) {
 
 	// The node and browser modules expose versions of this with the
@@ -32569,7 +32539,7 @@
 
 
 /***/ },
-/* 288 */
+/* 287 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -32594,78 +32564,124 @@
 	
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 	
-	var PetInsuranceSurvey = function (_Component) {
-		_inherits(PetInsuranceSurvey, _Component);
+	var SearchResultItem = function (_Component) {
+		_inherits(SearchResultItem, _Component);
 	
-		function PetInsuranceSurvey(props) {
-			_classCallCheck(this, PetInsuranceSurvey);
+		function SearchResultItem(props) {
+			_classCallCheck(this, SearchResultItem);
 	
-			var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(PetInsuranceSurvey).call(this, props));
+			var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(SearchResultItem).call(this, props));
 	
+			_this.toggleResultDetail = _this.toggleResultDetail.bind(_this);
 			_this.state = {
-				opacitySetting: 0
+				displayResultDetail: false
 			};
 			return _this;
 		}
 	
-		_createClass(PetInsuranceSurvey, [{
-			key: 'componentDidMount',
-			value: function componentDidMount() {
-				this.setState({ opacitySetting: 1 });
+		_createClass(SearchResultItem, [{
+			key: 'toggleResultDetail',
+			value: function toggleResultDetail(event) {
+				return this.setState({ displayResultDetail: !this.state.displayResultDetail });
 			}
 		}, {
 			key: 'render',
 			value: function render() {
-				var opacitySetting = this.state.opacitySetting;
+				var resultItem = this.props.resultItem;
 	
 				return _react2.default.createElement(
 					'div',
-					null,
+					{ className: 'searchResultCard', style: { height: 'auto', margin: 1 + 'em', display: 'block' }, onClick: this.toggleResultDetail },
 					_react2.default.createElement(
-						'article',
-						{ id: 'work', className: 'panel secondary', style: { opacity: opacitySetting, transitionProperty: "opacity", transitionDuration: "1s" } },
+						'p',
+						{ style: { fontSize: 10 + 'px' } },
+						resultItem.venue.name
+					),
+					_react2.default.createElement(
+						'div',
+						{ style: { display: this.state.displayResultDetail ? 'block' : 'none' } },
 						_react2.default.createElement(
 							'div',
-							{ className: 'image' },
-							_react2.default.createElement('img', { src: '/images/survey.png', alt: '', 'data-position': 'center center' })
-						),
-						_react2.default.createElement(
-							'div',
-							{ className: 'content' },
+							{ style: { display: 'flex', justifyContent: 'space-around' } },
 							_react2.default.createElement(
-								'ul',
-								{ className: 'actions spinX' },
+								'div',
+								{ style: { textAlign: 'left' } },
 								_react2.default.createElement(
-									'li',
+									'div',
 									null,
 									_react2.default.createElement(
-										_reactRouter.Link,
-										{ to: '/', className: 'button small back' },
-										'Back'
+										'p',
+										{ style: { fontSize: 11 + 'px', marginBottom: -1 + 'em' } },
+										'Practice Info'
+									),
+									_react2.default.createElement('div', { style: { border: 'solid 1px #bbb', width: 95 + '%' } }),
+									_react2.default.createElement('img', { src: '/assets/images/mappin.png', style: { display: 'inline' } }),
+									_react2.default.createElement(
+										'p',
+										{ style: { fontSize: 10 + 'px', display: 'inline' } },
+										' ',
+										resultItem.venue.location.address
+									),
+									_react2.default.createElement(
+										'p',
+										{ style: { fontSize: 10 + 'px', marginTop: -2 + 'em' } },
+										resultItem.venue.location.city,
+										', ',
+										resultItem.venue.location.state,
+										' ',
+										resultItem.venue.location.postalCode
+									)
+								),
+								_react2.default.createElement(
+									'div',
+									{ style: { marginTop: -2.5 + 'em' } },
+									_react2.default.createElement('img', { src: '/assets/images/phone.png', style: { display: 'inline', marginBottom: -.25 + 'em', marginRight: .5 + 'em' } }),
+									_react2.default.createElement(
+										'p',
+										{ style: { fontSize: 10 + 'px', display: 'inline' } },
+										resultItem.venue.contact.formattedPhone
+									)
+								),
+								_react2.default.createElement(
+									'div',
+									null,
+									_react2.default.createElement('img', { src: '/assets/images/globe.png', style: { display: 'inline', marginBottom: -.25 + 'em', marginRight: .5 + 'em' } }),
+									_react2.default.createElement(
+										'p',
+										{ style: { fontSize: 10 + 'px', display: 'inline' } },
+										resultItem.venue.url ? _react2.default.createElement(
+											'a',
+											{ href: resultItem.venue.url, style: { border: 'none' } },
+											'Website'
+										) : 'Site not found for practice'
 									)
 								)
 							),
 							_react2.default.createElement(
 								'div',
-								{ className: 'inner' },
+								{ style: { marginLeft: 1 + 'em', textAlign: 'left' } },
 								_react2.default.createElement(
-									'header',
-									null,
-									_react2.default.createElement(
-										'h2',
-										null,
-										'Complete pet survey'
-									),
-									_react2.default.createElement(
-										'p',
-										null,
-										'Answer a few questions about your pet so our team can give you the best insurance options.'
-									)
+									'p',
+									{ style: { fontSize: 11 + 'px', marginBottom: -1 + 'em' } },
+									'Details'
+								),
+								_react2.default.createElement('div', { style: { border: 'solid 1px #bbb', width: 95 + '%' } }),
+								_react2.default.createElement('img', { src: '/assets/images/clock.png', style: { display: 'inline' } }),
+								_react2.default.createElement(
+									'p',
+									{ style: { fontSize: 10 + 'px', display: 'inline', marginLeft: .5 + 'em' } },
+									'Open: ',
+									resultItem.venue.hours !== undefined && resultItem.venue.hours.isOpen === true ? 'Yes' : 'No'
 								),
 								_react2.default.createElement(
-									_reactRouter.Link,
-									{ to: '/survey-1', className: 'button' },
-									'Get Started'
+									'p',
+									{ style: { fontSize: 10 + 'px', display: 'block', marginTop: -2 + 'em' } },
+									resultItem.venue.hours !== undefined && resultItem.venue.hours.status !== undefined ? resultItem.venue.hours.status : ''
+								),
+								_react2.default.createElement(
+									'p',
+									{ style: { fontSize: 10 + 'px', display: 'block', marginTop: -2.5 + 'em' } },
+									'Bookmark veterinarian'
 								)
 							)
 						)
@@ -32674,10 +32690,144 @@
 			}
 		}]);
 	
-		return PetInsuranceSurvey;
+		return SearchResultItem;
 	}(_react.Component);
 	
-	exports.default = PetInsuranceSurvey;
+	exports.default = SearchResultItem;
+
+/***/ },
+/* 288 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+		value: true
+	});
+	
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	
+	var _react = __webpack_require__(1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _reactRouter = __webpack_require__(172);
+	
+	var _store = __webpack_require__(229);
+	
+	var _store2 = _interopRequireDefault(_store);
+	
+	var _actions = __webpack_require__(249);
+	
+	var _reactRedux = __webpack_require__(250);
+	
+	var _APIManager = __webpack_require__(281);
+	
+	var _APIManager2 = _interopRequireDefault(_APIManager);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	
+	var Landing = function (_Component) {
+		_inherits(Landing, _Component);
+	
+		function Landing(props, context) {
+			_classCallCheck(this, Landing);
+	
+			var _this2 = _possibleConstructorReturn(this, Object.getPrototypeOf(Landing).call(this, props));
+	
+			_this2.captureZipcode = _this2.captureZipcode.bind(_this2);
+			_this2.searchVets = _this2.searchVets.bind(_this2);
+			_this2.state = {
+				searchZipcode: null
+			};
+			return _this2;
+		}
+	
+		_createClass(Landing, [{
+			key: 'captureZipcode',
+			value: function captureZipcode(event) {
+				this.setState({ searchZipcode: event.target.value });
+			}
+		}, {
+			key: 'searchVets',
+			value: function searchVets() {
+				var _this = this;
+				_APIManager2.default.handleGet('/api/search', { zipcode: this.state.searchZipcode, offset: 0 }, function (err, res) {
+					if (err) return alert('Oops something went wrong. Try a different search.');
+					if (res.confirmation === 'Success') {
+						_this.props.fetchSearchResults(res.results);
+						_reactRouter.browserHistory.push('/searchresults');
+						return;
+					}
+				});
+			}
+		}, {
+			key: 'render',
+			value: function render() {
+	
+				return _react2.default.createElement(
+					'div',
+					{ className: 'jumbotron', style: { textAlign: 'center' } },
+					_react2.default.createElement(
+						'div',
+						null,
+						_react2.default.createElement('img', { src: '/assets/images/vetFetch_blue.png', className: 'landingLogo' })
+					),
+					_react2.default.createElement(
+						'div',
+						null,
+						_react2.default.createElement(
+							'h2',
+							{ style: { color: '#7ec2d9' } },
+							'Find local care.'
+						)
+					),
+					_react2.default.createElement(
+						'div',
+						{ className: 'searchRow' },
+						_react2.default.createElement(
+							'div',
+							{ style: { margin: .5 + 'em' } },
+							_react2.default.createElement('input', { className: 'customInput', placeholder: 'Enter your zip', onChange: this.captureZipcode })
+						),
+						_react2.default.createElement(
+							'div',
+							{ style: { margin: .5 + 'em' } },
+							_react2.default.createElement(
+								'button',
+								{ onClick: this.searchVets },
+								'Submit'
+							)
+						)
+					)
+				);
+			}
+		}]);
+	
+		return Landing;
+	}(_react.Component);
+	
+	var stateToProps = function stateToProps(state) {
+		return {
+			user: state.userReducer.user
+		};
+	};
+	
+	var dispatchToProps = function dispatchToProps(dispatch) {
+		return {
+			fetchSearchResults: function fetchSearchResults(searchResults) {
+				return dispatch((0, _actions.receivedSearchResults)(searchResults));
+			}
+		};
+	};
+	
+	exports.default = (0, _reactRedux.connect)(stateToProps, dispatchToProps)(Landing);
 
 /***/ },
 /* 289 */
@@ -32748,88 +32898,90 @@
 				var dogImgDisplay = displaySelectionCheck.cat == true ? "none" : "inline";
 				return _react2.default.createElement(
 					'div',
-					null,
+					{ className: 'jumbotron', style: { opacity: opacitySetting, transitionProperty: "opacity", transitionDuration: "1s" } },
 					_react2.default.createElement(
-						'article',
-						{ id: 'work', className: 'panel secondary', style: { opacity: opacitySetting, transitionProperty: "opacity", transitionDuration: "1s" } },
+						'div',
+						{ style: { display: 'flex', justifyContent: 'space-around' } },
 						_react2.default.createElement(
 							'div',
-							{ className: 'content' },
+							null,
 							_react2.default.createElement(
-								'ul',
-								{ className: 'actions spinX' },
-								_react2.default.createElement(
-									'li',
-									null,
-									_react2.default.createElement(
-										_reactRouter.Link,
-										{ to: '/survey', className: 'button small back' },
-										'Back'
-									)
-								)
+								_reactRouter.Link,
+								{ to: '/searchresults', className: 'button small back' },
+								'Back'
 							),
 							_react2.default.createElement(
 								'div',
-								{ className: 'inner' },
+								{ style: { marginTop: 2 + 'em' } },
 								_react2.default.createElement(
-									'div',
-									{ style: { textAlign: "center" }, className: 'row' },
-									_react2.default.createElement(
-										'div',
-										{ className: 'col-md-6' },
-										_react2.default.createElement(
-											'h2',
-											null,
-											'Pick your pet'
-										),
-										_react2.default.createElement(
-											'a',
-											{ onClick: this.petTypeSelected, style: { borderBottom: "none", padding: '10px', cursor: "pointer" } },
-											_react2.default.createElement('img', { style: { margin: "20px", display: dogImgDisplay }, id: 'dog', src: '/images/dog2.png', 'data-position': 'center center' })
-										),
-										_react2.default.createElement(
-											'a',
-											{ onClick: this.petTypeSelected, style: { borderBottom: "none", padding: '10px', cursor: "pointer" } },
-											_react2.default.createElement('img', { style: { margin: "20px", display: catImgDisplay }, id: 'cat', src: '/images/cat2.png', 'data-position': 'center center' })
-										)
-									)
+									'h2',
+									null,
+									'Pick your pet'
+								),
+								_react2.default.createElement(
+									'a',
+									{ onClick: this.petTypeSelected, style: { borderBottom: "none", padding: '10px', cursor: "pointer" } },
+									_react2.default.createElement('img', { style: { margin: "20px", display: dogImgDisplay }, id: 'dog', src: '/assets/images/dog2.png', 'data-position': 'center center' })
+								),
+								_react2.default.createElement(
+									'a',
+									{ onClick: this.petTypeSelected, style: { borderBottom: "none", padding: '10px', cursor: "pointer" } },
+									_react2.default.createElement('img', { style: { margin: "20px", display: catImgDisplay }, id: 'cat', src: '/assets/images/cat2.png', 'data-position': 'center center' })
 								)
 							)
 						),
 						_react2.default.createElement(
 							'div',
-							{ className: 'content' },
+							{ style: { marginTop: 4.5 + 'em' } },
 							_react2.default.createElement(
 								'div',
-								{ className: 'inner', style: { marginTop: "100px" } },
+								{ style: { display: 'flex', justifyContent: 'space-around' } },
 								_react2.default.createElement(
 									'div',
-									{ style: { textAlign: "center" }, className: 'row' },
+									{ style: { textAlign: 'center' } },
 									_react2.default.createElement(
-										'div',
-										{ className: 'col-md-6' },
+										'h2',
+										null,
+										'Age'
+									),
+									_react2.default.createElement(
+										'p',
+										{ style: { margin: "10px" } },
+										_react2.default.createElement('input', { style: { margin: "auto", borderRight: "none", borderLeft: "none", borderTop: "none", fontSize: "25px", width: "100px", placeholder: '2' }, type: 'text' })
+									)
+								),
+								_react2.default.createElement(
+									'div',
+									{ style: { textAlign: 'center' } },
+									_react2.default.createElement(
+										'h2',
+										null,
+										'Sex'
+									),
+									_react2.default.createElement(
+										'p',
+										{ style: { margin: "10px" } },
 										_react2.default.createElement(
-											'h2',
-											null,
-											'Age'
-										),
-										_react2.default.createElement(
-											'p',
-											{ style: { margin: "10px" } },
-											_react2.default.createElement('input', { style: { margin: "auto", borderRight: "none", borderLeft: "none", borderTop: "none", fontSize: "25px", width: "100px" }, className: 'col-md-3', type: 'text' }),
-											' years old.'
+											'select',
+											{ style: { margin: "auto", borderRight: "none", borderLeft: "none", borderTop: "none", fontSize: "25px", width: "140px" }, type: 'text' },
+											_react2.default.createElement(
+												'option',
+												null,
+												'Female'
+											),
+											_react2.default.createElement(
+												'option',
+												null,
+												'Male'
+											)
 										)
 									)
 								)
 							),
 							_react2.default.createElement(
-								'div',
-								{ style: { textAlign: "center" }, className: 'row' },
-								_react2.default.createElement(
-									_reactRouter.Link,
-									{ to: '/survey-2', style: { margin: "40px" }, className: 'button' },
-									'Next'
-								)
+								_reactRouter.Link,
+								{ to: '/survey-2', style: { margin: "40px" }, className: 'button' },
+								'Next'
 							)
 						)
 					)
@@ -33154,7 +33306,7 @@
 	
 	var _actions2 = _interopRequireDefault(_actions);
 	
-	var _APIManager = __webpack_require__(282);
+	var _APIManager = __webpack_require__(281);
 	
 	var _APIManager2 = _interopRequireDefault(_APIManager);
 	
@@ -33367,7 +33519,7 @@
 	
 	var _actions2 = _interopRequireDefault(_actions);
 	
-	var _APIManager = __webpack_require__(282);
+	var _APIManager = __webpack_require__(281);
 	
 	var _APIManager2 = _interopRequireDefault(_APIManager);
 	

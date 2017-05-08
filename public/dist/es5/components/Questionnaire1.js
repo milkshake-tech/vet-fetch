@@ -63,88 +63,90 @@ var Questionnaire1 = (function (Component) {
 				var dogImgDisplay = displaySelectionCheck.cat == true ? "none" : "inline";
 				return React.createElement(
 					"div",
-					null,
+					{ className: "jumbotron", style: { opacity: opacitySetting, transitionProperty: "opacity", transitionDuration: "1s" } },
 					React.createElement(
-						"article",
-						{ id: "work", className: "panel secondary", style: { opacity: opacitySetting, transitionProperty: "opacity", transitionDuration: "1s" } },
+						"div",
+						{ style: { display: "flex", justifyContent: "space-around" } },
 						React.createElement(
 							"div",
-							{ className: "content" },
+							null,
 							React.createElement(
-								"ul",
-								{ className: "actions spinX" },
-								React.createElement(
-									"li",
-									null,
-									React.createElement(
-										Link,
-										{ to: "/survey", className: "button small back" },
-										"Back"
-									)
-								)
+								Link,
+								{ to: "/searchresults", className: "button small back" },
+								"Back"
 							),
 							React.createElement(
 								"div",
-								{ className: "inner" },
+								{ style: { marginTop: 2 + "em" } },
 								React.createElement(
-									"div",
-									{ style: { textAlign: "center" }, className: "row" },
-									React.createElement(
-										"div",
-										{ className: "col-md-6" },
-										React.createElement(
-											"h2",
-											null,
-											"Pick your pet"
-										),
-										React.createElement(
-											"a",
-											{ onClick: this.petTypeSelected, style: { borderBottom: "none", padding: "10px", cursor: "pointer" } },
-											React.createElement("img", { style: { margin: "20px", display: dogImgDisplay }, id: "dog", src: "/images/dog2.png", "data-position": "center center" })
-										),
-										React.createElement(
-											"a",
-											{ onClick: this.petTypeSelected, style: { borderBottom: "none", padding: "10px", cursor: "pointer" } },
-											React.createElement("img", { style: { margin: "20px", display: catImgDisplay }, id: "cat", src: "/images/cat2.png", "data-position": "center center" })
-										)
-									)
+									"h2",
+									null,
+									"Pick your pet"
+								),
+								React.createElement(
+									"a",
+									{ onClick: this.petTypeSelected, style: { borderBottom: "none", padding: "10px", cursor: "pointer" } },
+									React.createElement("img", { style: { margin: "20px", display: dogImgDisplay }, id: "dog", src: "/assets/images/dog2.png", "data-position": "center center" })
+								),
+								React.createElement(
+									"a",
+									{ onClick: this.petTypeSelected, style: { borderBottom: "none", padding: "10px", cursor: "pointer" } },
+									React.createElement("img", { style: { margin: "20px", display: catImgDisplay }, id: "cat", src: "/assets/images/cat2.png", "data-position": "center center" })
 								)
 							)
 						),
 						React.createElement(
 							"div",
-							{ className: "content" },
+							{ style: { marginTop: 4.5 + "em" } },
 							React.createElement(
 								"div",
-								{ className: "inner", style: { marginTop: "100px" } },
+								{ style: { display: "flex", justifyContent: "space-around" } },
 								React.createElement(
 									"div",
-									{ style: { textAlign: "center" }, className: "row" },
+									{ style: { textAlign: "center" } },
 									React.createElement(
-										"div",
-										{ className: "col-md-6" },
+										"h2",
+										null,
+										"Age"
+									),
+									React.createElement(
+										"p",
+										{ style: { margin: "10px" } },
+										React.createElement("input", { style: { margin: "auto", borderRight: "none", borderLeft: "none", borderTop: "none", fontSize: "25px", width: "100px", placeholder: "2" }, type: "text" })
+									)
+								),
+								React.createElement(
+									"div",
+									{ style: { textAlign: "center" } },
+									React.createElement(
+										"h2",
+										null,
+										"Sex"
+									),
+									React.createElement(
+										"p",
+										{ style: { margin: "10px" } },
 										React.createElement(
-											"h2",
-											null,
-											"Age"
-										),
-										React.createElement(
-											"p",
-											{ style: { margin: "10px" } },
-											React.createElement("input", { style: { margin: "auto", borderRight: "none", borderLeft: "none", borderTop: "none", fontSize: "25px", width: "100px" }, className: "col-md-3", type: "text" }),
-											" years old."
+											"select",
+											{ style: { margin: "auto", borderRight: "none", borderLeft: "none", borderTop: "none", fontSize: "25px", width: "140px" }, type: "text" },
+											React.createElement(
+												"option",
+												null,
+												"Female"
+											),
+											React.createElement(
+												"option",
+												null,
+												"Male"
+											)
 										)
 									)
 								)
 							),
 							React.createElement(
-								"div",
-								{ style: { textAlign: "center" }, className: "row" },
-								React.createElement(
-									Link,
-									{ to: "/survey-2", style: { margin: "40px" }, className: "button" },
-									"Next"
-								)
+								Link,
+								{ to: "/survey-2", style: { margin: "40px" }, className: "button" },
+								"Next"
 							)
 						)
 					)

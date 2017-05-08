@@ -24,23 +24,28 @@ var SearchResultItem = (function (Component) {
 		_classCallCheck(this, SearchResultItem);
 
 		_get(Object.getPrototypeOf(SearchResultItem.prototype), "constructor", this).call(this, props);
+		this.toggleResultDetail = this.toggleResultDetail.bind(this);
+		this.state = {
+			displayResultDetail: false
+		};
 	}
 
 	_inherits(SearchResultItem, Component);
 
 	_prototypeProperties(SearchResultItem, null, {
-		componentDidMount: {
-			value: function componentDidMount() {},
+		toggleResultDetail: {
+			value: function toggleResultDetail(event) {
+				return this.setState({ displayResultDetail: !this.state.displayResultDetail });
+			},
 			writable: true,
 			configurable: true
 		},
 		render: {
 			value: function render() {
 				var resultItem = this.props.resultItem;
-				console.log("RESULT ITEM: " + JSON.stringify(resultItem));
 				return React.createElement(
 					"div",
-					{ className: "button", style: { height: "auto", margin: 1 + "em", display: "block" } },
+					{ className: "searchResultCard", style: { height: "auto", margin: 1 + "em", display: "block" }, onClick: this.toggleResultDetail },
 					React.createElement(
 						"p",
 						{ style: { fontSize: 10 + "px" } },
@@ -48,23 +53,91 @@ var SearchResultItem = (function (Component) {
 					),
 					React.createElement(
 						"div",
-						null,
-						React.createElement("img", { src: "/assets/images/mappin.png", style: { display: "inline" } }),
+						{ style: { display: this.state.displayResultDetail ? "block" : "none" } },
 						React.createElement(
-							"p",
-							{ style: { fontSize: 10 + "px", display: "inline" } },
-							" ",
-							resultItem.venue.location.address,
-							", ",
-							resultItem.venue.location.city,
-							", ",
-							resultItem.venue.location.state,
-							" ",
-							resultItem.venue.location.postalCode,
-							" ",
-							React.createElement("br", null),
-							" ",
-							resultItem.venue.contact.formattedPhone
+							"div",
+							{ style: { display: "flex", justifyContent: "space-around" } },
+							React.createElement(
+								"div",
+								{ style: { textAlign: "left" } },
+								React.createElement(
+									"div",
+									null,
+									React.createElement(
+										"p",
+										{ style: { fontSize: 11 + "px", marginBottom: -1 + "em" } },
+										"Practice Info"
+									),
+									React.createElement("div", { style: { border: "solid 1px #bbb", width: 95 + "%" } }),
+									React.createElement("img", { src: "/assets/images/mappin.png", style: { display: "inline" } }),
+									React.createElement(
+										"p",
+										{ style: { fontSize: 10 + "px", display: "inline" } },
+										" ",
+										resultItem.venue.location.address
+									),
+									React.createElement(
+										"p",
+										{ style: { fontSize: 10 + "px", marginTop: -2 + "em" } },
+										resultItem.venue.location.city,
+										", ",
+										resultItem.venue.location.state,
+										" ",
+										resultItem.venue.location.postalCode
+									)
+								),
+								React.createElement(
+									"div",
+									{ style: { marginTop: -2.5 + "em" } },
+									React.createElement("img", { src: "/assets/images/phone.png", style: { display: "inline", marginBottom: -0.25 + "em", marginRight: 0.5 + "em" } }),
+									React.createElement(
+										"p",
+										{ style: { fontSize: 10 + "px", display: "inline" } },
+										resultItem.venue.contact.formattedPhone
+									)
+								),
+								React.createElement(
+									"div",
+									null,
+									React.createElement("img", { src: "/assets/images/globe.png", style: { display: "inline", marginBottom: -0.25 + "em", marginRight: 0.5 + "em" } }),
+									React.createElement(
+										"p",
+										{ style: { fontSize: 10 + "px", display: "inline" } },
+										resultItem.venue.url ? React.createElement(
+											"a",
+											{ href: resultItem.venue.url, style: { border: "none" } },
+											"Website"
+										) : "Site not found for practice"
+									)
+								)
+							),
+							React.createElement(
+								"div",
+								{ style: { marginLeft: 1 + "em", textAlign: "left" } },
+								React.createElement(
+									"p",
+									{ style: { fontSize: 11 + "px", marginBottom: -1 + "em" } },
+									"Details"
+								),
+								React.createElement("div", { style: { border: "solid 1px #bbb", width: 95 + "%" } }),
+								React.createElement("img", { src: "/assets/images/clock.png", style: { display: "inline" } }),
+								React.createElement(
+									"p",
+									{ style: { fontSize: 10 + "px", display: "inline", marginLeft: 0.5 + "em" } },
+									"Open: ",
+									resultItem.venue.hours !== undefined && resultItem.venue.hours.isOpen === true ? "Yes" : "No"
+								),
+								React.createElement(
+									"p",
+									{ style: { fontSize: 10 + "px", display: "block", marginTop: -2 + "em" } },
+									resultItem.venue.hours !== undefined && resultItem.venue.hours.status !== undefined ? resultItem.venue.hours.status : ""
+								),
+								React.createElement(
+									"p",
+									{ style: { fontSize: 10 + "px", display: "block", marginTop: -2.5 + "em" } },
+									"Bookmark veterinarian"
+								)
+							)
 						)
 					)
 				);

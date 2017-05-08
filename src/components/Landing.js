@@ -22,12 +22,13 @@ class Landing extends Component {
 
 	searchVets(){
 		let _this = this
-		APIManager.handleGet('/api/search', {zipcode: this.state.searchZipcode}, function(err, res){
+		APIManager.handleGet('/api/search', {zipcode: this.state.searchZipcode, offset: 0}, function(err, res){
 			if (err) return alert('Oops something went wrong. Try a different search.')
 			if (res.confirmation === 'Success') {
-				_this.props.fetchSearchResults(res.results)}
+				_this.props.fetchSearchResults(res.results)
 				browserHistory.push('/searchresults')
 				return
+			}
 		})
 	}
 
@@ -36,10 +37,10 @@ class Landing extends Component {
 		return (
 			<div className='jumbotron' style={{textAlign:'center'}}>
 				<div>
-					<img src='/assets/images/vetFetch_blue.png'/>
+					<img src='/assets/images/vetFetch_blue.png' className='landingLogo'/>
 				</div>
 				<div >
-					<h2 style={{color: '#7ec2d9'}}>Search. Book. Review.</h2>
+					<h2 style={{color: '#7ec2d9'}}>Find local care.</h2>
 				</div>
 				<div className="searchRow">
 					<div style={{margin: .5+'em'}}><input className="customInput" placeholder='Enter your zip' onChange={this.captureZipcode}/></div>

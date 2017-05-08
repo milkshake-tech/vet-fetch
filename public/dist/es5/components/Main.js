@@ -24,7 +24,10 @@ var store = _interopRequire(require("../stores/store"));
 var actions = _interopRequire(require("../actions/actions"));
 
 var connect = require("react-redux").connect;
-var Footer = require("../components").Footer;
+var _components = require("../components");
+
+var Footer = _components.Footer;
+var Header = _components.Header;
 var Main = (function (Component) {
 	function Main(props, context) {
 		_classCallCheck(this, Main);
@@ -40,6 +43,7 @@ var Main = (function (Component) {
 				return React.createElement(
 					"div",
 					null,
+					React.createElement(Header, null),
 					this.props.children,
 					React.createElement(Footer, null)
 				);

@@ -15,65 +15,30 @@ var _react = require("react");
 var React = _interopRequire(_react);
 
 var Component = _react.Component;
-var Footer = (function (Component) {
-	function Footer(props, context) {
-		_classCallCheck(this, Footer);
+var Header = (function (Component) {
+	function Header(props, context) {
+		_classCallCheck(this, Header);
 
-		_get(Object.getPrototypeOf(Footer.prototype), "constructor", this).call(this, props, context);
+		_get(Object.getPrototypeOf(Header.prototype), "constructor", this).call(this, props, context);
 	}
 
-	_inherits(Footer, Component);
+	_inherits(Header, Component);
 
-	_prototypeProperties(Footer, null, {
+	_prototypeProperties(Header, null, {
 		render: {
 			value: function render() {
 				return React.createElement(
-					"footer",
-					{ className: "footer" },
+					"div",
+					{ className: "header" },
 					React.createElement(
 						"div",
-						{ style: { textAlign: "center" } },
-						React.createElement("img", { src: "/assets/images/vetFetch_blue_sm.png" }),
-						React.createElement(
-							"p",
-							null,
-							"© vetFetch 2017"
-						)
+						null,
+						"Home"
 					),
 					React.createElement(
 						"div",
 						null,
-						React.createElement(
-							"p",
-							null,
-							"About"
-						),
-						React.createElement(
-							"p",
-							null,
-							"FAQ"
-						),
-						React.createElement(
-							"p",
-							null,
-							"Privacy Policy"
-						)
-					),
-					React.createElement(
-						"div",
-						null,
-						React.createElement(
-							"p",
-							null,
-							"Follow Us"
-						),
-						React.createElement(
-							"div",
-							null,
-							React.createElement("img", { src: "/assets/images/instagram.png", style: { marginRight: 1 + "em" } }),
-							React.createElement("img", { src: "/assets/images/facebook.png", style: { marginRight: 1 + "em" } }),
-							React.createElement("img", { src: "/assets/images/twitter.png" })
-						)
+						"Get help"
 					)
 				);
 			},
@@ -82,7 +47,7 @@ var Footer = (function (Component) {
 		}
 	});
 
-	return Footer;
+	return Header;
 })(Component);
 
-module.exports = Footer;
+module.exports = Header;

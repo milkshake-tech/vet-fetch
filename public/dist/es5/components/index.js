@@ -6,13 +6,13 @@ var AutocompleteBar = _interopRequire(require("./AutocompleteBar"));
 
 var Footer = _interopRequire(require("./Footer"));
 
+var Header = _interopRequire(require("./Header"));
+
 var SearchResults = _interopRequire(require("./SearchResults"));
 
 var SearchResultItem = _interopRequire(require("./SearchResultItem"));
 
 var Landing = _interopRequire(require("./Landing"));
-
-var PetInsuranceSurvey = _interopRequire(require("./PetInsuranceSurvey"));
 
 var Questionnaire1 = _interopRequire(require("./Questionnaire1"));
 
@@ -26,8 +26,8 @@ var UserProfile = _interopRequire(require("./UserProfile"));
 
 exports.AutocompleteBar = AutocompleteBar;
 exports.Footer = Footer;
+exports.Header = Header;
 exports.Landing = Landing;
-exports.PetInsuranceSurvey = PetInsuranceSurvey;
 exports.Questionnaire1 = Questionnaire1;
 exports.Questionnaire2 = Questionnaire2;
 exports.Questionnaire3 = Questionnaire3;

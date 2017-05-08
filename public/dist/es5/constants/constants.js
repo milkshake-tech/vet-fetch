@@ -1,7 +1,6 @@
 "use strict";
 
 module.exports = {
-
 	RECEIVED_USER: "RECEIVED_USER",
 	REGISTER_PET: "REGISTER_PET",
 	RECEIVED_PETS: "RECEIVED_PETS",
