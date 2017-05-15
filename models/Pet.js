@@ -1,41 +1,35 @@
 var mongoose = require('mongoose')
 
 var PetSchema = new mongoose.Schema({
-	slug: {type: String, trim: true, default:''},
-	ownerId:{type:String, default: ''},
+	ownerID:{type:String, default: ''},
 	name:{type:String, default: ''},
 	birthday:{type:String, lowercase: true, default: ''},
-	species:{type:String, trim:true, lowercase: true, default: ''},
 	breed:{type:String, trim:true, lowercase: true, default: ''},
 	sex:{type:String, trim:true, lowercase: true, default: ''},
+	species:{type:String, trim:true, lowercase: true, default: ''},
 	weight: {type:String, default: ''},
+	medicalAllergies:{type: Array, default: []},
+	medication:{type:Array, default: []},
+	tags:{type: mongoose.Schema.Types.Mixed, default:{}},
 	vaccines:{type: Array, default: []},
-	allergies:{type: Array, default: []},
-	medications:{type:Array, default: []},
-	vaccinesString:{type:String, trim:true, lowercase: true, default: ''},
-	allergiesString:{type:String, trim:true, lowercase: true, default: ''},
-	medicationsString:{type:String, trim:true, lowercase: true, default: ''},
 	image: {type: mongoose.Schema.Types.Mixed, default:{}},
 	timestamp:{type: String, default: Date.now}
 })
 
 PetSchema.methods.summary = function(){
 	var summary = {
-		slug: this.slug,
 		id: this._id,
-		ownerId: this.ownerId,
+		ownerID: this.ownerID,
 		name: this.name,
-		birthday: this.birthday, 
-		sex: this.sex,
-		weight: this.weight,
-		species: this.species,
+		birthday: this.birthday,
 		breed: this.breed,
+		sex: this.sex,
+		species: this.species,
+		weight: this.weight,
+		medicalAllergies: this.medicalAllergies,
+		medication: this.medications,
+		tags: this.tags,
 		vaccines: this.vaccines,
-		allergies: this.allergies,
-		medications: this.medications,
-		vaccinesString: this.vaccinesString,
-		allergiesString: this.allergiesString,
-		medicationsString: this.medicationsString,
 		image: this.image
 	}
 

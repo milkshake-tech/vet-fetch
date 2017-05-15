@@ -1,7 +1,6 @@
 var mongoose = require('mongoose')
 
 var UserSchema = new mongoose.Schema({
-	username:{type:String, lowercase: true, trim: true, default: ''},
 	email:{type:String, lowercase: true, trim: true, default: ''},
 	phone:{type:String, lowercase: true, trim: true, default: ''},
 	password:{type: String, default: ''},
@@ -11,7 +10,6 @@ var UserSchema = new mongoose.Schema({
 
 UserSchema.methods.summary = function(){
 	var summary = {
-		username: this.username,
 		email: this.email,
 		phone: this.phone,
 		timestamp: this.timestamp,

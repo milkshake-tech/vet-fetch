@@ -3,19 +3,18 @@ var bcrypt = require('bcryptjs')
 
 module.exports = {
 	get: function(params, isRaw, callback){
-
 		User.find(params, function(err, users){
 			if(err){
 				if(callback != null)
 					return callback(err, null)
 			}
 
-			if (users == null){
+			if (users === null){
 				return callback(err, null)
 			}
 
-			if(callback != null){
-				if(isRaw == true){
+			if(callback !== null){
+				if(isRaw === true){
 					return callback(null, users)
 				}
 
@@ -32,7 +31,7 @@ module.exports = {
 	getById: function(id, isRaw, callback){
 		User.findById(id, function(err, user){
 			if(err){
-				if(callback != null)
+				if(callback !== null)
 					callback({message: 'User Not Found'}, null)
 				return
 			}
