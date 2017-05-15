@@ -1,7 +1,7 @@
 var superagent = require('superagent')
 
 module.exports = {
-	get: function(params, completion){
+	get: function(params, isRaw, completion){
 		var endpoint = 'https://api.foursquare.com/v2/venues/explore'
 		superagent
 			.get(endpoint)
