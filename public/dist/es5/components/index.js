@@ -8,10 +8,6 @@ var Footer = _interopRequire(require("./Footer"));
 
 var Header = _interopRequire(require("./Header"));
 
-var SearchResults = _interopRequire(require("./SearchResults"));
-
-var SearchResultItem = _interopRequire(require("./SearchResultItem"));
-
 var Landing = _interopRequire(require("./Landing"));
 
 var Questionnaire1 = _interopRequire(require("./Questionnaire1"));
@@ -19,6 +15,12 @@ var Questionnaire1 = _interopRequire(require("./Questionnaire1"));
 var Questionnaire2 = _interopRequire(require("./Questionnaire2"));
 
 var Questionnaire3 = _interopRequire(require("./Questionnaire3"));
+
+var SearchResultItem = _interopRequire(require("./SearchResultItem"));
+
+var SearchResults = _interopRequire(require("./SearchResults"));
+
+var SurveyThankyou = _interopRequire(require("./SurveyThankyou"));
 
 var UserCapture = _interopRequire(require("./UserCapture"));
 
@@ -31,8 +33,9 @@ exports.Landing = Landing;
 exports.Questionnaire1 = Questionnaire1;
 exports.Questionnaire2 = Questionnaire2;
 exports.Questionnaire3 = Questionnaire3;
-exports.SearchResults = SearchResults;
 exports.SearchResultItem = SearchResultItem;
+exports.SearchResults = SearchResults;
+exports.SurveyThankyou = SurveyThankyou;
 exports.UserCapture = UserCapture;
 exports.UserProfile = UserProfile;
 Object.defineProperty(exports, "__esModule", {

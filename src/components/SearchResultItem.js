@@ -18,8 +18,8 @@ class SearchResultItem extends Component {
 	render(){
 		var {resultItem} = this.props
 		return(
-			<div className="searchResultCard" style={{height:'auto', margin:1+'em', display:'block'}} onClick={this.toggleResultDetail}>
-				<p style={{fontSize: 10+'px'}}>{resultItem.venue.name}</p>
+			<div className="searchResultCard" style={{height:'auto', marginTop:1+'em', marginLeft: 2+'em', marginRight:2+'em', display:'block', overflowX:'hidden'}} onClick={this.toggleResultDetail}>
+				<p style={{fontSize: 12+'px'}}>{resultItem.venue.name}</p>
 				<div style={{display: this.state.displayResultDetail ? 'block' : 'none'}}>
 					<div style={{display: 'flex', justifyContent:'space-around'}}>
 						<div style={{textAlign:'left'}}>
@@ -28,7 +28,8 @@ class SearchResultItem extends Component {
 								<div style={{border:'solid 1px #bbb', width:95+'%'}}></div>
 								<img src="/assets/images/mappin.png" style={{display:'inline'}}/>
 								<p style={{fontSize: 10+'px', display:'inline'}}> {resultItem.venue.location.address}</p>
-								<p style={{fontSize: 10+'px', marginTop: -2+'em'}}>{resultItem.venue.location.city}, {resultItem.venue.location.state} {resultItem.venue.location.postalCode}</p>
+								<p style={{fontSize: 10+'px', marginTop: -2+'em', marginLeft:2+'em'}}>{resultItem.venue.location.city}, {resultItem.venue.location.state}</p>
+								<p style={{fontSize: 10+'px', marginTop: -3.5+'em', marginLeft:2+'em'}}>{resultItem.venue.location.postalCode}</p>
 							</div>
 							<div style={{marginTop: -2.5+'em'}}>
 								<img src="/assets/images/phone.png" style={{display:'inline', marginBottom:-.25+'em', marginRight:.5+'em'}}/>
@@ -43,10 +44,22 @@ class SearchResultItem extends Component {
 						<div style={{marginLeft: 1+'em', textAlign:'left'}}>
 							<p style={{fontSize: 11+'px', marginBottom: -1+'em'}}>Details</p>
 							<div style={{border:'solid 1px #bbb', width:95+'%'}}></div>
-							<img src="/assets/images/clock.png" style={{display:'inline'}}/>
-							<p style={{fontSize: 10+'px', display:'inline', marginLeft: .5+'em'}}>Open: {(resultItem.venue.hours !== undefined && resultItem.venue.hours.isOpen === true) ? 'Yes':'No'}</p>
-							<p style={{fontSize: 10+'px', display:'block', marginTop: -2+'em'}}>{(resultItem.venue.hours !== undefined && resultItem.venue.hours.status !== undefined) ? resultItem.venue.hours.status : ''}</p>
-							<p style={{fontSize: 10+'px', display: 'block', marginTop: -2.5+'em'}}>Bookmark veterinarian</p>
+
+							<div style={{display:'block'}}>
+								<img src="/assets/images/clock.png" style={{display:'inline'}}/>
+								<p style={{fontSize: 10+'px', display:'inline', marginLeft: .5+'em'}}>Open: {(resultItem.venue.hours !== undefined && resultItem.venue.hours.isOpen === true) ? 'Yes':'No'}</p>
+							</div>
+
+							<div style={{display: (resultItem.venue.hours !== undefined && resultItem.venue.hours.status !== undefined) ? 'block' : 'none'}}>
+								<img src="/assets/images/lightbulb.png" style={{display:'inline'}}/>
+								<p style={{fontSize: 10+'px', display:'inline', marginTop: -2+'em', marginLeft: .5+'em'}}>{(resultItem.venue.hours !== undefined && resultItem.venue.hours.status !== undefined) ? resultItem.venue.hours.status : ''}</p>
+							</div>
+
+							<div style={{display:'block'}}>
+								<img src="/assets/images/star.png" style={{display:'inline'}}/>
+								<p style={{fontSize: 10+'px', display: 'inline', marginTop: -2.5+'em', marginLeft: .5+'em'}}>Bookmark</p>
+							</div>
+
 						</div>
 					</div>
 				</div>

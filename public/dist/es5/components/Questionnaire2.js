@@ -19,6 +19,8 @@ var _reactRouter = require("react-router");
 
 var Link = _reactRouter.Link;
 var browserHistory = _reactRouter.browserHistory;
+var store = _interopRequire(require("../stores/store"));
+
 var AutocompleteBar = _interopRequire(require("../components/AutocompleteBar"));
 
 var Questionnaire2 = (function (Component) {
@@ -48,40 +50,33 @@ var Questionnaire2 = (function (Component) {
 
 				return React.createElement(
 					"div",
-					null,
+					{ className: "jumbotron", style: { opacity: opacitySetting, transitionProperty: "opacity", transitionDuration: "1s" } },
 					React.createElement(
-						"article",
-						{ id: "work", className: "panel secondary", style: { opacity: opacitySetting, transitionProperty: "opacity", transitionDuration: "1s" } },
+						"div",
+						{ style: { display: "flex", justifyContent: "space-around" } },
 						React.createElement(
 							"div",
-							{ className: "content" },
+							{ className: "leftPanel" },
 							React.createElement(
-								"ul",
-								{ className: "actions spinX" },
-								React.createElement(
-									"li",
-									null,
-									React.createElement(
-										Link,
-										{ to: "/survey-1", className: "button small back" },
-										"Back"
-									)
-								)
+								Link,
+								{ to: "/survey-1", className: "button small back" },
+								"Back"
 							),
+							React.createElement("img", { src: "/assets/images/cat2.png", style: { display: "block", marginTop: 4 + "em", marginLeft: "auto", marginRight: "auto" } })
+						),
+						React.createElement(
+							"div",
+							{ style: { width: 400 + "px" } },
 							React.createElement(
-								"div",
-								{ className: "inner" },
-								React.createElement(
-									"h2",
-									{ style: { margin: "25px" } },
-									"Breed"
-								),
-								React.createElement(AutocompleteBar, null),
-								React.createElement(
-									Link,
-									{ style: { margin: "20px" }, to: "/survey-3", className: "button" },
-									"Next"
-								)
+								"h2",
+								{ style: { margin: "25px" } },
+								"Breed"
+							),
+							React.createElement(AutocompleteBar, null),
+							React.createElement(
+								Link,
+								{ style: { margin: "40px", float: "right" }, to: "/survey-3", className: "button" },
+								"Next"
 							)
 						)
 					)

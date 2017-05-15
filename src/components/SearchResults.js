@@ -38,6 +38,9 @@ class SearchResults extends Component {
 
 	startPetSurvey(){
 		browserHistory.push('/survey-1')
+
+		//if current user, push to profile
+		// browserHistory.push('/profile')
 	}
 
 	render(){
@@ -57,13 +60,13 @@ class SearchResults extends Component {
 			displayedSearchResults = 0
 		}
 		return(
-			<div className="jumbotron" style={{textAlign:'center'}}>
+			<div className='jumbotron' style={{textAlign:'center'}}>
 				<div className='searchResultsRow'>
-					<div>
+					<div className='leftPanel'>
 						<Link to="/"><div className='button small back' style={{display:'block', marginBottom: 2+'em', marginLeft: 2+'em', width:22+'em'}}>Start a new search</div></Link>
 
 						<img src='/assets/images/sittingdog.png' style={{margin:2+'em'}}/>
-						<p style={{display:'block', fontSize: 12+'px'}}>Psss...Save your pet records on vetFetch for your next appointment.</p>
+						<p style={{display:'block', fontSize: 12+'px', margin:2+'em'}}>Psss...Save your pet records on vetFetch for your next appointment.</p>
 						<button style={{marginBottom: 4+'em'}} onClick={this.startPetSurvey}>Get started here, woof!</button>
 					</div>
 
@@ -74,7 +77,7 @@ class SearchResults extends Component {
 							<p style={{display:'inline', fontSize:11+'px', marginLeft:1+'em', marginRight:1+'em'}}>displaying {displayedSearchResults} of {searchResults.totalResults} results</p>
 							<button id='10' onClick={this.resultsPagination}>Next</button>
 						</div>
-						<div style={{marginTop: 2+'em'}}>
+						<div style={{marginTop: 2+'em', border:'solid rgb(219,220,255)', borderRadius:.75+'em', height: 400+'px', width:600+'px', overflowY:'scroll'}}>
 							{vetResultsList}
 						</div>
 					</div>

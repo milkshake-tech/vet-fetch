@@ -3,11 +3,8 @@ import constants from '../constants/constants'
 var initialState = {
 	user: {
 		id: null,
-		firstName: '',
-		lastName: '',
-		phone: '',
 		email: '',
-		password: ''
+		phone: ''
 	}
 }
 

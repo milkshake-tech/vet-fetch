@@ -85,7 +85,8 @@
 				_react2.default.createElement(_reactRouter.Route, { path: '/survey-2', component: _components.Questionnaire2 }),
 				_react2.default.createElement(_reactRouter.Route, { path: '/survey-3', component: _components.Questionnaire3 }),
 				_react2.default.createElement(_reactRouter.Route, { path: '/profile', component: _components.UserProfile }),
-				_react2.default.createElement(_reactRouter.Route, { path: '/signup', component: _components.UserCapture })
+				_react2.default.createElement(_reactRouter.Route, { path: '/signup', component: _components.UserCapture }),
+				_react2.default.createElement(_reactRouter.Route, { path: '/thankyou', component: _components.SurveyThankyou })
 			)
 		)
 	);
@@ -27288,15 +27289,7 @@
 	'use strict';
 	
 	module.exports = {
-		RECEIVED_USER: 'RECEIVED_USER',
-		REGISTER_PET: 'REGISTER_PET',
-		RECEIVED_PETS: 'RECEIVED_PETS',
-		RECEIVED_PET_EDIT: 'RECEIVED_PET_EDIT',
-		RECEIVED_PET_IMAGE: 'RECEIVED_PET_IMAGE',
-		UPDATE_PETS: 'UPDATE_PETS',
-		DISPLAY_EDIT_PET: 'DISPLAY_EDIT_PET',
-		SHOW_REGISTER_PET: 'SHOW_REGISTER_PET',
-		SHOW_EDIT_PROFILE: 'SHOW_EDIT_PROFILE',
+		CAPTURE_PET_SURVEY: 'CAPTURE_PET_SURVEY',
 		RECEIVED_SEARCH_RESULTS: 'RECEIVED_SEARCH_RESULTS'
 	};
 
@@ -27314,126 +27307,11 @@
 		var state = arguments.length <= 0 || arguments[0] === undefined ? initialState : arguments[0];
 		var action = arguments[1];
 	
+		var newState = Object.assign({}, state);
 	
 		switch (action.type) {
-			case _constants2.default.RECEIVED_PETS:
-				console.log('RECEIVED_PETS: ');
-				var newState = Object.assign({}, state);
-				var array = Object.assign([], state);
-				for (var i = 0; i < action.pets.length; i++) {
-					var pet = action.pets[i];
-					array.push(pet);
-				}
-				newState['petsArray'] = array;
-	
-				var petMap = Object.assign({}, newState.pets);
-	
-				for (var i = 0; i < action.pets.length; i++) {
-					var petProfile = action.pets[i];
-					petMap[petProfile.slug] = petProfile;
-				}
-				newState['pets'] = petMap;
-	
-				return newState;
-	
-			case _constants2.default.REGISTER_PET:
-				var newState = Object.assign({}, state);
-				var array = Object.assign([], state.petsArray);
-				array.push(action.pet);
-				newState['petsArray'] = array;
-	
-				var petMap = Object.assign({}, newState.pets);
-				var pet = action.pet;
-				petMap[pet.slug] = pet;
-	
-				newState['pets'] = petMap;
-	
-				return newState;
-	
-			case _constants2.default.RECEIVED_PET_EDIT:
-				var newState = Object.assign({}, state);
-				var editedPet = action.editedPet;
-				var updatedPets = Object.assign({}, state.pets);
-	
-				updatedPets[editedPet.slug] = editedPet;
-	
-				newState['pets'] = updatedPets;
-	
-				return newState;
-	
-			case _constants2.default.RECEIVED_PET_IMAGE:
-	
-				var newState = Object.assign({}, state);
-				var petImageUrl = action.petImg;
-				var updatedPets = Object.assign({}, state.pets);
-	
-				var pet = updatedPets[action.petSlug];
-				pet.image['original'] = petImageUrl;
-	
-				newState['pets'] = updatedPets;
-	
-				return newState;
-	
-			case _constants2.default.UPDATE_PETS:
-				var newState = Object.assign({}, state);
-				var updatedPet = action.updatedPet;
-				var updatedPets = Object.assign({}, state.pets);
-	
-				var vaccinesArray = updatedPet.vaccines;
-				var vaccinesString = '';
-				for (var i = 0; i < vaccinesArray.length; i++) {
-					var vaccine = vaccinesArray[i];
-					if (vaccine.length == 0) continue;
-	
-					vaccinesString = vaccinesString + vaccine;
-					if (i == vaccinesArray.length - 1) continue;
-	
-					vaccinesString = vaccinesString + ',';
-				}
-				updatedPet['vaccinesString'] = vaccinesString;
-	
-				var allergiesArray = updatedPet.allergies;
-				var allergiesString = '';
-				for (var i = 0; i < allergiesArray.length; i++) {
-					var allergy = allergiesArray[i];
-					if (allergy.length == 0) continue;
-	
-					allergiesString = allergiesString + allergy;
-					if (i == allergiesArray.length - 1) continue;
-	
-					allergiesString = allergiesString + ',';
-				}
-				updatedPet['allergiesString'] = allergiesString;
-	
-				var medicationArray = updatedPet.medications;
-				var medicationsString = '';
-				for (var i = 0; i < medicationArray.length; i++) {
-					var medication = medicationArray[i];
-					if (medication.length == 0) continue;
-					medicationsString = medicationsString + medication;
-					if (i == medicationArray.length - 1) continue;
-					medicationsString = medicationsString + ',';
-				}
-				updatedPet['medicationsString'] = medicationsString;
-	
-				updatedPets[updatedPet.slug] = updatedPet;
-	
-				newState['pets'] = updatedPets;
-	
-				var petsArray = Object.assign([], state.petsArray);
-				var array = Object.assign([], state);
-	
-				for (var i = 0; i < petsArray.length; i++) {
-					var pet = petsArray[i];
-	
-					if (updatedPet.id == pet.id) {
-						pet = updatedPet;
-					}
-					array.push(pet);
-				}
-	
-				newState['petsArray'] = array;
-	
+			case _constants2.default.CAPTURE_PET_SURVEY:
+				newState['petProfile'] = action.petProfile;
 				return newState;
 	
 			default:
@@ -27448,8 +27326,7 @@
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	var initialState = {
-		pets: {},
-		petsArray: []
+		petProfile: {}
 	};
 
 /***/ },
@@ -27526,11 +27403,8 @@
 	var initialState = {
 		user: {
 			id: null,
-			firstName: '',
-			lastName: '',
-			phone: '',
 			email: '',
-			password: ''
+			phone: ''
 		}
 	};
 
@@ -27543,7 +27417,7 @@
 	Object.defineProperty(exports, "__esModule", {
 		value: true
 	});
-	exports.receivedSearchResults = undefined;
+	exports.capturePetSurvey = exports.receivedSearchResults = undefined;
 	
 	var _constants = __webpack_require__(245);
 	
@@ -27562,79 +27436,11 @@
 		};
 	};
 	
-	exports.default = {
-	
-		receivedUser: function receivedUser(user) {
-			return {
-				type: _constants2.default.RECEIVED_USER,
-				user: user
-			};
-		},
-	
-		registerPet: function registerPet(pet) {
-			return {
-				type: _constants2.default.REGISTER_PET,
-				pet: pet
-			};
-		},
-	
-		receivedPets: function receivedPets(pets) {
-			return {
-				type: _constants2.default.RECEIVED_PETS,
-				pets: pets
-			};
-		},
-	
-		receivedPetEdit: function receivedPetEdit(editedPet) {
-			return {
-				type: _constants2.default.RECEIVED_PET_EDIT,
-				editedPet: editedPet
-			};
-		},
-	
-		receivedPetImage: function receivedPetImage(petImg, petSlug) {
-			return {
-				type: _constants2.default.RECEIVED_PET_IMAGE,
-				petImg: petImg,
-				petSlug: petSlug
-			};
-		},
-	
-		createdCurrentPet: function createdCurrentPet(currentPet) {
-			return {
-				type: _constants2.default.CREATED_CURRENT_PET,
-				currentPet: currentPet
-			};
-		},
-	
-		updatePets: function updatePets(updatedPet) {
-			return {
-				type: _constants2.default.UPDATE_PETS,
-				updatedPet: updatedPet
-			};
-		},
-	
-		displayEditPet: function displayEditPet(displayContent) {
-			return {
-				type: _constants2.default.DISPLAY_EDIT_PET,
-				displayContent: displayContent
-			};
-		},
-	
-		showRegisterPet: function showRegisterPet(showContent) {
-			return {
-				type: _constants2.default.SHOW_REGISTER_PET,
-				showContent: showContent
-			};
-		},
-	
-		showEditProfile: function showEditProfile(showContent) {
-			return {
-				type: _constants2.default.SHOW_EDIT_PROFILE,
-				showContent: showContent
-			};
-		}
-	
+	var capturePetSurvey = exports.capturePetSurvey = function capturePetSurvey(petProfile) {
+		return {
+			type: _constants2.default.CAPTURE_PET_SURVEY,
+			petProfile: petProfile
+		};
 	};
 
 /***/ },
@@ -28516,7 +28322,7 @@
 	Object.defineProperty(exports, "__esModule", {
 		value: true
 	});
-	exports.UserProfile = exports.UserCapture = exports.SearchResultItem = exports.SearchResults = exports.Questionnaire3 = exports.Questionnaire2 = exports.Questionnaire1 = exports.Landing = exports.Header = exports.Footer = exports.AutocompleteBar = undefined;
+	exports.UserProfile = exports.UserCapture = exports.SurveyThankyou = exports.SearchResults = exports.SearchResultItem = exports.Questionnaire3 = exports.Questionnaire2 = exports.Questionnaire1 = exports.Landing = exports.Header = exports.Footer = exports.AutocompleteBar = undefined;
 	
 	var _AutocompleteBar = __webpack_require__(264);
 	
@@ -28530,35 +28336,39 @@
 	
 	var _Header2 = _interopRequireDefault(_Header);
 	
-	var _SearchResults = __webpack_require__(280);
-	
-	var _SearchResults2 = _interopRequireDefault(_SearchResults);
-	
-	var _SearchResultItem = __webpack_require__(287);
-	
-	var _SearchResultItem2 = _interopRequireDefault(_SearchResultItem);
-	
-	var _Landing = __webpack_require__(288);
+	var _Landing = __webpack_require__(280);
 	
 	var _Landing2 = _interopRequireDefault(_Landing);
 	
-	var _Questionnaire = __webpack_require__(289);
+	var _Questionnaire = __webpack_require__(287);
 	
 	var _Questionnaire2 = _interopRequireDefault(_Questionnaire);
 	
-	var _Questionnaire3 = __webpack_require__(290);
+	var _Questionnaire3 = __webpack_require__(288);
 	
 	var _Questionnaire4 = _interopRequireDefault(_Questionnaire3);
 	
-	var _Questionnaire5 = __webpack_require__(291);
+	var _Questionnaire5 = __webpack_require__(289);
 	
 	var _Questionnaire6 = _interopRequireDefault(_Questionnaire5);
 	
-	var _UserCapture = __webpack_require__(292);
+	var _SearchResultItem = __webpack_require__(290);
+	
+	var _SearchResultItem2 = _interopRequireDefault(_SearchResultItem);
+	
+	var _SearchResults = __webpack_require__(291);
+	
+	var _SearchResults2 = _interopRequireDefault(_SearchResults);
+	
+	var _SurveyThankyou = __webpack_require__(292);
+	
+	var _SurveyThankyou2 = _interopRequireDefault(_SurveyThankyou);
+	
+	var _UserCapture = __webpack_require__(293);
 	
 	var _UserCapture2 = _interopRequireDefault(_UserCapture);
 	
-	var _UserProfile = __webpack_require__(293);
+	var _UserProfile = __webpack_require__(294);
 	
 	var _UserProfile2 = _interopRequireDefault(_UserProfile);
 	
@@ -28571,8 +28381,9 @@
 	exports.Questionnaire1 = _Questionnaire2.default;
 	exports.Questionnaire2 = _Questionnaire4.default;
 	exports.Questionnaire3 = _Questionnaire6.default;
-	exports.SearchResults = _SearchResults2.default;
 	exports.SearchResultItem = _SearchResultItem2.default;
+	exports.SearchResults = _SearchResults2.default;
+	exports.SurveyThankyou = _SurveyThankyou2.default;
 	exports.UserCapture = _UserCapture2.default;
 	exports.UserProfile = _UserProfile2.default;
 
@@ -28593,6 +28404,14 @@
 	var _react2 = _interopRequireDefault(_react);
 	
 	var _reactRouter = __webpack_require__(172);
+	
+	var _store = __webpack_require__(229);
+	
+	var _store2 = _interopRequireDefault(_store);
+	
+	var _reactRedux = __webpack_require__(250);
+	
+	var _actions = __webpack_require__(249);
 	
 	var _reactAutosuggest = __webpack_require__(265);
 	
@@ -28640,6 +28459,9 @@
 		}, {
 			key: 'onChange',
 			value: function onChange(event, newValue) {
+				var response = Object.assign({}, this.props.petProfile);
+				response['breed'] = newValue.newValue;
+				this.props.capturePetSurveyResponse(response);
 	
 				this.setState({
 					value: newValue.newValue
@@ -28713,7 +28535,21 @@
 		return AutocompleteBar;
 	}(_react.Component);
 	
-	exports.default = AutocompleteBar;
+	var stateToProps = function stateToProps(state) {
+		return {
+			petProfile: state.petReducer.petProfile
+		};
+	};
+	
+	var dispatchToProps = function dispatchToProps(dispatch) {
+		return {
+			capturePetSurveyResponse: function capturePetSurveyResponse(petProfile) {
+				return dispatch((0, _actions.capturePetSurvey)(petProfile));
+			}
+		};
+	};
+	
+	exports.default = (0, _reactRedux.connect)(stateToProps, dispatchToProps)(AutocompleteBar);
 
 /***/ },
 /* 265 */
@@ -30638,7 +30474,7 @@
 /* 279 */
 /***/ function(module, exports, __webpack_require__) {
 
-	"use strict";
+	'use strict';
 	
 	Object.defineProperty(exports, "__esModule", {
 		value: true
@@ -30668,21 +30504,21 @@
 		}
 	
 		_createClass(Header, [{
-			key: "render",
+			key: 'render',
 			value: function render() {
 	
 				return _react2.default.createElement(
-					"div",
-					{ className: "header" },
+					'div',
+					{ className: 'header' },
 					_react2.default.createElement(
-						"div",
-						null,
-						"Home"
+						'div',
+						{ style: { marginLeft: 6 + 'em' } },
+						'Home'
 					),
 					_react2.default.createElement(
-						"div",
-						null,
-						"Get help"
+						'div',
+						{ style: { marginRight: 6 + 'em' } },
+						'Get help'
 					)
 				);
 			}
@@ -30715,11 +30551,9 @@
 	
 	var _store2 = _interopRequireDefault(_store);
 	
-	var _reactRedux = __webpack_require__(250);
-	
 	var _actions = __webpack_require__(249);
 	
-	var _components = __webpack_require__(263);
+	var _reactRedux = __webpack_require__(250);
 	
 	var _APIManager = __webpack_require__(281);
 	
@@ -30733,138 +30567,76 @@
 	
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 	
-	var SearchResults = function (_Component) {
-		_inherits(SearchResults, _Component);
+	var Landing = function (_Component) {
+		_inherits(Landing, _Component);
 	
-		function SearchResults(props) {
-			_classCallCheck(this, SearchResults);
+		function Landing(props, context) {
+			_classCallCheck(this, Landing);
 	
-			var _this2 = _possibleConstructorReturn(this, Object.getPrototypeOf(SearchResults).call(this, props));
+			var _this2 = _possibleConstructorReturn(this, Object.getPrototypeOf(Landing).call(this, props));
 	
-			_this2.resultsPagination = _this2.resultsPagination.bind(_this2);
-			_this2.startPetSurvey = _this2.startPetSurvey.bind(_this2);
+			_this2.captureZipcode = _this2.captureZipcode.bind(_this2);
+			_this2.searchVets = _this2.searchVets.bind(_this2);
 			_this2.state = {
-				opacitySetting: 0
+				searchZipcode: null
 			};
 			return _this2;
 		}
 	
-		_createClass(SearchResults, [{
-			key: 'componentDidMount',
-			value: function componentDidMount() {
-				this.setState({ opacitySetting: 1 });
+		_createClass(Landing, [{
+			key: 'captureZipcode',
+			value: function captureZipcode(event) {
+				this.setState({ searchZipcode: event.target.value });
 			}
 		}, {
-			key: 'resultsPagination',
-			value: function resultsPagination(event) {
-				var searchResults = this.props.searchResults;
-	
-				var searchOffset = parseInt(searchResults.offset) + parseInt(event.target.id);
-				if (searchOffset < 0) {
-					searchOffset = 0;
-				}
+			key: 'searchVets',
+			value: function searchVets() {
 				var _this = this;
-				_APIManager2.default.handleGet('/api/search', { zipcode: searchResults.zipcode, offset: searchOffset }, function (err, res) {
-					if (err) return alert('Oops something went wrong loading your results.');
+				_APIManager2.default.handleGet('/api/search', { zipcode: this.state.searchZipcode, offset: 0 }, function (err, res) {
+					if (err) return alert('Oops something went wrong. Try a different search.');
 					if (res.confirmation === 'Success') {
 						_this.props.fetchSearchResults(res.results);
+						_reactRouter.browserHistory.push('/searchresults');
 						return;
 					}
 				});
 			}
 		}, {
-			key: 'startPetSurvey',
-			value: function startPetSurvey() {
-				_reactRouter.browserHistory.push('/survey-1');
-			}
-		}, {
 			key: 'render',
 			value: function render() {
-				var opacitySetting = this.state.opacitySetting;
-				var searchResults = this.props.searchResults;
 	
-				var displayedSearchResults = 10 + parseInt(searchResults.offset);
-				if (displayedSearchResults > searchResults.totalResults) {
-					displayedSearchResults = searchResults.totalResults;
-				}
-				var vetResultsList = searchResults.veterinarians.map(function (result, i) {
-					return _react2.default.createElement(_components.SearchResultItem, { key: i, resultItem: result });
-				});
-				if (searchResults.veterinarians.length === 0) {
-					vetResultsList = _react2.default.createElement(
-						'p',
-						{ style: { marginTop: 1 + 'em' } },
-						'\'Woof! Looks like they are no more search results to display.\''
-					);
-					displayedSearchResults = 0;
-				}
 				return _react2.default.createElement(
 					'div',
 					{ className: 'jumbotron', style: { textAlign: 'center' } },
 					_react2.default.createElement(
 						'div',
-						{ className: 'searchResultsRow' },
+						null,
+						_react2.default.createElement('img', { src: '/assets/images/vetFetch_blue.png', className: 'landingLogo' })
+					),
+					_react2.default.createElement(
+						'div',
+						null,
+						_react2.default.createElement(
+							'h2',
+							{ style: { color: '#7ec2d9' } },
+							'Find local care.'
+						)
+					),
+					_react2.default.createElement(
+						'div',
+						{ className: 'searchRow' },
 						_react2.default.createElement(
 							'div',
-							null,
-							_react2.default.createElement(
-								_reactRouter.Link,
-								{ to: '/' },
-								_react2.default.createElement(
-									'div',
-									{ className: 'button small back', style: { display: 'block', marginBottom: 2 + 'em', marginLeft: 2 + 'em', width: 22 + 'em' } },
-									'Start a new search'
-								)
-							),
-							_react2.default.createElement('img', { src: '/assets/images/sittingdog.png', style: { margin: 2 + 'em' } }),
-							_react2.default.createElement(
-								'p',
-								{ style: { display: 'block', fontSize: 12 + 'px' } },
-								'Psss...Save your pet records on vetFetch for your next appointment.'
-							),
-							_react2.default.createElement(
-								'button',
-								{ style: { marginBottom: 4 + 'em' }, onClick: this.startPetSurvey },
-								'Get started here, woof!'
-							)
+							{ style: { margin: .5 + 'em' } },
+							_react2.default.createElement('input', { className: 'customInput', placeholder: 'Enter your zip', onChange: this.captureZipcode })
 						),
 						_react2.default.createElement(
 							'div',
-							null,
+							{ style: { margin: .5 + 'em' } },
 							_react2.default.createElement(
-								'h3',
-								null,
-								searchResults.totalResults,
-								' veterinarians near ',
-								searchResults.zipcode
-							),
-							_react2.default.createElement(
-								'div',
-								{ style: { fontSize: 10 + 'px' } },
-								_react2.default.createElement(
-									'button',
-									{ id: '-10', onClick: this.resultsPagination },
-									'Last'
-								),
-								_react2.default.createElement(
-									'p',
-									{ style: { display: 'inline', fontSize: 11 + 'px', marginLeft: 1 + 'em', marginRight: 1 + 'em' } },
-									'displaying ',
-									displayedSearchResults,
-									' of ',
-									searchResults.totalResults,
-									' results'
-								),
-								_react2.default.createElement(
-									'button',
-									{ id: '10', onClick: this.resultsPagination },
-									'Next'
-								)
-							),
-							_react2.default.createElement(
-								'div',
-								{ style: { marginTop: 2 + 'em' } },
-								vetResultsList
+								'button',
+								{ onClick: this.searchVets },
+								'Submit'
 							)
 						)
 					)
@@ -30872,12 +30644,12 @@
 			}
 		}]);
 	
-		return SearchResults;
+		return Landing;
 	}(_react.Component);
 	
 	var stateToProps = function stateToProps(state) {
 		return {
-			searchResults: state.searchReducer.searchResults
+			user: state.userReducer.user
 		};
 	};
 	
@@ -30889,7 +30661,7 @@
 		};
 	};
 	
-	exports.default = (0, _reactRedux.connect)(stateToProps, dispatchToProps)(SearchResults);
+	exports.default = (0, _reactRedux.connect)(stateToProps, dispatchToProps)(Landing);
 
 /***/ },
 /* 281 */
@@ -32556,6 +32328,14 @@
 	
 	var _reactRouter = __webpack_require__(172);
 	
+	var _store = __webpack_require__(229);
+	
+	var _store2 = _interopRequireDefault(_store);
+	
+	var _reactRedux = __webpack_require__(250);
+	
+	var _actions = __webpack_require__(249);
+	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -32564,125 +32344,166 @@
 	
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 	
-	var SearchResultItem = function (_Component) {
-		_inherits(SearchResultItem, _Component);
+	var Questionnaire1 = function (_Component) {
+		_inherits(Questionnaire1, _Component);
 	
-		function SearchResultItem(props) {
-			_classCallCheck(this, SearchResultItem);
+		function Questionnaire1(props) {
+			_classCallCheck(this, Questionnaire1);
 	
-			var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(SearchResultItem).call(this, props));
+			var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(Questionnaire1).call(this, props));
 	
-			_this.toggleResultDetail = _this.toggleResultDetail.bind(_this);
+			_this.captureResponse = _this.captureResponse.bind(_this);
+			_this.petTypeSelected = _this.petTypeSelected.bind(_this);
 			_this.state = {
-				displayResultDetail: false
+				displaySelectionCheck: {
+					dog: false,
+					cat: false
+				},
+				opacitySetting: 0
 			};
 			return _this;
 		}
 	
-		_createClass(SearchResultItem, [{
-			key: 'toggleResultDetail',
-			value: function toggleResultDetail(event) {
-				return this.setState({ displayResultDetail: !this.state.displayResultDetail });
+		_createClass(Questionnaire1, [{
+			key: 'componentDidMount',
+			value: function componentDidMount() {
+				this.setState({ opacitySetting: 1 });
+			}
+		}, {
+			key: 'captureResponse',
+			value: function captureResponse(event) {
+				var response = Object.assign({}, this.props.petProfile);
+				response[event.target.id] = event.target.value;
+				this.props.capturePetSurveyResponse(response);
+			}
+		}, {
+			key: 'petTypeSelected',
+			value: function petTypeSelected(event) {
+				var displaySelection = Object.assign({}, this.state.displaySelectionCheck);
+				displaySelection[event.target.id] = !displaySelection[event.target.id];
+				this.setState({ displaySelectionCheck: displaySelection });
+				this.props.capturePetSurveyResponse(displaySelection);
 			}
 		}, {
 			key: 'render',
 			value: function render() {
-				var resultItem = this.props.resultItem;
+				var _state = this.state;
+				var displaySelectionCheck = _state.displaySelectionCheck;
+				var opacitySetting = _state.opacitySetting;
 	
+	
+				var catImgDisplay = displaySelectionCheck.dog === true ? "none" : "inline";
+				var dogImgDisplay = displaySelectionCheck.cat === true ? "none" : "inline";
+				var displayNameCapture = displaySelectionCheck.dog === true || displaySelectionCheck.cat === true ? 'block' : 'none';
 				return _react2.default.createElement(
 					'div',
-					{ className: 'searchResultCard', style: { height: 'auto', margin: 1 + 'em', display: 'block' }, onClick: this.toggleResultDetail },
-					_react2.default.createElement(
-						'p',
-						{ style: { fontSize: 10 + 'px' } },
-						resultItem.venue.name
-					),
+					{ className: 'jumbotron', style: { opacity: opacitySetting, transitionProperty: "opacity", transitionDuration: "1s" } },
 					_react2.default.createElement(
 						'div',
-						{ style: { display: this.state.displayResultDetail ? 'block' : 'none' } },
+						{ style: { display: 'flex', justifyContent: 'space-around' } },
 						_react2.default.createElement(
 							'div',
-							{ style: { display: 'flex', justifyContent: 'space-around' } },
+							{ className: 'leftPanel' },
+							_react2.default.createElement(
+								_reactRouter.Link,
+								{ to: '/searchresults', className: 'button small back' },
+								'Back'
+							),
 							_react2.default.createElement(
 								'div',
-								{ style: { textAlign: 'left' } },
+								{ style: { marginTop: 2 + 'em' } },
+								_react2.default.createElement(
+									'h2',
+									{ style: { textAlign: 'center' } },
+									'Pick your pet'
+								),
 								_react2.default.createElement(
 									'div',
-									null,
+									{ style: { textAlign: 'center' } },
 									_react2.default.createElement(
-										'p',
-										{ style: { fontSize: 11 + 'px', marginBottom: -1 + 'em' } },
-										'Practice Info'
-									),
-									_react2.default.createElement('div', { style: { border: 'solid 1px #bbb', width: 95 + '%' } }),
-									_react2.default.createElement('img', { src: '/assets/images/mappin.png', style: { display: 'inline' } }),
-									_react2.default.createElement(
-										'p',
-										{ style: { fontSize: 10 + 'px', display: 'inline' } },
-										' ',
-										resultItem.venue.location.address
+										'a',
+										{ onClick: this.petTypeSelected, style: { borderBottom: "none", padding: '10px', cursor: "pointer" } },
+										_react2.default.createElement('img', { style: { margin: "20px", display: dogImgDisplay }, id: 'dog', src: '/assets/images/dog2.png', 'data-position': 'center center' })
 									),
 									_react2.default.createElement(
-										'p',
-										{ style: { fontSize: 10 + 'px', marginTop: -2 + 'em' } },
-										resultItem.venue.location.city,
-										', ',
-										resultItem.venue.location.state,
-										' ',
-										resultItem.venue.location.postalCode
+										'a',
+										{ onClick: this.petTypeSelected, style: { borderBottom: "none", padding: '10px', cursor: "pointer" } },
+										_react2.default.createElement('img', { style: { margin: "20px", display: catImgDisplay }, id: 'cat', src: '/assets/images/cat2.png', 'data-position': 'center center' })
 									)
 								),
 								_react2.default.createElement(
 									'div',
-									{ style: { marginTop: -2.5 + 'em' } },
-									_react2.default.createElement('img', { src: '/assets/images/phone.png', style: { display: 'inline', marginBottom: -.25 + 'em', marginRight: .5 + 'em' } }),
+									{ style: { display: displayNameCapture, textAlign: 'center' } },
+									_react2.default.createElement(
+										'h2',
+										null,
+										'Name'
+									),
 									_react2.default.createElement(
 										'p',
-										{ style: { fontSize: 10 + 'px', display: 'inline' } },
-										resultItem.venue.contact.formattedPhone
+										{ style: { margin: "10px" } },
+										_react2.default.createElement('input', { style: { margin: "auto", borderRight: "none", borderLeft: "none", borderTop: "none", display: 'inline', fontSize: "25px", width: "250px" }, type: 'text', placeholder: 'Fido', onChange: this.captureResponse, id: 'name' })
+									)
+								)
+							)
+						),
+						_react2.default.createElement(
+							'div',
+							{ style: { marginTop: 4.5 + 'em' } },
+							_react2.default.createElement(
+								'div',
+								{ style: { display: 'flex', justifyContent: 'space-around' } },
+								_react2.default.createElement(
+									'div',
+									{ style: { textAlign: 'center' } },
+									_react2.default.createElement(
+										'h2',
+										null,
+										'Birthday'
+									),
+									_react2.default.createElement(
+										'p',
+										{ style: { margin: "10px" } },
+										_react2.default.createElement('input', { style: { margin: "auto", borderRight: "none", borderLeft: "none", borderTop: "none", fontSize: "25px", width: "250px" }, type: 'text', placeholder: 'MM/DD/YYYY', onChange: this.captureResponse, id: 'birthday' })
 									)
 								),
 								_react2.default.createElement(
 									'div',
-									null,
-									_react2.default.createElement('img', { src: '/assets/images/globe.png', style: { display: 'inline', marginBottom: -.25 + 'em', marginRight: .5 + 'em' } }),
+									{ style: { textAlign: 'center' } },
+									_react2.default.createElement(
+										'h2',
+										null,
+										'Sex'
+									),
 									_react2.default.createElement(
 										'p',
-										{ style: { fontSize: 10 + 'px', display: 'inline' } },
-										resultItem.venue.url ? _react2.default.createElement(
-											'a',
-											{ href: resultItem.venue.url, style: { border: 'none' } },
-											'Website'
-										) : 'Site not found for practice'
+										{ style: { margin: "10px" } },
+										_react2.default.createElement(
+											'select',
+											{ style: { margin: "auto", borderRight: "none", borderLeft: "none", borderTop: "none", color: '#bbb', fontSize: "25px", width: "180px" }, type: 'text', onChange: this.captureResponse, id: 'sex', defaultValue: 'Select sex' },
+											_react2.default.createElement(
+												'option',
+												{ disabled: true },
+												'Select sex'
+											),
+											_react2.default.createElement(
+												'option',
+												null,
+												'Female'
+											),
+											_react2.default.createElement(
+												'option',
+												null,
+												'Male'
+											)
+										)
 									)
 								)
 							),
 							_react2.default.createElement(
-								'div',
-								{ style: { marginLeft: 1 + 'em', textAlign: 'left' } },
-								_react2.default.createElement(
-									'p',
-									{ style: { fontSize: 11 + 'px', marginBottom: -1 + 'em' } },
-									'Details'
-								),
-								_react2.default.createElement('div', { style: { border: 'solid 1px #bbb', width: 95 + '%' } }),
-								_react2.default.createElement('img', { src: '/assets/images/clock.png', style: { display: 'inline' } }),
-								_react2.default.createElement(
-									'p',
-									{ style: { fontSize: 10 + 'px', display: 'inline', marginLeft: .5 + 'em' } },
-									'Open: ',
-									resultItem.venue.hours !== undefined && resultItem.venue.hours.isOpen === true ? 'Yes' : 'No'
-								),
-								_react2.default.createElement(
-									'p',
-									{ style: { fontSize: 10 + 'px', display: 'block', marginTop: -2 + 'em' } },
-									resultItem.venue.hours !== undefined && resultItem.venue.hours.status !== undefined ? resultItem.venue.hours.status : ''
-								),
-								_react2.default.createElement(
-									'p',
-									{ style: { fontSize: 10 + 'px', display: 'block', marginTop: -2.5 + 'em' } },
-									'Bookmark veterinarian'
-								)
+								_reactRouter.Link,
+								{ to: '/survey-2', style: { margin: "40px", float: 'right' }, className: 'button' },
+								'Next'
 							)
 						)
 					)
@@ -32690,10 +32511,24 @@
 			}
 		}]);
 	
-		return SearchResultItem;
+		return Questionnaire1;
 	}(_react.Component);
 	
-	exports.default = SearchResultItem;
+	var stateToProps = function stateToProps(state) {
+		return {
+			petProfile: state.petReducer.petProfile
+		};
+	};
+	
+	var dispatchToProps = function dispatchToProps(dispatch) {
+		return {
+			capturePetSurveyResponse: function capturePetSurveyResponse(petProfile) {
+				return dispatch((0, _actions.capturePetSurvey)(petProfile));
+			}
+		};
+	};
+	
+	exports.default = (0, _reactRedux.connect)(stateToProps, dispatchToProps)(Questionnaire1);
 
 /***/ },
 /* 288 */
@@ -32716,301 +32551,6 @@
 	var _store = __webpack_require__(229);
 	
 	var _store2 = _interopRequireDefault(_store);
-	
-	var _actions = __webpack_require__(249);
-	
-	var _reactRedux = __webpack_require__(250);
-	
-	var _APIManager = __webpack_require__(281);
-	
-	var _APIManager2 = _interopRequireDefault(_APIManager);
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-	
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-	
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-	
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-	
-	var Landing = function (_Component) {
-		_inherits(Landing, _Component);
-	
-		function Landing(props, context) {
-			_classCallCheck(this, Landing);
-	
-			var _this2 = _possibleConstructorReturn(this, Object.getPrototypeOf(Landing).call(this, props));
-	
-			_this2.captureZipcode = _this2.captureZipcode.bind(_this2);
-			_this2.searchVets = _this2.searchVets.bind(_this2);
-			_this2.state = {
-				searchZipcode: null
-			};
-			return _this2;
-		}
-	
-		_createClass(Landing, [{
-			key: 'captureZipcode',
-			value: function captureZipcode(event) {
-				this.setState({ searchZipcode: event.target.value });
-			}
-		}, {
-			key: 'searchVets',
-			value: function searchVets() {
-				var _this = this;
-				_APIManager2.default.handleGet('/api/search', { zipcode: this.state.searchZipcode, offset: 0 }, function (err, res) {
-					if (err) return alert('Oops something went wrong. Try a different search.');
-					if (res.confirmation === 'Success') {
-						_this.props.fetchSearchResults(res.results);
-						_reactRouter.browserHistory.push('/searchresults');
-						return;
-					}
-				});
-			}
-		}, {
-			key: 'render',
-			value: function render() {
-	
-				return _react2.default.createElement(
-					'div',
-					{ className: 'jumbotron', style: { textAlign: 'center' } },
-					_react2.default.createElement(
-						'div',
-						null,
-						_react2.default.createElement('img', { src: '/assets/images/vetFetch_blue.png', className: 'landingLogo' })
-					),
-					_react2.default.createElement(
-						'div',
-						null,
-						_react2.default.createElement(
-							'h2',
-							{ style: { color: '#7ec2d9' } },
-							'Find local care.'
-						)
-					),
-					_react2.default.createElement(
-						'div',
-						{ className: 'searchRow' },
-						_react2.default.createElement(
-							'div',
-							{ style: { margin: .5 + 'em' } },
-							_react2.default.createElement('input', { className: 'customInput', placeholder: 'Enter your zip', onChange: this.captureZipcode })
-						),
-						_react2.default.createElement(
-							'div',
-							{ style: { margin: .5 + 'em' } },
-							_react2.default.createElement(
-								'button',
-								{ onClick: this.searchVets },
-								'Submit'
-							)
-						)
-					)
-				);
-			}
-		}]);
-	
-		return Landing;
-	}(_react.Component);
-	
-	var stateToProps = function stateToProps(state) {
-		return {
-			user: state.userReducer.user
-		};
-	};
-	
-	var dispatchToProps = function dispatchToProps(dispatch) {
-		return {
-			fetchSearchResults: function fetchSearchResults(searchResults) {
-				return dispatch((0, _actions.receivedSearchResults)(searchResults));
-			}
-		};
-	};
-	
-	exports.default = (0, _reactRedux.connect)(stateToProps, dispatchToProps)(Landing);
-
-/***/ },
-/* 289 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	Object.defineProperty(exports, "__esModule", {
-		value: true
-	});
-	
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-	
-	var _react = __webpack_require__(1);
-	
-	var _react2 = _interopRequireDefault(_react);
-	
-	var _reactRouter = __webpack_require__(172);
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-	
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-	
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-	
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-	
-	var Questionnaire1 = function (_Component) {
-		_inherits(Questionnaire1, _Component);
-	
-		function Questionnaire1(props) {
-			_classCallCheck(this, Questionnaire1);
-	
-			var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(Questionnaire1).call(this, props));
-	
-			_this.petTypeSelected = _this.petTypeSelected.bind(_this);
-			_this.state = {
-				displaySelectionCheck: {
-					dog: false,
-					cat: false
-				},
-				opacitySetting: 0
-			};
-			return _this;
-		}
-	
-		_createClass(Questionnaire1, [{
-			key: 'componentDidMount',
-			value: function componentDidMount() {
-				this.setState({ opacitySetting: 1 });
-			}
-		}, {
-			key: 'petTypeSelected',
-			value: function petTypeSelected(event) {
-				var displaySelection = Object.assign({}, this.state.displaySelectionCheck);
-				displaySelection[event.target.id] = !displaySelection[event.target.id];
-				this.setState({ displaySelectionCheck: displaySelection });
-			}
-		}, {
-			key: 'render',
-			value: function render() {
-				var _state = this.state;
-				var displaySelectionCheck = _state.displaySelectionCheck;
-				var opacitySetting = _state.opacitySetting;
-	
-	
-				var catImgDisplay = displaySelectionCheck.dog == true ? "none" : "inline";
-				var dogImgDisplay = displaySelectionCheck.cat == true ? "none" : "inline";
-				return _react2.default.createElement(
-					'div',
-					{ className: 'jumbotron', style: { opacity: opacitySetting, transitionProperty: "opacity", transitionDuration: "1s" } },
-					_react2.default.createElement(
-						'div',
-						{ style: { display: 'flex', justifyContent: 'space-around' } },
-						_react2.default.createElement(
-							'div',
-							null,
-							_react2.default.createElement(
-								_reactRouter.Link,
-								{ to: '/searchresults', className: 'button small back' },
-								'Back'
-							),
-							_react2.default.createElement(
-								'div',
-								{ style: { marginTop: 2 + 'em' } },
-								_react2.default.createElement(
-									'h2',
-									null,
-									'Pick your pet'
-								),
-								_react2.default.createElement(
-									'a',
-									{ onClick: this.petTypeSelected, style: { borderBottom: "none", padding: '10px', cursor: "pointer" } },
-									_react2.default.createElement('img', { style: { margin: "20px", display: dogImgDisplay }, id: 'dog', src: '/assets/images/dog2.png', 'data-position': 'center center' })
-								),
-								_react2.default.createElement(
-									'a',
-									{ onClick: this.petTypeSelected, style: { borderBottom: "none", padding: '10px', cursor: "pointer" } },
-									_react2.default.createElement('img', { style: { margin: "20px", display: catImgDisplay }, id: 'cat', src: '/assets/images/cat2.png', 'data-position': 'center center' })
-								)
-							)
-						),
-						_react2.default.createElement(
-							'div',
-							{ style: { marginTop: 4.5 + 'em' } },
-							_react2.default.createElement(
-								'div',
-								{ style: { display: 'flex', justifyContent: 'space-around' } },
-								_react2.default.createElement(
-									'div',
-									{ style: { textAlign: 'center' } },
-									_react2.default.createElement(
-										'h2',
-										null,
-										'Age'
-									),
-									_react2.default.createElement(
-										'p',
-										{ style: { margin: "10px" } },
-										_react2.default.createElement('input', { style: { margin: "auto", borderRight: "none", borderLeft: "none", borderTop: "none", fontSize: "25px", width: "100px", placeholder: '2' }, type: 'text' })
-									)
-								),
-								_react2.default.createElement(
-									'div',
-									{ style: { textAlign: 'center' } },
-									_react2.default.createElement(
-										'h2',
-										null,
-										'Sex'
-									),
-									_react2.default.createElement(
-										'p',
-										{ style: { margin: "10px" } },
-										_react2.default.createElement(
-											'select',
-											{ style: { margin: "auto", borderRight: "none", borderLeft: "none", borderTop: "none", fontSize: "25px", width: "140px" }, type: 'text' },
-											_react2.default.createElement(
-												'option',
-												null,
-												'Female'
-											),
-											_react2.default.createElement(
-												'option',
-												null,
-												'Male'
-											)
-										)
-									)
-								)
-							),
-							_react2.default.createElement(
-								_reactRouter.Link,
-								{ to: '/survey-2', style: { margin: "40px" }, className: 'button' },
-								'Next'
-							)
-						)
-					)
-				);
-			}
-		}]);
-	
-		return Questionnaire1;
-	}(_react.Component);
-	
-	exports.default = Questionnaire1;
-
-/***/ },
-/* 290 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	Object.defineProperty(exports, "__esModule", {
-		value: true
-	});
-	
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-	
-	var _react = __webpack_require__(1);
-	
-	var _react2 = _interopRequireDefault(_react);
-	
-	var _reactRouter = __webpack_require__(172);
 	
 	var _AutocompleteBar = __webpack_require__(264);
 	
@@ -33051,40 +32591,33 @@
 	
 				return _react2.default.createElement(
 					'div',
-					null,
+					{ className: 'jumbotron', style: { opacity: opacitySetting, transitionProperty: "opacity", transitionDuration: "1s" } },
 					_react2.default.createElement(
-						'article',
-						{ id: 'work', className: 'panel secondary', style: { opacity: opacitySetting, transitionProperty: "opacity", transitionDuration: "1s" } },
+						'div',
+						{ style: { display: 'flex', justifyContent: 'space-around' } },
 						_react2.default.createElement(
 							'div',
-							{ className: 'content' },
+							{ className: 'leftPanel' },
 							_react2.default.createElement(
-								'ul',
-								{ className: 'actions spinX' },
-								_react2.default.createElement(
-									'li',
-									null,
-									_react2.default.createElement(
-										_reactRouter.Link,
-										{ to: '/survey-1', className: 'button small back' },
-										'Back'
-									)
-								)
+								_reactRouter.Link,
+								{ to: '/survey-1', className: 'button small back' },
+								'Back'
 							),
+							_react2.default.createElement('img', { src: '/assets/images/cat2.png', style: { display: 'block', marginTop: 4 + 'em', marginLeft: 'auto', marginRight: 'auto' } })
+						),
+						_react2.default.createElement(
+							'div',
+							{ style: { width: 400 + 'px' } },
 							_react2.default.createElement(
-								'div',
-								{ className: 'inner' },
-								_react2.default.createElement(
-									'h2',
-									{ style: { margin: "25px" } },
-									'Breed'
-								),
-								_react2.default.createElement(_AutocompleteBar2.default, null),
-								_react2.default.createElement(
-									_reactRouter.Link,
-									{ style: { margin: "20px" }, to: '/survey-3', className: 'button' },
-									'Next'
-								)
+								'h2',
+								{ style: { margin: "25px" } },
+								'Breed'
+							),
+							_react2.default.createElement(_AutocompleteBar2.default, null),
+							_react2.default.createElement(
+								_reactRouter.Link,
+								{ style: { margin: "40px", float: 'right' }, to: '/survey-3', className: 'button' },
+								'Next'
 							)
 						)
 					)
@@ -33098,7 +32631,7 @@
 	exports.default = Questionnaire2;
 
 /***/ },
-/* 291 */
+/* 289 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -33114,6 +32647,14 @@
 	var _react2 = _interopRequireDefault(_react);
 	
 	var _reactRouter = __webpack_require__(172);
+	
+	var _store = __webpack_require__(229);
+	
+	var _store2 = _interopRequireDefault(_store);
+	
+	var _reactRedux = __webpack_require__(250);
+	
+	var _actions = __webpack_require__(249);
 	
 	var _AutocompleteBar = __webpack_require__(264);
 	
@@ -33136,6 +32677,7 @@
 			var _this2 = _possibleConstructorReturn(this, Object.getPrototypeOf(Questionnaire3).call(this, props));
 	
 			_this2.conditionsList = ["Allergies", "Arthritis", "Cancer", "Diabetes", "Ear Infections", "Heart Disease", "Neutered or Spayed", "Orthopedic Conditions", "Skin Conditions", "Thyroid Conditions"];
+			_this2.captureResponse = _this2.captureResponse.bind(_this2);
 			_this2.highlightSelectedTile = _this2.highlightSelectedTile.bind(_this2);
 			_this2.state = {
 				highlight: false,
@@ -33151,6 +32693,14 @@
 				this.setState({ opacitySetting: 1 });
 			}
 		}, {
+			key: 'captureResponse',
+			value: function captureResponse(event) {
+				var response = Object.assign({}, this.props.petProfile);
+				response['tags'] = this.state.highlightToggleState;
+				this.props.capturePetSurveyResponse(response);
+				_reactRouter.browserHistory.push('/thankyou');
+			}
+		}, {
 			key: 'highlightSelectedTile',
 			value: function highlightSelectedTile(event) {
 				var highlightToggleState = this.state.highlightToggleState;
@@ -33159,14 +32709,11 @@
 	
 				if (highlightToggle[event.target.id] == null) {
 					highlightToggle[event.target.id] = true;
-					console.log("new condition clicked: " + JSON.stringify(event.target.id) + ", " + JSON.stringify(highlightToggle[event.target.id]));
 	
 					this.setState({ highlight: true, highlightToggleState: highlightToggle });
 					return;
 				}
 				highlightToggle[event.target.id] = !this.state.highlight;
-				console.log("condition clicked again: " + JSON.stringify(event.target.id) + ", " + JSON.stringify(highlightToggle[event.target.id]));
-	
 				this.setState({ highlight: !this.state.highlight, highlightToggleState: highlightToggle });
 			}
 		}, {
@@ -33190,7 +32737,6 @@
 						var conditionName = condition;
 						if (highlightToggleState[conditionName] == true) {
 							highlightState[conditionName] = "lightgreen";
-							console.log("highlight color for: " + JSON.stringify(conditionName) + ", " + JSON.stringify(highlightState));
 						}
 					}
 				} catch (err) {
@@ -33219,52 +32765,40 @@
 	
 				return _react2.default.createElement(
 					'div',
-					null,
+					{ className: 'jumbotron', style: { opacity: opacitySetting, transitionProperty: "opacity", transitionDuration: "1s" } },
 					_react2.default.createElement(
-						'article',
-						{ id: 'work', className: 'panel secondary', style: { opacity: opacitySetting, transitionProperty: "opacity", transitionDuration: "1s" } },
+						'div',
+						{ style: { display: 'flex', justifyContent: 'space-around' } },
 						_react2.default.createElement(
 							'div',
-							{ className: 'image' },
-							_react2.default.createElement('img', { src: '/images/dogface.png', alt: '', 'data-position': 'center center' })
+							{ className: 'leftPanel' },
+							_react2.default.createElement(
+								_reactRouter.Link,
+								{ to: '/survey-2', className: 'button small back' },
+								'Back'
+							),
+							_react2.default.createElement('img', { src: '/assets/images/dogface.png', style: { display: 'block', marginTop: 4 + 'em', marginLeft: 'auto', marginRight: 'auto' } })
 						),
 						_react2.default.createElement(
 							'div',
-							{ className: 'content' },
+							{ style: { width: 600 + 'px' } },
 							_react2.default.createElement(
-								'ul',
-								{ className: 'actions spinX' },
-								_react2.default.createElement(
-									'li',
-									null,
-									_react2.default.createElement(
-										_reactRouter.Link,
-										{ to: '/survey-2', className: 'button small back' },
-										'Back'
-									)
-								)
+								'h2',
+								{ style: { margin: "25px" } },
+								'Does your dog have a history of any of the following?'
 							),
 							_react2.default.createElement(
 								'div',
-								{ className: 'inner' },
-								_react2.default.createElement(
-									'h2',
-									{ style: { margin: "25px" } },
-									'Does your dog have a history of any of the following?'
-								),
+								{ style: { margin: 2 + 'em' } },
+								conditionTile
+							),
+							_react2.default.createElement(
+								'div',
+								{ style: { textAlign: 'center' } },
 								_react2.default.createElement(
 									'div',
-									{ className: 'row' },
-									_react2.default.createElement(
-										'div',
-										{ className: 'col-md-12' },
-										conditionTile
-									)
-								),
-								_react2.default.createElement(
-									_reactRouter.Link,
-									{ style: { margin: "40px" }, to: '/survey-results', className: 'button' },
-									'Next'
+									{ style: { margin: "40px" }, className: 'button', onClick: this.captureResponse },
+									'Submit'
 								)
 							)
 						)
@@ -33276,10 +32810,515 @@
 		return Questionnaire3;
 	}(_react.Component);
 	
-	exports.default = Questionnaire3;
+	var stateToProps = function stateToProps(state) {
+		return {
+			petProfile: state.petReducer.petProfile
+		};
+	};
+	
+	var dispatchToProps = function dispatchToProps(dispatch) {
+		return {
+			capturePetSurveyResponse: function capturePetSurveyResponse(petProfile) {
+				return dispatch((0, _actions.capturePetSurvey)(petProfile));
+			}
+		};
+	};
+	
+	exports.default = (0, _reactRedux.connect)(stateToProps, dispatchToProps)(Questionnaire3);
+
+/***/ },
+/* 290 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+		value: true
+	});
+	
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	
+	var _react = __webpack_require__(1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _reactRouter = __webpack_require__(172);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	
+	var SearchResultItem = function (_Component) {
+		_inherits(SearchResultItem, _Component);
+	
+		function SearchResultItem(props) {
+			_classCallCheck(this, SearchResultItem);
+	
+			var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(SearchResultItem).call(this, props));
+	
+			_this.toggleResultDetail = _this.toggleResultDetail.bind(_this);
+			_this.state = {
+				displayResultDetail: false
+			};
+			return _this;
+		}
+	
+		_createClass(SearchResultItem, [{
+			key: 'toggleResultDetail',
+			value: function toggleResultDetail(event) {
+				return this.setState({ displayResultDetail: !this.state.displayResultDetail });
+			}
+		}, {
+			key: 'render',
+			value: function render() {
+				var resultItem = this.props.resultItem;
+	
+				return _react2.default.createElement(
+					'div',
+					{ className: 'searchResultCard', style: { height: 'auto', marginTop: 1 + 'em', marginLeft: 2 + 'em', marginRight: 2 + 'em', display: 'block', overflowX: 'hidden' }, onClick: this.toggleResultDetail },
+					_react2.default.createElement(
+						'p',
+						{ style: { fontSize: 12 + 'px' } },
+						resultItem.venue.name
+					),
+					_react2.default.createElement(
+						'div',
+						{ style: { display: this.state.displayResultDetail ? 'block' : 'none' } },
+						_react2.default.createElement(
+							'div',
+							{ style: { display: 'flex', justifyContent: 'space-around' } },
+							_react2.default.createElement(
+								'div',
+								{ style: { textAlign: 'left' } },
+								_react2.default.createElement(
+									'div',
+									null,
+									_react2.default.createElement(
+										'p',
+										{ style: { fontSize: 11 + 'px', marginBottom: -1 + 'em' } },
+										'Practice Info'
+									),
+									_react2.default.createElement('div', { style: { border: 'solid 1px #bbb', width: 95 + '%' } }),
+									_react2.default.createElement('img', { src: '/assets/images/mappin.png', style: { display: 'inline' } }),
+									_react2.default.createElement(
+										'p',
+										{ style: { fontSize: 10 + 'px', display: 'inline' } },
+										' ',
+										resultItem.venue.location.address
+									),
+									_react2.default.createElement(
+										'p',
+										{ style: { fontSize: 10 + 'px', marginTop: -2 + 'em', marginLeft: 2 + 'em' } },
+										resultItem.venue.location.city,
+										', ',
+										resultItem.venue.location.state
+									),
+									_react2.default.createElement(
+										'p',
+										{ style: { fontSize: 10 + 'px', marginTop: -3.5 + 'em', marginLeft: 2 + 'em' } },
+										resultItem.venue.location.postalCode
+									)
+								),
+								_react2.default.createElement(
+									'div',
+									{ style: { marginTop: -2.5 + 'em' } },
+									_react2.default.createElement('img', { src: '/assets/images/phone.png', style: { display: 'inline', marginBottom: -.25 + 'em', marginRight: .5 + 'em' } }),
+									_react2.default.createElement(
+										'p',
+										{ style: { fontSize: 10 + 'px', display: 'inline' } },
+										resultItem.venue.contact.formattedPhone
+									)
+								),
+								_react2.default.createElement(
+									'div',
+									null,
+									_react2.default.createElement('img', { src: '/assets/images/globe.png', style: { display: 'inline', marginBottom: -.25 + 'em', marginRight: .5 + 'em' } }),
+									_react2.default.createElement(
+										'p',
+										{ style: { fontSize: 10 + 'px', display: 'inline' } },
+										resultItem.venue.url ? _react2.default.createElement(
+											'a',
+											{ href: resultItem.venue.url, style: { border: 'none' } },
+											'Website'
+										) : 'Site not found for practice'
+									)
+								)
+							),
+							_react2.default.createElement(
+								'div',
+								{ style: { marginLeft: 1 + 'em', textAlign: 'left' } },
+								_react2.default.createElement(
+									'p',
+									{ style: { fontSize: 11 + 'px', marginBottom: -1 + 'em' } },
+									'Details'
+								),
+								_react2.default.createElement('div', { style: { border: 'solid 1px #bbb', width: 95 + '%' } }),
+								_react2.default.createElement(
+									'div',
+									{ style: { display: 'block' } },
+									_react2.default.createElement('img', { src: '/assets/images/clock.png', style: { display: 'inline' } }),
+									_react2.default.createElement(
+										'p',
+										{ style: { fontSize: 10 + 'px', display: 'inline', marginLeft: .5 + 'em' } },
+										'Open: ',
+										resultItem.venue.hours !== undefined && resultItem.venue.hours.isOpen === true ? 'Yes' : 'No'
+									)
+								),
+								_react2.default.createElement(
+									'div',
+									{ style: { display: resultItem.venue.hours !== undefined && resultItem.venue.hours.status !== undefined ? 'block' : 'none' } },
+									_react2.default.createElement('img', { src: '/assets/images/lightbulb.png', style: { display: 'inline' } }),
+									_react2.default.createElement(
+										'p',
+										{ style: { fontSize: 10 + 'px', display: 'inline', marginTop: -2 + 'em', marginLeft: .5 + 'em' } },
+										resultItem.venue.hours !== undefined && resultItem.venue.hours.status !== undefined ? resultItem.venue.hours.status : ''
+									)
+								),
+								_react2.default.createElement(
+									'div',
+									{ style: { display: 'block' } },
+									_react2.default.createElement('img', { src: '/assets/images/star.png', style: { display: 'inline' } }),
+									_react2.default.createElement(
+										'p',
+										{ style: { fontSize: 10 + 'px', display: 'inline', marginTop: -2.5 + 'em', marginLeft: .5 + 'em' } },
+										'Bookmark'
+									)
+								)
+							)
+						)
+					)
+				);
+			}
+		}]);
+	
+		return SearchResultItem;
+	}(_react.Component);
+	
+	exports.default = SearchResultItem;
+
+/***/ },
+/* 291 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+		value: true
+	});
+	
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	
+	var _react = __webpack_require__(1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _reactRouter = __webpack_require__(172);
+	
+	var _store = __webpack_require__(229);
+	
+	var _store2 = _interopRequireDefault(_store);
+	
+	var _reactRedux = __webpack_require__(250);
+	
+	var _actions = __webpack_require__(249);
+	
+	var _components = __webpack_require__(263);
+	
+	var _APIManager = __webpack_require__(281);
+	
+	var _APIManager2 = _interopRequireDefault(_APIManager);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	
+	var SearchResults = function (_Component) {
+		_inherits(SearchResults, _Component);
+	
+		function SearchResults(props) {
+			_classCallCheck(this, SearchResults);
+	
+			var _this2 = _possibleConstructorReturn(this, Object.getPrototypeOf(SearchResults).call(this, props));
+	
+			_this2.resultsPagination = _this2.resultsPagination.bind(_this2);
+			_this2.startPetSurvey = _this2.startPetSurvey.bind(_this2);
+			_this2.state = {
+				opacitySetting: 0
+			};
+			return _this2;
+		}
+	
+		_createClass(SearchResults, [{
+			key: 'componentDidMount',
+			value: function componentDidMount() {
+				this.setState({ opacitySetting: 1 });
+			}
+		}, {
+			key: 'resultsPagination',
+			value: function resultsPagination(event) {
+				var searchResults = this.props.searchResults;
+	
+				var searchOffset = parseInt(searchResults.offset) + parseInt(event.target.id);
+				if (searchOffset < 0) {
+					searchOffset = 0;
+				}
+				var _this = this;
+				_APIManager2.default.handleGet('/api/search', { zipcode: searchResults.zipcode, offset: searchOffset }, function (err, res) {
+					if (err) return alert('Oops something went wrong loading your results.');
+					if (res.confirmation === 'Success') {
+						_this.props.fetchSearchResults(res.results);
+						return;
+					}
+				});
+			}
+		}, {
+			key: 'startPetSurvey',
+			value: function startPetSurvey() {
+				_reactRouter.browserHistory.push('/survey-1');
+	
+				//if current user, push to profile
+				// browserHistory.push('/profile')
+			}
+		}, {
+			key: 'render',
+			value: function render() {
+				var opacitySetting = this.state.opacitySetting;
+				var searchResults = this.props.searchResults;
+	
+				var displayedSearchResults = 10 + parseInt(searchResults.offset);
+				if (displayedSearchResults > searchResults.totalResults) {
+					displayedSearchResults = searchResults.totalResults;
+				}
+				var vetResultsList = searchResults.veterinarians.map(function (result, i) {
+					return _react2.default.createElement(_components.SearchResultItem, { key: i, resultItem: result });
+				});
+				if (searchResults.veterinarians.length === 0) {
+					vetResultsList = _react2.default.createElement(
+						'p',
+						{ style: { marginTop: 1 + 'em' } },
+						'\'Woof! Looks like they are no more search results to display.\''
+					);
+					displayedSearchResults = 0;
+				}
+				return _react2.default.createElement(
+					'div',
+					{ className: 'jumbotron', style: { textAlign: 'center' } },
+					_react2.default.createElement(
+						'div',
+						{ className: 'searchResultsRow' },
+						_react2.default.createElement(
+							'div',
+							{ className: 'leftPanel' },
+							_react2.default.createElement(
+								_reactRouter.Link,
+								{ to: '/' },
+								_react2.default.createElement(
+									'div',
+									{ className: 'button small back', style: { display: 'block', marginBottom: 2 + 'em', marginLeft: 2 + 'em', width: 22 + 'em' } },
+									'Start a new search'
+								)
+							),
+							_react2.default.createElement('img', { src: '/assets/images/sittingdog.png', style: { margin: 2 + 'em' } }),
+							_react2.default.createElement(
+								'p',
+								{ style: { display: 'block', fontSize: 12 + 'px', margin: 2 + 'em' } },
+								'Psss...Save your pet records on vetFetch for your next appointment.'
+							),
+							_react2.default.createElement(
+								'button',
+								{ style: { marginBottom: 4 + 'em' }, onClick: this.startPetSurvey },
+								'Get started here, woof!'
+							)
+						),
+						_react2.default.createElement(
+							'div',
+							null,
+							_react2.default.createElement(
+								'h3',
+								null,
+								searchResults.totalResults,
+								' veterinarians near ',
+								searchResults.zipcode
+							),
+							_react2.default.createElement(
+								'div',
+								{ style: { fontSize: 10 + 'px' } },
+								_react2.default.createElement(
+									'button',
+									{ id: '-10', onClick: this.resultsPagination },
+									'Last'
+								),
+								_react2.default.createElement(
+									'p',
+									{ style: { display: 'inline', fontSize: 11 + 'px', marginLeft: 1 + 'em', marginRight: 1 + 'em' } },
+									'displaying ',
+									displayedSearchResults,
+									' of ',
+									searchResults.totalResults,
+									' results'
+								),
+								_react2.default.createElement(
+									'button',
+									{ id: '10', onClick: this.resultsPagination },
+									'Next'
+								)
+							),
+							_react2.default.createElement(
+								'div',
+								{ style: { marginTop: 2 + 'em', border: 'solid rgb(219,220,255)', borderRadius: .75 + 'em', height: 400 + 'px', width: 600 + 'px', overflowY: 'scroll' } },
+								vetResultsList
+							)
+						)
+					)
+				);
+			}
+		}]);
+	
+		return SearchResults;
+	}(_react.Component);
+	
+	var stateToProps = function stateToProps(state) {
+		return {
+			searchResults: state.searchReducer.searchResults
+		};
+	};
+	
+	var dispatchToProps = function dispatchToProps(dispatch) {
+		return {
+			fetchSearchResults: function fetchSearchResults(searchResults) {
+				return dispatch((0, _actions.receivedSearchResults)(searchResults));
+			}
+		};
+	};
+	
+	exports.default = (0, _reactRedux.connect)(stateToProps, dispatchToProps)(SearchResults);
 
 /***/ },
 /* 292 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+		value: true
+	});
+	
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	
+	var _react = __webpack_require__(1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _reactRouter = __webpack_require__(172);
+	
+	var _store = __webpack_require__(229);
+	
+	var _store2 = _interopRequireDefault(_store);
+	
+	var _reactRedux = __webpack_require__(250);
+	
+	var _AutocompleteBar = __webpack_require__(264);
+	
+	var _AutocompleteBar2 = _interopRequireDefault(_AutocompleteBar);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	
+	var Questionnaire3 = function (_Component) {
+		_inherits(Questionnaire3, _Component);
+	
+		function Questionnaire3(props) {
+			_classCallCheck(this, Questionnaire3);
+	
+			var _this2 = _possibleConstructorReturn(this, Object.getPrototypeOf(Questionnaire3).call(this, props));
+	
+			_this2.state = {
+				opacitySetting: 0
+			};
+			return _this2;
+		}
+	
+		_createClass(Questionnaire3, [{
+			key: 'componentDidMount',
+			value: function componentDidMount() {
+				console.log('Line 15 petPROFILE: ' + JSON.stringify(this.props.petProfile));
+				//check for current user. If current user === true, display btn to profile page
+				//if current user === null, display btn to create account
+				this.setState({ opacitySetting: 1 });
+			}
+		}, {
+			key: 'render',
+			value: function render() {
+				var opacitySetting = this.state.opacitySetting;
+	
+				var _this = this;
+	
+				return _react2.default.createElement(
+					'div',
+					{ className: 'jumbotron', style: { opacity: opacitySetting, transitionProperty: "opacity", transitionDuration: "1s" } },
+					_react2.default.createElement(
+						'div',
+						{ style: { display: 'flex', justifyContent: 'space-around' } },
+						_react2.default.createElement(
+							'div',
+							{ className: 'leftPanel' },
+							_react2.default.createElement(
+								_reactRouter.Link,
+								{ to: '/survey-2', className: 'button small back' },
+								'Back'
+							),
+							_react2.default.createElement('img', { src: '/assets/images/dogface.png', style: { display: 'block', marginTop: 4 + 'em', marginLeft: 'auto', marginRight: 'auto' } })
+						),
+						_react2.default.createElement(
+							'div',
+							{ style: { width: 600 + 'px' } },
+							_react2.default.createElement(
+								'h2',
+								{ style: { margin: "25px" } },
+								'Thank you for taking our survey!'
+							),
+							_react2.default.createElement(
+								'p',
+								{ style: { margin: "25px" } },
+								'Create an account to access your pet profile and any bookmarked veterinarians.'
+							),
+							_react2.default.createElement(
+								_reactRouter.Link,
+								{ to: '/signup', className: 'button', style: { margin: "25px" } },
+								'Sign Up'
+							)
+						)
+					)
+				);
+			}
+		}]);
+	
+		return Questionnaire3;
+	}(_react.Component);
+	
+	var stateToProps = function stateToProps(state) {
+		return {
+			petProfile: state.petReducer.petProfile
+		};
+	};
+	
+	exports.default = (0, _reactRedux.connect)(stateToProps)(Questionnaire3);
+
+/***/ },
+/* 293 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -33328,6 +33367,7 @@
 	
 			_this2.captureUserInput = _this2.captureUserInput.bind(_this2);
 			_this2.saveUser = _this2.saveUser.bind(_this2);
+			_this2.saveUserPet = _this2.saveUserPet.bind(_this2);
 			_this2.state = {
 				opacitySetting: 0,
 				user: null,
@@ -33353,7 +33393,6 @@
 			key: 'saveUser',
 			value: function saveUser(event) {
 				var saveUser = Object.assign({}, this.state.user);
-				var _this = this;
 				if (saveUser.password === saveUser.confirmPassword) {
 					delete saveUser.confirmPassword;
 				} else {
@@ -33361,17 +33400,35 @@
 					return;
 				}
 	
+				var _this = this;
 				_APIManager2.default.handlePost("/api/user", saveUser, function (err, response) {
-					if (err) {
-						alert(err);
-						return;
-					}
+					if (err) return alert(err);
+					if (response.confirmation === 'Fail') return alert(JSON.stringify(response));
 	
-					if (response.confirmation == "Success") {
-						_this.setState({ displaySuccessAlert: true });
-						console.log("POST USER RESPONSE: " + JSON.stringify(response));
+					if (response.confirmation === "Success") {
+						return _this.saveUserPet(response.result.id);
 					}
-					return;
+				});
+			}
+		}, {
+			key: 'saveUserPet',
+			value: function saveUserPet(userID) {
+				console.log('Line 56 USER ID for pet profile: ' + JSON.stringify(userID));
+				var newPetProfile = Object.assign({}, this.props.petProfile);
+				newPetProfile['ownerID'] = userID;
+				console.log('Line 58 petProfile: ' + JSON.stringify(newPetProfile));
+	
+				var _this = this;
+				_APIManager2.default.handlePost("/api/pet", newPetProfile, function (err, response) {
+					if (err) return alert(err);
+					console.log("POST PET ERR: " + JSON.stringify(err));
+	
+					console.log("POST PET RESPONSE: " + JSON.stringify(response));
+					if (response.confirmation === 'Fail') return alert(JSON.stringify(response));
+	
+					if (response.confirmation === "Success") {
+						return _this.setState({ displaySuccessAlert: true });
+					}
 				});
 			}
 		}, {
@@ -33387,84 +33444,68 @@
 	
 				return _react2.default.createElement(
 					'div',
-					null,
+					{ className: 'jumbotron', style: { opacity: opacitySetting, transitionProperty: "opacity", transitionDuration: "1s" } },
 					_react2.default.createElement(
-						'article',
-						{ id: 'work', className: 'panel secondary', style: { opacity: opacitySetting, transitionProperty: "opacity", transitionDuration: "1s" } },
+						'div',
+						{ style: { display: 'flex', justifyContent: 'space-around' } },
 						_react2.default.createElement(
 							'div',
-							{ className: 'image' },
-							_react2.default.createElement('img', { src: '/images/flamingo.png', alt: '', 'data-position': 'center center' })
+							{ className: 'leftPanel' },
+							_react2.default.createElement(
+								_reactRouter.Link,
+								{ to: '/thankyou', className: 'button small back' },
+								'Back'
+							),
+							_react2.default.createElement('img', { src: '/assets/images/flamingo.png', style: { display: 'block', marginTop: 4 + 'em', marginLeft: 'auto', marginRight: 'auto' } })
 						),
 						_react2.default.createElement(
 							'div',
-							{ className: 'content' },
+							{ style: { width: 600 + 'px' } },
 							_react2.default.createElement(
-								'ul',
-								{ className: 'actions spinX' },
-								_react2.default.createElement(
-									'li',
-									null,
-									_react2.default.createElement(
-										_reactRouter.Link,
-										{ to: '/survey-results', className: 'button small back' },
-										'Back'
-									)
-								)
+								'h2',
+								{ style: { margin: "25px" } },
+								'Sign Up'
+							),
+							_react2.default.createElement(
+								'p',
+								null,
+								_react2.default.createElement('input', { id: 'email', onChange: this.captureUserInput, style: { borderRight: "none", borderLeft: "none", borderTop: "none", fontSize: "20px", width: "350px" }, placeholder: 'Email', className: 'col-md-3', type: 'text' })
+							),
+							_react2.default.createElement(
+								'p',
+								null,
+								_react2.default.createElement('input', { id: 'phone', onChange: this.captureUserInput, style: { borderRight: "none", borderLeft: "none", borderTop: "none", fontSize: "20px", width: "250px" }, placeholder: 'Telephone', className: 'col-md-3', type: 'text' })
+							),
+							_react2.default.createElement(
+								'p',
+								null,
+								_react2.default.createElement('input', { id: 'password', onChange: this.captureUserInput, style: { borderRight: "none", borderLeft: "none", borderTop: "none", fontSize: "20px", width: "250px" }, placeholder: 'Password', className: 'col-md-3', type: 'password' })
+							),
+							_react2.default.createElement(
+								'p',
+								null,
+								_react2.default.createElement('input', { id: 'confirmPassword', onChange: this.captureUserInput, style: { borderRight: "none", borderLeft: "none", borderTop: "none", fontSize: "20px", width: "250px" }, placeholder: 'Confirm Password', className: 'col-md-3', type: 'password' })
+							),
+							_react2.default.createElement(
+								_reactRouter.Link,
+								{ onClick: this.saveUser, style: { margin: "20px" }, className: 'button' },
+								'Submit'
 							),
 							_react2.default.createElement(
 								'div',
-								{ className: 'inner' },
-								_react2.default.createElement(
-									'header',
-									null,
-									_react2.default.createElement(
-										'h2',
-										null,
-										'Sign Up'
-									)
-								),
-								_react2.default.createElement(
-									'p',
-									null,
-									_react2.default.createElement('input', { id: 'email', onChange: this.captureUserInput, style: { borderRight: "none", borderLeft: "none", borderTop: "none", fontSize: "20px", width: "350px" }, placeholder: 'Email', className: 'col-md-3', type: 'text' })
-								),
-								_react2.default.createElement(
-									'p',
-									null,
-									_react2.default.createElement('input', { id: 'phone', onChange: this.captureUserInput, style: { borderRight: "none", borderLeft: "none", borderTop: "none", fontSize: "20px", width: "250px" }, placeholder: 'Number', className: 'col-md-3', type: 'text' })
-								),
-								_react2.default.createElement(
-									'p',
-									null,
-									_react2.default.createElement('input', { id: 'password', onChange: this.captureUserInput, style: { borderRight: "none", borderLeft: "none", borderTop: "none", fontSize: "20px", width: "250px" }, placeholder: 'Password', className: 'col-md-3', type: 'password' })
-								),
-								_react2.default.createElement(
-									'p',
-									null,
-									_react2.default.createElement('input', { id: 'confirmPassword', onChange: this.captureUserInput, style: { borderRight: "none", borderLeft: "none", borderTop: "none", fontSize: "20px", width: "250px" }, placeholder: 'Confirm Password', className: 'col-md-3', type: 'password' })
-								),
+								{ style: { display: errorAlertDisplay } },
+								' "Oops, your password entries don\'t match. Please try again." '
+							),
+							_react2.default.createElement(
+								'div',
+								{ style: { display: successAlertDisplay } },
+								' Thanks for signing up. Check out your ',
 								_react2.default.createElement(
 									_reactRouter.Link,
-									{ onClick: this.saveUser, style: { margin: "20px" }, className: 'button' },
-									'Submit'
+									{ to: '/profile' },
+									' profile.'
 								),
-								_react2.default.createElement(
-									'div',
-									{ style: { display: errorAlertDisplay } },
-									' "Oops, your password entries don\'t match. Please try again." '
-								),
-								_react2.default.createElement(
-									'div',
-									{ style: { display: successAlertDisplay } },
-									' Thanks for signing up. Check out your ',
-									_react2.default.createElement(
-										_reactRouter.Link,
-										{ to: '/profile' },
-										' profile.'
-									),
-									' '
-								)
+								' '
 							)
 						)
 					)
@@ -33477,22 +33518,14 @@
 	
 	var stateToProps = function stateToProps(state) {
 		return {
-			user: state.userReducer.user
+			petProfile: state.petReducer.petProfile
 		};
 	};
 	
-	var dispatchToProps = function dispatchToProps(dispatch) {
-		return {
-			captureUserForm: function captureUserForm(user) {
-				return dispatch(_actions2.default.receivedUser(user));
-			}
-		};
-	};
-	
-	exports.default = (0, _reactRedux.connect)(stateToProps, dispatchToProps)(UserCapture);
+	exports.default = (0, _reactRedux.connect)(stateToProps)(UserCapture);
 
 /***/ },
-/* 293 */
+/* 294 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';

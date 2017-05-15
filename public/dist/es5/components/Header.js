@@ -32,12 +32,12 @@ var Header = (function (Component) {
 					{ className: "header" },
 					React.createElement(
 						"div",
-						null,
+						{ style: { marginLeft: 6 + "em" } },
 						"Home"
 					),
 					React.createElement(
 						"div",
-						null,
+						{ style: { marginRight: 6 + "em" } },
 						"Get help"
 					)
 				);

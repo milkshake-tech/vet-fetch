@@ -19,6 +19,10 @@ var _reactRouter = require("react-router");
 
 var Link = _reactRouter.Link;
 var browserHistory = _reactRouter.browserHistory;
+var store = _interopRequire(require("../stores/store"));
+
+var connect = require("react-redux").connect;
+var capturePetSurvey = require("../actions/actions").capturePetSurvey;
 var Autosuggest = _interopRequire(require("react-autosuggest"));
 
 var DogBreeds = _interopRequire(require("../utils/DogBreeds"));
@@ -53,6 +57,10 @@ var AutocompleteBar = (function (Component) {
 		},
 		onChange: {
 			value: function onChange(event, newValue) {
+				var response = Object.assign({}, this.props.petProfile);
+				response.breed = newValue.newValue;
+				this.props.capturePetSurveyResponse(response);
+
 				this.setState({
 					value: newValue.newValue
 				});
@@ -140,4 +148,18 @@ var AutocompleteBar = (function (Component) {
 	return AutocompleteBar;
 })(Component);
 
-module.exports = AutocompleteBar;
+var stateToProps = function (state) {
+	return {
+		petProfile: state.petReducer.petProfile
+	};
+};
+
+var dispatchToProps = function (dispatch) {
+	return {
+		capturePetSurveyResponse: function (petProfile) {
+			return dispatch(capturePetSurvey(petProfile));
+		}
+	};
+};
+
+module.exports = connect(stateToProps, dispatchToProps)(AutocompleteBar);

@@ -22,7 +22,6 @@ var browserHistory = _reactRouter.browserHistory;
 var store = _interopRequire(require("../stores/store"));
 
 var connect = require("react-redux").connect;
-var capturePetSurvey = require("../actions/actions").capturePetSurvey;
 var AutocompleteBar = _interopRequire(require("../components/AutocompleteBar"));
 
 var Questionnaire3 = (function (Component) {
@@ -30,12 +29,7 @@ var Questionnaire3 = (function (Component) {
 		_classCallCheck(this, Questionnaire3);
 
 		_get(Object.getPrototypeOf(Questionnaire3.prototype), "constructor", this).call(this, props);
-		this.conditionsList = ["Allergies", "Arthritis", "Cancer", "Diabetes", "Ear Infections", "Heart Disease", "Neutered or Spayed", "Orthopedic Conditions", "Skin Conditions", "Thyroid Conditions"];
-		this.captureResponse = this.captureResponse.bind(this);
-		this.highlightSelectedTile = this.highlightSelectedTile.bind(this);
 		this.state = {
-			highlight: false,
-			highlightToggleState: {},
 			opacitySetting: 0
 		};
 	}
@@ -45,62 +39,19 @@ var Questionnaire3 = (function (Component) {
 	_prototypeProperties(Questionnaire3, null, {
 		componentDidMount: {
 			value: function componentDidMount() {
+				console.log("Line 15 petPROFILE: " + JSON.stringify(this.props.petProfile));
+				//check for current user. If current user === true, display btn to profile page
+				//if current user === null, display btn to create account
 				this.setState({ opacitySetting: 1 });
-			},
-			writable: true,
-			configurable: true
-		},
-		captureResponse: {
-			value: function captureResponse(event) {
-				var response = Object.assign({}, this.props.petProfile);
-				response.tags = this.state.highlightToggleState;
-				this.props.capturePetSurveyResponse(response);
-				browserHistory.push("/thankyou");
-			},
-			writable: true,
-			configurable: true
-		},
-		highlightSelectedTile: {
-			value: function highlightSelectedTile(event) {
-				var highlightToggleState = this.state.highlightToggleState;
-				var highlightToggle = Object.assign({}, highlightToggleState);
-
-				if (highlightToggle[event.target.id] == null) {
-					highlightToggle[event.target.id] = true;
-
-					this.setState({ highlight: true, highlightToggleState: highlightToggle });
-					return;
-				}
-				highlightToggle[event.target.id] = !this.state.highlight;
-				this.setState({ highlight: !this.state.highlight, highlightToggleState: highlightToggle });
 			},
 			writable: true,
 			configurable: true
 		},
 		render: {
 			value: function render() {
-				var _state = this.state;
-				var highlightToggleState = _state.highlightToggleState;
-				var opacitySetting = _state.opacitySetting;
-				var highlightState = {};
-				var highlightColor = "";
-
-				for (var _iterator = this.conditionsList[Symbol.iterator](), _step; !(_step = _iterator.next()).done;) {
-					var condition = _step.value;
-					var conditionName = condition;
-					if (highlightToggleState[conditionName] == true) {
-						highlightState[conditionName] = "lightgreen";
-					}
-				}
-
+				var opacitySetting = this.state.opacitySetting;
 				var _this = this;
-				var conditionTile = this.conditionsList.map(function (condition, i) {
-					return React.createElement(
-						"div",
-						{ onClick: _this.highlightSelectedTile, key: i, id: condition, style: { margin: "10px", backgroundColor: highlightState[condition] }, className: "button" },
-						condition
-					);
-				});
+
 
 				return React.createElement(
 					"div",
@@ -124,21 +75,17 @@ var Questionnaire3 = (function (Component) {
 							React.createElement(
 								"h2",
 								{ style: { margin: "25px" } },
-								"Does your dog have a history of any of the following?"
+								"Thank you for taking our survey!"
 							),
 							React.createElement(
-								"div",
-								{ style: { margin: 2 + "em" } },
-								conditionTile
+								"p",
+								{ style: { margin: "25px" } },
+								"Create an account to access your pet profile and any bookmarked veterinarians."
 							),
 							React.createElement(
-								"div",
-								{ style: { textAlign: "center" } },
-								React.createElement(
-									"div",
-									{ style: { margin: "40px" }, className: "button", onClick: this.captureResponse },
-									"Submit"
-								)
+								Link,
+								{ to: "/signup", className: "button", style: { margin: "25px" } },
+								"Sign Up"
 							)
 						)
 					)
@@ -158,12 +105,4 @@ var stateToProps = function (state) {
 	};
 };
 
-var dispatchToProps = function (dispatch) {
-	return {
-		capturePetSurveyResponse: function (petProfile) {
-			return dispatch(capturePetSurvey(petProfile));
-		}
-	};
-};
-
-module.exports = connect(stateToProps, dispatchToProps)(Questionnaire3);
+module.exports = connect(stateToProps)(Questionnaire3);

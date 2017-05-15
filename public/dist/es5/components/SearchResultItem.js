@@ -45,10 +45,10 @@ var SearchResultItem = (function (Component) {
 				var resultItem = this.props.resultItem;
 				return React.createElement(
 					"div",
-					{ className: "searchResultCard", style: { height: "auto", margin: 1 + "em", display: "block" }, onClick: this.toggleResultDetail },
+					{ className: "searchResultCard", style: { height: "auto", marginTop: 1 + "em", marginLeft: 2 + "em", marginRight: 2 + "em", display: "block", overflowX: "hidden" }, onClick: this.toggleResultDetail },
 					React.createElement(
 						"p",
-						{ style: { fontSize: 10 + "px" } },
+						{ style: { fontSize: 12 + "px" } },
 						resultItem.venue.name
 					),
 					React.createElement(
@@ -78,11 +78,14 @@ var SearchResultItem = (function (Component) {
 									),
 									React.createElement(
 										"p",
-										{ style: { fontSize: 10 + "px", marginTop: -2 + "em" } },
+										{ style: { fontSize: 10 + "px", marginTop: -2 + "em", marginLeft: 2 + "em" } },
 										resultItem.venue.location.city,
 										", ",
-										resultItem.venue.location.state,
-										" ",
+										resultItem.venue.location.state
+									),
+									React.createElement(
+										"p",
+										{ style: { fontSize: 10 + "px", marginTop: -3.5 + "em", marginLeft: 2 + "em" } },
 										resultItem.venue.location.postalCode
 									)
 								),
@@ -120,22 +123,36 @@ var SearchResultItem = (function (Component) {
 									"Details"
 								),
 								React.createElement("div", { style: { border: "solid 1px #bbb", width: 95 + "%" } }),
-								React.createElement("img", { src: "/assets/images/clock.png", style: { display: "inline" } }),
 								React.createElement(
-									"p",
-									{ style: { fontSize: 10 + "px", display: "inline", marginLeft: 0.5 + "em" } },
-									"Open: ",
-									resultItem.venue.hours !== undefined && resultItem.venue.hours.isOpen === true ? "Yes" : "No"
+									"div",
+									{ style: { display: "block" } },
+									React.createElement("img", { src: "/assets/images/clock.png", style: { display: "inline" } }),
+									React.createElement(
+										"p",
+										{ style: { fontSize: 10 + "px", display: "inline", marginLeft: 0.5 + "em" } },
+										"Open: ",
+										resultItem.venue.hours !== undefined && resultItem.venue.hours.isOpen === true ? "Yes" : "No"
+									)
 								),
 								React.createElement(
-									"p",
-									{ style: { fontSize: 10 + "px", display: "block", marginTop: -2 + "em" } },
-									resultItem.venue.hours !== undefined && resultItem.venue.hours.status !== undefined ? resultItem.venue.hours.status : ""
+									"div",
+									{ style: { display: resultItem.venue.hours !== undefined && resultItem.venue.hours.status !== undefined ? "block" : "none" } },
+									React.createElement("img", { src: "/assets/images/lightbulb.png", style: { display: "inline" } }),
+									React.createElement(
+										"p",
+										{ style: { fontSize: 10 + "px", display: "inline", marginTop: -2 + "em", marginLeft: 0.5 + "em" } },
+										resultItem.venue.hours !== undefined && resultItem.venue.hours.status !== undefined ? resultItem.venue.hours.status : ""
+									)
 								),
 								React.createElement(
-									"p",
-									{ style: { fontSize: 10 + "px", display: "block", marginTop: -2.5 + "em" } },
-									"Bookmark veterinarian"
+									"div",
+									{ style: { display: "block" } },
+									React.createElement("img", { src: "/assets/images/star.png", style: { display: "inline" } }),
+									React.createElement(
+										"p",
+										{ style: { fontSize: 10 + "px", display: "inline", marginTop: -2.5 + "em", marginLeft: 0.5 + "em" } },
+										"Bookmark"
+									)
 								)
 							)
 						)

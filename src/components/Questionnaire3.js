@@ -1,5 +1,8 @@
 import React, { Component } from 'react'
 import { Link, browserHistory } from 'react-router'
+import store from '../stores/store'
+import { connect } from 'react-redux'
+import {capturePetSurvey} from '../actions/actions'
 import AutocompleteBar from '../components/AutocompleteBar'
 
 class Questionnaire3 extends Component {
@@ -7,6 +10,7 @@ class Questionnaire3 extends Component {
 	constructor(props){
 		super(props)
 		this.conditionsList = ["Allergies", "Arthritis", "Cancer", "Diabetes", "Ear Infections", "Heart Disease", "Neutered or Spayed", "Orthopedic Conditions", "Skin Conditions", "Thyroid Conditions"]
+		this.captureResponse = this.captureResponse.bind(this)
 		this.highlightSelectedTile = this.highlightSelectedTile.bind(this)
 		this.state = {
 			highlight: false,
@@ -19,20 +23,24 @@ class Questionnaire3 extends Component {
 		this.setState({opacitySetting: 1})
 	}
 
+	captureResponse(event){
+		let response = Object.assign({}, this.props.petProfile)
+		response['tags'] = this.state.highlightToggleState
+		this.props.capturePetSurveyResponse(response)
+		browserHistory.push('/thankyou')
+	}
+
 	highlightSelectedTile(event){
 		var {highlightToggleState} = this.state
 		var highlightToggle = Object.assign({}, highlightToggleState)
 
 		if (highlightToggle[event.target.id] == null){
 			highlightToggle[event.target.id] = true
-			console.log("new condition clicked: "+JSON.stringify(event.target.id)+", "+JSON.stringify(highlightToggle[event.target.id]))
 
 			this.setState({highlight: true, highlightToggleState: highlightToggle})
 			return
 		}
 		highlightToggle[event.target.id] = !this.state.highlight
-		console.log("condition clicked again: "+JSON.stringify(event.target.id)+", "+JSON.stringify(highlightToggle[event.target.id]))
-
 		this.setState({highlight: !this.state.highlight, highlightToggleState: highlightToggle})
 	}
 
@@ -45,7 +53,6 @@ class Questionnaire3 extends Component {
 			var conditionName = condition
 			if (highlightToggleState[conditionName] == true){
 				highlightState[conditionName] = "lightgreen"
-				console.log("highlight color for: "+JSON.stringify(conditionName)+", "+JSON.stringify(highlightState))
 			}
 		}
 
@@ -59,29 +66,36 @@ class Questionnaire3 extends Component {
 		  })
 
 		return(
-			<div>
-				<article id="work" className="panel secondary" style={{opacity: opacitySetting, transitionProperty: "opacity", transitionDuration: "1s"}}>
-					<div className="image">
-						<img src="/images/dogface.png" alt="" data-position="center center" />
+			<div className='jumbotron' style={{opacity: opacitySetting, transitionProperty: "opacity", transitionDuration: "1s"}}>
+				<div style={{display:'flex', justifyContent: 'space-around'}}>
+
+					<div className='leftPanel'>
+						<Link to="/survey-2" className="button small back">Back</Link>
+						<img src="/assets/images/dogface.png" style={{display: 'block', marginTop:4+'em', marginLeft:'auto', marginRight:'auto'}} />
 					</div>
-					<div className="content">
-						<ul className="actions spinX">
-							<li><Link to="/survey-2" className="button small back">Back</Link></li>
-						</ul>
-						<div className="inner">
-								<h2 style={{margin: "25px"}}>Does your dog have a history of any of the following?</h2>
-							<div className="row">
-								<div className="col-md-12">
-									{conditionTile}
-								</div>
-							</div>
-							<Link style={{margin:"40px"}} to="/survey-results" className="button">Next</Link>
+
+					<div style={{width:600+'px'}}>
+						<h2 style={{margin: "25px"}}>Does your dog have a history of any of the following?</h2>
+						<div style={{margin: 2+'em'}}>
+							{conditionTile}
+						</div>
+						<div style={{textAlign:'center'}}>
+							<div style={{margin:"40px"}} className="button" onClick={this.captureResponse}>Submit</div>
 						</div>
 					</div>
-				</article>
+
+				</div>
 			</div>
 		)
 	}
 }
 
-export default Questionnaire3
+const stateToProps = (state) => ({
+	petProfile: state.petReducer.petProfile
+})
+
+const dispatchToProps = (dispatch) => ({
+	capturePetSurveyResponse: (petProfile) => dispatch(capturePetSurvey(petProfile))
+})
+
+export default connect(stateToProps, dispatchToProps)(Questionnaire3)

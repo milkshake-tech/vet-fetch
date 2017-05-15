@@ -11,6 +11,7 @@ class UserCapture extends Component {
 		super(props)
 		this.captureUserInput = this.captureUserInput.bind(this)
 		this.saveUser = this.saveUser.bind(this)
+		this.saveUserPet = this.saveUserPet.bind(this)
 		this.state = {
 			opacitySetting: 0,
 			user: null,
@@ -30,8 +31,7 @@ class UserCapture extends Component {
 	}
 
 	saveUser(event){
-		var saveUser = Object.assign({}, this.state.user)
-		var _this = this
+		let saveUser = Object.assign({}, this.state.user)
 		if (saveUser.password === saveUser.confirmPassword){
 			delete saveUser.confirmPassword
 		}
@@ -40,19 +40,36 @@ class UserCapture extends Component {
 			return
 		}
 
+		let _this = this
 		APIManager.handlePost("/api/user", saveUser, function(err, response){
-			if(err){
-				alert(err)
-				return
-			}
+			if(err) return alert(err)
+			if (response.confirmation === 'Fail') return alert(JSON.stringify(response))
 
-			if (response.confirmation == "Success"){
-				_this.setState({displaySuccessAlert: true})
-				console.log("POST USER RESPONSE: "+JSON.stringify(response))
-
+			if (response.confirmation === "Success") {
+				return _this.saveUserPet(response.result.id)
 			}
-			return
 		})
+	}
+
+	saveUserPet(userID){
+		console.log('Line 56 USER ID for pet profile: '+JSON.stringify(userID))
+		let newPetProfile = Object.assign({}, this.props.petProfile)
+		newPetProfile['ownerID'] = userID
+		console.log('Line 58 petProfile: '+JSON.stringify(newPetProfile))
+
+		let _this = this
+		APIManager.handlePost("/api/pet", newPetProfile, function(err, response){
+			if(err) return alert(err)
+			console.log("POST PET ERR: "+JSON.stringify(err))
+
+			console.log("POST PET RESPONSE: "+JSON.stringify(response))
+			if (response.confirmation === 'Fail') return alert(JSON.stringify(response))
+
+			if (response.confirmation === "Success") {
+				return _this.setState({displaySuccessAlert: true})
+			}
+		})
+
 	}
 
 	render(){
@@ -61,31 +78,28 @@ class UserCapture extends Component {
 		var successAlertDisplay = displaySuccessAlert == true ? "block" : "none"
 
 		return(
-			<div>
-				<article id="work" className="panel secondary" style={{opacity: opacitySetting, transitionProperty: "opacity", transitionDuration: "1s"}}>
-					<div className="image">
-						<img src="/images/flamingo.png" alt="" data-position="center center" />
+			<div className='jumbotron' style={{opacity: opacitySetting, transitionProperty: "opacity", transitionDuration: "1s"}}>
+				<div style={{display:'flex', justifyContent: 'space-around'}}>
+
+					<div className='leftPanel'>
+						<Link to="/thankyou" className="button small back">Back</Link>
+						<img src="/assets/images/flamingo.png" style={{display: 'block', marginTop:4+'em', marginLeft:'auto', marginRight:'auto'}} />
 					</div>
-					<div className="content">
-						<ul className="actions spinX">
-							<li><Link to="/survey-results" className="button small back">Back</Link></li>
-						</ul>
-						<div className="inner">
-							<header>
-								<h2>Sign Up</h2>
-							</header>
+
+					<div style={{width:600+'px'}}>
+							<h2 style={{margin: "25px"}}>Sign Up</h2>
+
 							<p><input id="email" onChange={this.captureUserInput} style={{borderRight:"none", borderLeft:"none", borderTop:"none", fontSize:"20px", width:"350px"}} placeholder="Email" className="col-md-3" type="text"/></p>
-							<p><input id="phone" onChange={this.captureUserInput} style={{borderRight:"none", borderLeft:"none", borderTop:"none", fontSize:"20px", width:"250px"}} placeholder="Number" className="col-md-3" type="text"/></p>
+							<p><input id="phone" onChange={this.captureUserInput} style={{borderRight:"none", borderLeft:"none", borderTop:"none", fontSize:"20px", width:"250px"}} placeholder="Telephone" className="col-md-3" type="text"/></p>
 							<p><input id="password" onChange={this.captureUserInput} style={{borderRight:"none", borderLeft:"none", borderTop:"none", fontSize:"20px", width:"250px"}} placeholder="Password" className="col-md-3" type="password"/></p>
 							<p><input id="confirmPassword" onChange={this.captureUserInput} style={{borderRight:"none", borderLeft:"none", borderTop:"none", fontSize:"20px", width:"250px"}} placeholder="Confirm Password" className="col-md-3" type="password"/></p>
 
 							<Link onClick={this.saveUser} style={{margin: "20px"}} className="button">Submit</Link>
 							<div style={{display: errorAlertDisplay}}> "Oops, your password entries don't match. Please try again." </div>
 							<div style={{display: successAlertDisplay}}> Thanks for signing up. Check out your <Link to="/profile"> profile.</Link> </div>
-
-						</div>
 					</div>
-				</article>
+
+				</div>
 			</div>
 		)
 	}
@@ -93,14 +107,8 @@ class UserCapture extends Component {
 
 const stateToProps = (state) => {
 	return {
-		user: state.userReducer.user
+		petProfile: state.petReducer.petProfile
 	}
 }
 
-const dispatchToProps = (dispatch) => {
-	return{
-		captureUserForm: (user) => dispatch(actions.receivedUser(user))
-	}
-}
-
-export default connect (stateToProps, dispatchToProps) (UserCapture)
+export default connect (stateToProps)(UserCapture)

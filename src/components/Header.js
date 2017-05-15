@@ -10,10 +10,10 @@ class Header extends Component {
 
 		return (
 			<div className="header">
-        <div>
+        <div style={{marginLeft:6+'em'}}>
           Home
         </div>
-        <div>
+        <div style={{marginRight:6+'em'}}>
           Get help
         </div>
       </div>

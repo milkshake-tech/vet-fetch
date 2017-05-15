@@ -1,5 +1,8 @@
 import React, { Component } from 'react'
 import { Link, browserHistory } from 'react-router'
+import store from '../stores/store'
+import { connect } from 'react-redux'
+import {capturePetSurvey} from '../actions/actions'
 import Autosuggest from 'react-autosuggest'
 import DogBreeds from '../utils/DogBreeds'
 
@@ -25,10 +28,13 @@ class AutocompleteBar extends Component {
 	}
 
 	onChange(event, newValue){
+		let response = Object.assign({}, this.props.petProfile)
+		response['breed'] = newValue.newValue
+		this.props.capturePetSurveyResponse(response)
 
-    this.setState({
+	  this.setState({
       value: newValue.newValue
-    });
+    })
   }
 
   onSuggestionsFetchRequested(value) {
@@ -87,4 +93,12 @@ renderSuggestion(suggestion){
 	}
 }
 
-export default AutocompleteBar
+const stateToProps = (state) => ({
+	petProfile: state.petReducer.petProfile
+})
+
+const dispatchToProps = (dispatch) => ({
+	capturePetSurveyResponse: (petProfile) => dispatch(capturePetSurvey(petProfile))
+})
+
+export default connect(stateToProps, dispatchToProps)(AutocompleteBar)

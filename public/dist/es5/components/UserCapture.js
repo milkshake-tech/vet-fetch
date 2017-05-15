@@ -33,6 +33,7 @@ var UserCapture = (function (Component) {
 		_get(Object.getPrototypeOf(UserCapture.prototype), "constructor", this).call(this, props);
 		this.captureUserInput = this.captureUserInput.bind(this);
 		this.saveUser = this.saveUser.bind(this);
+		this.saveUserPet = this.saveUserPet.bind(this);
 		this.state = {
 			opacitySetting: 0,
 			user: null,
@@ -63,7 +64,6 @@ var UserCapture = (function (Component) {
 		saveUser: {
 			value: function saveUser(event) {
 				var saveUser = Object.assign({}, this.state.user);
-				var _this = this;
 				if (saveUser.password === saveUser.confirmPassword) {
 					delete saveUser.confirmPassword;
 				} else {
@@ -71,17 +71,37 @@ var UserCapture = (function (Component) {
 					return;
 				}
 
+				var _this = this;
 				APIManager.handlePost("/api/user", saveUser, function (err, response) {
-					if (err) {
-						alert(err);
-						return;
-					}
+					if (err) return alert(err);
+					if (response.confirmation === "Fail") return alert(JSON.stringify(response));
 
-					if (response.confirmation == "Success") {
-						_this.setState({ displaySuccessAlert: true });
-						console.log("POST USER RESPONSE: " + JSON.stringify(response));
+					if (response.confirmation === "Success") {
+						return _this.saveUserPet(response.result.id);
 					}
-					return;
+				});
+			},
+			writable: true,
+			configurable: true
+		},
+		saveUserPet: {
+			value: function saveUserPet(userID) {
+				console.log("Line 56 USER ID for pet profile: " + JSON.stringify(userID));
+				var newPetProfile = Object.assign({}, this.props.petProfile);
+				newPetProfile.ownerID = userID;
+				console.log("Line 58 petProfile: " + JSON.stringify(newPetProfile));
+
+				var _this = this;
+				APIManager.handlePost("/api/pet", newPetProfile, function (err, response) {
+					if (err) return alert(err);
+					console.log("POST PET ERR: " + JSON.stringify(err));
+
+					console.log("POST PET RESPONSE: " + JSON.stringify(response));
+					if (response.confirmation === "Fail") return alert(JSON.stringify(response));
+
+					if (response.confirmation === "Success") {
+						return _this.setState({ displaySuccessAlert: true });
+					}
 				});
 			},
 			writable: true,
@@ -98,84 +118,68 @@ var UserCapture = (function (Component) {
 
 				return React.createElement(
 					"div",
-					null,
+					{ className: "jumbotron", style: { opacity: opacitySetting, transitionProperty: "opacity", transitionDuration: "1s" } },
 					React.createElement(
-						"article",
-						{ id: "work", className: "panel secondary", style: { opacity: opacitySetting, transitionProperty: "opacity", transitionDuration: "1s" } },
+						"div",
+						{ style: { display: "flex", justifyContent: "space-around" } },
 						React.createElement(
 							"div",
-							{ className: "image" },
-							React.createElement("img", { src: "/images/flamingo.png", alt: "", "data-position": "center center" })
+							{ className: "leftPanel" },
+							React.createElement(
+								Link,
+								{ to: "/thankyou", className: "button small back" },
+								"Back"
+							),
+							React.createElement("img", { src: "/assets/images/flamingo.png", style: { display: "block", marginTop: 4 + "em", marginLeft: "auto", marginRight: "auto" } })
 						),
 						React.createElement(
 							"div",
-							{ className: "content" },
+							{ style: { width: 600 + "px" } },
 							React.createElement(
-								"ul",
-								{ className: "actions spinX" },
-								React.createElement(
-									"li",
-									null,
-									React.createElement(
-										Link,
-										{ to: "/survey-results", className: "button small back" },
-										"Back"
-									)
-								)
+								"h2",
+								{ style: { margin: "25px" } },
+								"Sign Up"
+							),
+							React.createElement(
+								"p",
+								null,
+								React.createElement("input", { id: "email", onChange: this.captureUserInput, style: { borderRight: "none", borderLeft: "none", borderTop: "none", fontSize: "20px", width: "350px" }, placeholder: "Email", className: "col-md-3", type: "text" })
+							),
+							React.createElement(
+								"p",
+								null,
+								React.createElement("input", { id: "phone", onChange: this.captureUserInput, style: { borderRight: "none", borderLeft: "none", borderTop: "none", fontSize: "20px", width: "250px" }, placeholder: "Telephone", className: "col-md-3", type: "text" })
+							),
+							React.createElement(
+								"p",
+								null,
+								React.createElement("input", { id: "password", onChange: this.captureUserInput, style: { borderRight: "none", borderLeft: "none", borderTop: "none", fontSize: "20px", width: "250px" }, placeholder: "Password", className: "col-md-3", type: "password" })
+							),
+							React.createElement(
+								"p",
+								null,
+								React.createElement("input", { id: "confirmPassword", onChange: this.captureUserInput, style: { borderRight: "none", borderLeft: "none", borderTop: "none", fontSize: "20px", width: "250px" }, placeholder: "Confirm Password", className: "col-md-3", type: "password" })
+							),
+							React.createElement(
+								Link,
+								{ onClick: this.saveUser, style: { margin: "20px" }, className: "button" },
+								"Submit"
 							),
 							React.createElement(
 								"div",
-								{ className: "inner" },
-								React.createElement(
-									"header",
-									null,
-									React.createElement(
-										"h2",
-										null,
-										"Sign Up"
-									)
-								),
-								React.createElement(
-									"p",
-									null,
-									React.createElement("input", { id: "email", onChange: this.captureUserInput, style: { borderRight: "none", borderLeft: "none", borderTop: "none", fontSize: "20px", width: "350px" }, placeholder: "Email", className: "col-md-3", type: "text" })
-								),
-								React.createElement(
-									"p",
-									null,
-									React.createElement("input", { id: "phone", onChange: this.captureUserInput, style: { borderRight: "none", borderLeft: "none", borderTop: "none", fontSize: "20px", width: "250px" }, placeholder: "Number", className: "col-md-3", type: "text" })
-								),
-								React.createElement(
-									"p",
-									null,
-									React.createElement("input", { id: "password", onChange: this.captureUserInput, style: { borderRight: "none", borderLeft: "none", borderTop: "none", fontSize: "20px", width: "250px" }, placeholder: "Password", className: "col-md-3", type: "password" })
-								),
-								React.createElement(
-									"p",
-									null,
-									React.createElement("input", { id: "confirmPassword", onChange: this.captureUserInput, style: { borderRight: "none", borderLeft: "none", borderTop: "none", fontSize: "20px", width: "250px" }, placeholder: "Confirm Password", className: "col-md-3", type: "password" })
-								),
+								{ style: { display: errorAlertDisplay } },
+								" \"Oops, your password entries don't match. Please try again.\" "
+							),
+							React.createElement(
+								"div",
+								{ style: { display: successAlertDisplay } },
+								" Thanks for signing up. Check out your ",
 								React.createElement(
 									Link,
-									{ onClick: this.saveUser, style: { margin: "20px" }, className: "button" },
-									"Submit"
+									{ to: "/profile" },
+									" profile."
 								),
-								React.createElement(
-									"div",
-									{ style: { display: errorAlertDisplay } },
-									" \"Oops, your password entries don't match. Please try again.\" "
-								),
-								React.createElement(
-									"div",
-									{ style: { display: successAlertDisplay } },
-									" Thanks for signing up. Check out your ",
-									React.createElement(
-										Link,
-										{ to: "/profile" },
-										" profile."
-									),
-									" "
-								)
+								" "
 							)
 						)
 					)
@@ -191,16 +195,8 @@ var UserCapture = (function (Component) {
 
 var stateToProps = function (state) {
 	return {
-		user: state.userReducer.user
+		petProfile: state.petReducer.petProfile
 	};
 };
 
-var dispatchToProps = function (dispatch) {
-	return {
-		captureUserForm: function (user) {
-			return dispatch(actions.receivedUser(user));
-		}
-	};
-};
-
-module.exports = connect(stateToProps, dispatchToProps)(UserCapture);
+module.exports = connect(stateToProps)(UserCapture);

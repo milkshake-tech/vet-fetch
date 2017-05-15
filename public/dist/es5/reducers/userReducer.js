@@ -7,11 +7,8 @@ var constants = _interopRequire(require("../constants/constants"));
 var initialState = {
 	user: {
 		id: null,
-		firstName: "",
-		lastName: "",
-		phone: "",
 		email: "",
-		password: ""
+		phone: ""
 	}
 };
 

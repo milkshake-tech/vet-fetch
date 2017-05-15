@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import ReactDOM from 'react-dom'
 import { Router, Route, IndexRoute, browserHistory } from 'react-router'
 import Main from './components/Main'
-import {Landing, InsuranceDetail, Questionnaire1, Questionnaire2, Questionnaire3, SearchResults, UserCapture, UserProfile} from './components'
+import {Landing, Questionnaire1, Questionnaire2, Questionnaire3, SearchResults, SurveyThankyou, UserCapture, UserProfile} from './components'
 import store from './stores/store'
 import { Provider } from 'react-redux'
 
@@ -17,6 +17,7 @@ const app = (
 				<Route path="/survey-3" component={Questionnaire3} />
 				<Route path="/profile" component={UserProfile} />
 				<Route path="/signup" component={UserCapture} />
+				<Route path='/thankyou' component={SurveyThankyou} />
 			</Route>
 		</Router>
 	</Provider>

@@ -26,11 +26,11 @@ var receivedSearchResults = require("../actions/actions").receivedSearchResults;
 var SearchResultItem = require("../components").SearchResultItem;
 var APIManager = _interopRequire(require("../utils/APIManager"));
 
-var SearchResults = (function (Component) {
-	function SearchResults(props) {
-		_classCallCheck(this, SearchResults);
+var ProfileContainer = (function (Component) {
+	function ProfileContainer(props) {
+		_classCallCheck(this, ProfileContainer);
 
-		_get(Object.getPrototypeOf(SearchResults.prototype), "constructor", this).call(this, props);
+		_get(Object.getPrototypeOf(ProfileContainer.prototype), "constructor", this).call(this, props);
 		this.resultsPagination = this.resultsPagination.bind(this);
 		this.startPetSurvey = this.startPetSurvey.bind(this);
 		this.state = {
@@ -38,9 +38,9 @@ var SearchResults = (function (Component) {
 		};
 	}
 
-	_inherits(SearchResults, Component);
+	_inherits(ProfileContainer, Component);
 
-	_prototypeProperties(SearchResults, null, {
+	_prototypeProperties(ProfileContainer, null, {
 		componentDidMount: {
 			value: function componentDidMount() {
 				this.setState({ opacitySetting: 1 });
@@ -101,7 +101,7 @@ var SearchResults = (function (Component) {
 						{ className: "searchResultsRow" },
 						React.createElement(
 							"div",
-							{ className: "leftPanel" },
+							null,
 							React.createElement(
 								Link,
 								{ to: "/" },
@@ -114,7 +114,7 @@ var SearchResults = (function (Component) {
 							React.createElement("img", { src: "/assets/images/sittingdog.png", style: { margin: 2 + "em" } }),
 							React.createElement(
 								"p",
-								{ style: { display: "block", fontSize: 12 + "px", margin: 2 + "em" } },
+								{ style: { display: "block", fontSize: 12 + "px" } },
 								"Psss...Save your pet records on vetFetch for your next appointment."
 							),
 							React.createElement(
@@ -158,7 +158,7 @@ var SearchResults = (function (Component) {
 							),
 							React.createElement(
 								"div",
-								{ style: { marginTop: 2 + "em", border: "solid rgb(219,220,255)", borderRadius: 0.75 + "em", height: 400 + "px", width: 600 + "px", overflowY: "scroll" } },
+								{ style: { marginTop: 2 + "em" } },
 								vetResultsList
 							)
 						)
@@ -170,7 +170,7 @@ var SearchResults = (function (Component) {
 		}
 	});
 
-	return SearchResults;
+	return ProfileContainer;
 })(Component);
 
 var stateToProps = function (state) {
@@ -187,6 +187,4 @@ var dispatchToProps = function (dispatch) {
 	};
 };
 
-module.exports = connect(stateToProps, dispatchToProps)(SearchResults);
-//if current user, push to profile
-// browserHistory.push('/profile')
+module.exports = connect(stateToProps, dispatchToProps)(ProfileContainer);
