@@ -1,35 +1,47 @@
 var express = require('express');
 var router = express.Router();
+var {ReactRouter} = require('react-router')
+var ReactDOMServer = require('react-dom/server')
+var {createStore} = require('redux')
+// var vetFetchApp = require('../src/reducers')
+var createHistory = require('history').createMemoryHistory
 
-require('node-jsx').install({ extension: ".js" });
-var React = require('react');
-var ReactDOMServer = require('react-dom/server');
-
-var ServerApp = require('../public/dist/es5/ServerApp');
+matchRoutes = function(req, routes){
+	return new Promise(function(resolve, reject){
+		ReactRouter.match({routes, location: req.url}, function(error, redirectLocation, renderProps){
+			if(error){
+				reject(error)
+				return
+			}
+			resolve(renderProps)
+		})
+	})
+}
 
 router.get('/', function(req, res, next) {
-
-	var html = ReactDOMServer.renderToString(React.createElement(ServerApp, {page: 'home'}));
-	res.render('index', {react:html});
+	res.render('index', {title:'vetFetch'})
 });
 
-router.get('/:page', function(req, res, next){
-	var page = req.params.page
-
-	var html = ReactDOMServer.renderToString(React.createElement(ServerApp, {page: page}));
-	res.render(page, {react:html})
+router.get('/:page', function(req, res, next) {
+	res.render('index', {title:'vetFetch'})
 });
 
-router.get('/:page/:slug', function(req, res, next){
-	var page = req.params.page
-	if (page == 'api' || page == 'user'){
-		next()
-		return
-	}
-	var slug = req.params.slug
-
-	var html = ReactDOMServer.renderToString(React.createElement(ServerApp, {page: page, slug: slug}));
-	res.render(page, {react:html});
-});
+// router.get('/:page', function(req, res, next){
+// 	let history = createHistory()
+//
+// 	let routes = createRoutes(history)
+// 	return matchRoutes(req, routes)
+// 	.then(function(renderProps){
+// 		var html = ReactDOMServer.renderToString(React.createElement(ReactRouter.RouterContext, renderProps))
+// 		res.render('index', {
+// 			react:html,
+// 			preloadedState:JSON.stringify(store.getState())
+// 		})
+// 	})
+// 	.catch(function(err){
+// 		console.log('INDEX ROUTE ERROR 1: '+err)
+// 		return
+// 	})
+// })
 
 module.exports = router;
