@@ -24,6 +24,7 @@ class Landing extends Component {
 		let _this = this
 		APIManager.handleGet('/api/search', {zipcode: this.state.searchZipcode, offset: 0}, function(err, res){
 			if (err) return alert('Oops something went wrong. Try a different search.')
+			if (res.confirmation === 'Fail') return alert(JSON.stringify(res.message))
 			if (res.confirmation === 'Success') {
 				_this.props.fetchSearchResults(res.results)
 				browserHistory.push('/searchresults')
