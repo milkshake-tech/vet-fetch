@@ -6,8 +6,10 @@ import {Landing, Questionnaire1, Questionnaire2, Questionnaire3, SearchResults, 
 import store from './stores/store'
 import { Provider } from 'react-redux'
 
+const initialState = window.__PRELOADED_STATE__
+
 const app = (
-	<Provider store={store}>
+	<Provider store={store.configureStore(initialState)}>
 		<Router history={browserHistory}>
 			<Route path="/" component={Main}>
 				<IndexRoute component={Landing} />

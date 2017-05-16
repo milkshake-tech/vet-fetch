@@ -3,6 +3,7 @@ const dotenv = require('dotenv').config()
 
 var webpack = require("webpack");
 var path = require('path')
+var AssetsPlugin = require('assets-webpack-plugin')
 
 module.exports = {
 	entry: {
@@ -12,13 +13,13 @@ module.exports = {
 		filename:"public/dist/bundle.js",
         sourceMapFilename: "public/dist/bundle.map"
 	},
-    devtool: '#source-map',	
+    devtool: '#source-map',
 	module: {
 		loaders: [
 			{
 				test: /\.jsx?$/,
 				exclude: /(node_modules|bower_components)/,
-				loader: 'babel',
+				loader: 'babel-loader',
 				query:{
 					presets:['react', 'es2015']
 				}
