@@ -19,7 +19,7 @@ class SearchResultItem extends Component {
 		var {resultItem} = this.props
 		return(
 			<div className="searchResultCard" style={{height:'auto', marginTop:1+'em', marginLeft: 2+'em', marginRight:2+'em', display:'block', overflowX:'hidden'}} onClick={this.toggleResultDetail}>
-				<p style={{fontSize: 12+'px'}}>{resultItem.venue.name}</p>
+				<p style={{fontSize: 11+'px'}}>{resultItem.venue.name}</p>
 				<div style={{display: this.state.displayResultDetail ? 'block' : 'none'}}>
 					<div style={{display: 'flex', justifyContent:'space-around'}}>
 						<div style={{textAlign:'left'}}>

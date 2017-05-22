@@ -1,8 +1,8 @@
 import { createStore, applyMiddleware, combineReducers } from 'redux'
 import thunk from 'redux-thunk'
-import petReducer from '../reducers/petReducer'
-import searchReducer from '../reducers/searchReducer'
-import userReducer from '../reducers/userReducer'
+import searchReducer from '../vet-search/reducers/searchReducer'
+import petReducer from '../pet-survey/reducers/petReducer'
+import userReducer from '../user/reducers/userReducer'
 
 var store
 

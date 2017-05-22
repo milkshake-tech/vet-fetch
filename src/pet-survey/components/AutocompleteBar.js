@@ -1,16 +1,18 @@
 import React, { Component } from 'react'
 import { Link, browserHistory } from 'react-router'
-import store from '../stores/store'
+import Autosuggest from 'react-autosuggest'
+import store from '../../stores/store'
 import { connect } from 'react-redux'
 import {capturePetSurvey} from '../actions/actions'
-import Autosuggest from 'react-autosuggest'
-import DogBreeds from '../utils/DogBreeds'
+import CatBreeds from '../../utils/CatBreeds'
+import DogBreeds from '../../utils/DogBreeds'
 
 class AutocompleteBar extends Component {
 
 	constructor(props){
 		super(props)
-		this.breeds = DogBreeds.breeds
+		this.dogBreeds = DogBreeds.breeds
+		this.catBreeds = CatBreeds.breeds
 		this.onChange = this.onChange.bind(this)
     this.onSuggestionsFetchRequested = this.onSuggestionsFetchRequested.bind(this)
     this.onSuggestionsClearRequested = this.onSuggestionsClearRequested.bind(this)
@@ -18,13 +20,16 @@ class AutocompleteBar extends Component {
     this.renderSuggestion = this.renderSuggestion.bind(this)
     this.getSuggestionValue = this.getSuggestionValue.bind(this)
 		this.state = {
-		 value: '',
-		 suggestions: []
+			breeds: [],
+		 	value: '',
+		 	suggestions: []
 	 }
 	}
 
 	componentDidMount(){
-		var arrayCheck= Array.isArray(this.breeds)
+		let {petProfile} = this.props
+		if (petProfile.dog === true) return this.setState({breeds: this.dogBreeds})
+		if (petProfile.cat === true) return this.setState({breeds: this.catBreeds})
 	}
 
 	onChange(event, newValue){
@@ -53,9 +58,12 @@ class AutocompleteBar extends Component {
 	getSuggestions(value) {
   const inputValue = value.trim().toLowerCase();
   const inputLength = inputValue.length;
-  return inputLength === 0 ? [] : this.breeds.filter(breed =>
-    breed.toLowerCase().slice(0, inputLength) === inputValue
-  )
+
+	let suggestionArray = inputLength === 0 ? [] : this.state.breeds.filter(breed =>
+		breed.toLowerCase().slice(0, inputLength) === inputValue
+	)
+	return (suggestionArray.length === 0) ? ['No matches.'] : suggestionArray
+
 }
 
 getSuggestionValue(suggestion){
@@ -72,7 +80,6 @@ renderSuggestion(suggestion){
 
 	render(){
 		const {value, suggestions} = this.state;
-
     const inputProps = {
       value,
       onChange: this.onChange

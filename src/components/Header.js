@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { Link, browserHistory } from 'react-router'
 
 class Header extends Component {
 
@@ -11,10 +12,10 @@ class Header extends Component {
 		return (
 			<div className="header">
         <div style={{marginLeft:6+'em'}}>
-          Home
+          <Link to='/' style={{border: 'none'}}><img src="/assets/images/vetFetch_white_sm.png"/></Link>
         </div>
         <div style={{marginRight:6+'em'}}>
-          Get help
+          <Link to='/signup' style={{border:'none'}}> Sign Up / Log In </Link>
         </div>
       </div>
 		)

@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import { Link, browserHistory } from 'react-router'
 import store from '../stores/store'
-import actions from '../actions/actions'
 import { connect } from 'react-redux'
 import {Footer, Header} from '../components'
 

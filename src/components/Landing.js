@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { Link, browserHistory } from 'react-router'
 import store from '../stores/store'
-import {receivedSearchResults} from '../actions/actions'
+import {receivedSearchResults} from '../vet-search/actions/actions'
 import { connect } from 'react-redux'
 import APIManager from '../utils/APIManager'
 
@@ -10,6 +10,7 @@ class Landing extends Component {
 	constructor(props, context){
 		super(props)
 		this.captureZipcode = this.captureZipcode.bind(this)
+		this.onEnterPress = this.onEnterPress.bind(this)
 		this.searchVets = this.searchVets.bind(this)
 		this.state = {
 			searchZipcode: null
@@ -18,6 +19,10 @@ class Landing extends Component {
 
 	captureZipcode(event){
 		this.setState({searchZipcode: event.target.value})
+	}
+
+	onEnterPress(event){
+		if(event.key === 'Enter') return this.searchVets()
 	}
 
 	searchVets(){
@@ -44,7 +49,7 @@ class Landing extends Component {
 					<h2 style={{color: '#7ec2d9'}}>Find local care.</h2>
 				</div>
 				<div className="searchRow">
-					<div style={{margin: .5+'em'}}><input className="customInput" placeholder='Enter your zip' onChange={this.captureZipcode}/></div>
+					<div style={{margin: .5+'em'}}><input className="customInput" placeholder='Enter your zip' onChange={this.captureZipcode} onKeyPress={this.onEnterPress}/></div>
 					<div style={{margin: .5+'em'}}><button onClick={this.searchVets}>Submit</button></div>
 				</div>
 			</div>

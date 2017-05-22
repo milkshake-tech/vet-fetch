@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Link, browserHistory } from 'react-router'
-import store from '../stores/store'
+import store from '../../stores/store'
 import { connect } from 'react-redux'
 import AutocompleteBar from '../components/AutocompleteBar'
 
@@ -27,20 +27,18 @@ class Questionnaire3 extends Component {
 
 		return(
 			<div className='jumbotron' style={{opacity: opacitySetting, transitionProperty: "opacity", transitionDuration: "1s"}}>
-				<div style={{display:'flex', justifyContent: 'space-around'}}>
+				<div style={{margin:2+'em'}}><Link to="/survey-3" className="button small back" style={{marginLeft: 2+'em'}}>Back</Link></div>
 
+				<div style={{display:'flex', justifyContent: 'space-around'}}>
 					<div className='leftPanel'>
-						<Link to="/survey-2" className="button small back">Back</Link>
-						<img src="/assets/images/dogface.png" style={{display: 'block', marginTop:4+'em', marginLeft:'auto', marginRight:'auto'}} />
+						<img src="/assets/images/corgi.png" style={{display: 'block', marginTop:4+'em', marginLeft:'auto', marginRight:'auto'}} />
 					</div>
 
 					<div style={{width:600+'px'}}>
-						<h2 style={{margin: "25px"}}>Thank you for taking our survey!</h2>
-
-						<p style={{margin: "25px"}}>Create an account to access your pet profile and any bookmarked veterinarians.</p>
-						<Link to='/signup' className='button' style={{margin: "25px"}}>Sign Up</Link>
+						<h2 style={{margin: "25px"}}>Thank you! Your pet profile is ready.</h2>
+						<p style={{margin: "25px"}}>Create an account to check it out and bookmark veterinarians.</p>
+						<div style={{textAlign:'center'}}><Link to='/signup' className='button'>Sign Up</Link></div>
 					</div>
-
 				</div>
 			</div>
 		)

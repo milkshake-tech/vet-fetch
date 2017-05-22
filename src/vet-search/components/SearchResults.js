@@ -1,10 +1,10 @@
 import React, { Component } from 'react'
 import { Link, browserHistory } from 'react-router'
-import store from '../stores/store'
+import store from '../../stores/store'
 import { connect } from 'react-redux'
 import {receivedSearchResults} from '../actions/actions'
 import {SearchResultItem} from '../components'
-import APIManager from '../utils/APIManager'
+import APIManager from '../../utils/APIManager'
 
 class SearchResults extends Component {
 	constructor(props){
@@ -56,16 +56,17 @@ class SearchResults extends Component {
 			)
 		})
 		if (searchResults.veterinarians.length === 0){
-			vetResultsList = <p style={{marginTop:1+'em'}}>'Woof! Looks like they are no more search results to display.'</p>
+			vetResultsList = <p style={{marginTop:1+'em'}}>Woof! Looks like they are no more search results to display.</p>
 			displayedSearchResults = 0
 		}
 		return(
 			<div className='jumbotron' style={{textAlign:'center'}}>
+				<div>
+					<Link to="/" style={{border:'none'}}><div className='button small back' style={{display:'block', marginLeft: 2+'em', width:22+'em'}}>Start a new search</div></Link>
+				</div>
 				<div className='searchResultsRow'>
 					<div className='leftPanel'>
-						<Link to="/"><div className='button small back' style={{display:'block', marginBottom: 2+'em', marginLeft: 2+'em', width:22+'em'}}>Start a new search</div></Link>
-
-						<img src='/assets/images/sittingdog.png' style={{margin:2+'em'}}/>
+						<img src="/assets/images/sittingdog.png" className='searchImg'/>
 						<p style={{display:'block', fontSize: 12+'px', margin:2+'em'}}>Psss...Save your pet records on vetFetch for your next appointment.</p>
 						<button style={{marginBottom: 4+'em'}} onClick={this.startPetSurvey}>Get started here, woof!</button>
 					</div>

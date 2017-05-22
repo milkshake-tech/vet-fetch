@@ -1,8 +1,13 @@
 import React, { Component } from 'react'
+console.log('Line 2 react app.js '+process.env.NODE_ENV)
+
 import ReactDOM from 'react-dom'
 import { Router, Route, IndexRoute, browserHistory } from 'react-router'
 import Main from './components/Main'
-import {Landing, Questionnaire1, Questionnaire2, Questionnaire3, SearchResults, SurveyThankyou, UserCapture, UserProfile} from './components'
+import {Landing} from './components'
+import {SearchResults} from './vet-search/components'
+import {Questionnaire1, Questionnaire2, Questionnaire3, SurveyThankyou} from './pet-survey/components'
+import {UserCapture, UserProfile} from './user/components'
 import store from './stores/store'
 import { Provider } from 'react-redux'
 

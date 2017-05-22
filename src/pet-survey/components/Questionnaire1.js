@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Link, browserHistory } from 'react-router'
-import store from '../stores/store'
+import store from '../../stores/store'
 import { connect } from 'react-redux'
 import {capturePetSurvey} from '../actions/actions'
 
@@ -41,52 +41,49 @@ class Questionnaire1 extends Component {
 
 		var catImgDisplay = displaySelectionCheck.dog === true ? "none" : "inline"
 		var dogImgDisplay = displaySelectionCheck.cat === true ? "none" : "inline"
-		var displayNameCapture = (displaySelectionCheck.dog === true || displaySelectionCheck.cat === true) ? 'block' : 'none'
+		var displayNameCapture = (displaySelectionCheck.dog === true || displaySelectionCheck.cat === true) ? true : false
 		return(
 			<div className='jumbotron' style={{opacity: opacitySetting, transitionProperty: "opacity", transitionDuration: "1s"}}>
+				<div style={{margin:2+'em'}}><Link to="/searchresults" className="button small back" style={{marginLeft: 2+'em'}}>Back</Link></div>
+
 				<div style={{display:'flex', justifyContent: 'space-around'}}>
 
 					<div className='leftPanel'>
-						<Link to="/searchresults" className="button small back">Back</Link>
-
-						<div style={{marginTop:2+'em'}}>
+						<div>
 							<h2 style={{textAlign:'center'}}>Pick your pet</h2>
 							<div style={{textAlign:'center'}}>
-								<a onClick={this.petTypeSelected} style={{borderBottom: "none", padding: '10px', cursor:"pointer"}}><img style={{margin:"20px", display:dogImgDisplay}} id="dog" src="/assets/images/dog2.png" data-position="center center" /></a>
-								<a onClick={this.petTypeSelected} style={{borderBottom: "none", padding: '10px', cursor:"pointer"}}><img style={{margin:"20px", display:catImgDisplay}} id="cat" src="/assets/images/cat2.png" data-position="center center" /></a>
+								<a onClick={this.petTypeSelected} style={{borderBottom: "none", padding: '10px', cursor:"pointer"}}><img className='petSelection' style={{display:dogImgDisplay}} id="dog" src="/assets/images/dog2.png" /></a>
+								<a onClick={this.petTypeSelected} style={{borderBottom: "none", padding: '10px', cursor:"pointer"}}><img className='petSelection' style={{display:catImgDisplay}} id="cat" src="/assets/images/cat2.png" /></a>
 							</div>
-							<div style={{display: displayNameCapture, textAlign:'center'}}>
+							<div id='nameSelection' className={displayNameCapture ? 'nameSelectionVisible': 'nameSelectionNotVisible'}>
 								<h2>Name</h2>
 								<p style={{margin: "10px"}}><input style={{margin:"auto", borderRight:"none", borderLeft:"none", borderTop:"none", display: 'inline', fontSize:"25px", width:"250px"}} type="text" placeholder='Fido' onChange={this.captureResponse} id='name'/></p>
 							</div>
 						</div>
-
 					</div>
 
-					<div style={{marginTop:4.5+'em'}}>
+					<div>
 						<div style={{display: 'flex', justifyContent: 'space-around'}}>
 							<div style={{textAlign:'center'}}>
 								<h2>Birthday</h2>
-								<p style={{margin: "10px"}}><input style={{margin:"auto", borderRight:"none", borderLeft:"none", borderTop:"none", fontSize:"25px", width:"250px"}} type="text" placeholder='MM/DD/YYYY' onChange={this.captureResponse} id='birthday'/></p>
+								<p style={{margin: "10px"}}><input style={{margin:"1em auto", borderRight:"none", borderLeft:"none", borderTop:"none", fontSize:"25px", width:"250px"}} type="date" onChange={this.captureResponse} id='birthday'/></p>
 							</div>
 
 							<div style={{textAlign:'center'}}>
 								<h2>Sex</h2>
 								<p style={{margin: "10px"}}>
-									<select style={{margin:"auto", borderRight:"none", borderLeft:"none", borderTop:"none", color: '#bbb', fontSize:"25px", width:"180px"}} type="text" onChange={this.captureResponse} id='sex' defaultValue='Select sex'>
+									<select style={{margin:"auto", borderRight:"none", borderLeft:"none", borderTop:"none", fontSize:"25px", width:"180px"}} type="text" onChange={this.captureResponse} id='sex' defaultValue='Select sex'>
 										<option disabled>Select sex</option>
 										<option>Female</option>
 										<option>Male</option>
 									</select>
 									</p>
 							</div>
-
 						</div>
-
-						<Link to="/survey-2" style={{margin:"40px", float:'right'}} className="button">Next</Link>
 					</div>
 
 				</div>
+				<Link to="/survey-2" style={{marginRight:6+'em', float:'right'}} className="button">Next</Link>
 			</div>
 		)
 	}
