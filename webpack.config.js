@@ -3,7 +3,6 @@ const dotenv = require('dotenv').config()
 
 var webpack = require("webpack");
 var path = require('path')
-var AssetsPlugin = require('assets-webpack-plugin')
 
 module.exports = {
 	entry: {

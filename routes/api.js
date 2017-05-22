@@ -66,8 +66,6 @@ router.post('/:resource', function(req, res, next){
 			res.json({confirmation: 'Fail', message: err.message})
 			return
 		}
-		console.log('Line 69 API POST BODY: '+JSON.stringify(req.body))
-		console.log('Line 70 API POST RESULT: '+JSON.stringify(result))
 
 		if (resource === 'user') {
 			//send account verification email

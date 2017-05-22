@@ -6,12 +6,12 @@ module.exports = {
 
 		Pet.find(params, function(err, pets){
 			if(err){
-				if (callback != null)
+				if (callback !== null)
 					callback(err, null)
 				return
 			}
-			if (callback != null){
-				if (isRaw == true){
+			if (callback !== null){
+				if (isRaw === true){
 					callback(null, pets)
 					return
 				}
@@ -29,13 +29,13 @@ module.exports = {
 	getById: function(id, isRaw, callback){
 		Pet.findById(id, function(err, pet){
 			if(err){
-				if(callback != null)
+				if(callback !== null)
 					callback({message: 'Pet Not Found'}, null)
 				return
 			}
 
-			if(callback != null){
-				if (isRaw == true){
+			if(callback !== null){
+				if (isRaw === true){
 					callback(null, pet)
 					return
 				}

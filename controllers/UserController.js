@@ -36,8 +36,8 @@ module.exports = {
 				return
 			}
 
-			if (callback != null){
-				if(isRaw == true){
+			if (callback !== null){
+				if(isRaw === true){
 					callback(null, user)
 					return
 				}

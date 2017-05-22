@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-console.log('Line 2 react app.js '+process.env.NODE_ENV)
 
 import ReactDOM from 'react-dom'
 import { Router, Route, IndexRoute, browserHistory } from 'react-router'

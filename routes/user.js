@@ -6,61 +6,39 @@ var bcrypt = require('bcryptjs')
 router.get('/:action', function(req, res, next){
 	var action = req.params.action
 
-	if (action == 'logout'){
+	if (action === 'logout'){
+		let userID = req.session.user
+		userController.get({id: userID}, null, function(err, result){
 
-		var userId = req.session.user
-		userController.get({id: userId}, null, function(err, result){
-
-			if (err){
-				res.json({
-					confirmation: 'Fail',
-					message: err.message
-				})
-			return
-
+			if (err) {
+				res.json({confirmation: 'Fail', message: err.message})
+				return
 			}
-
 			req.session.reset()
-			res.json({
-				confirmation: 'Success',
-				message: 'Logged out. Goodbye!'
-			})
+			res.json({confirmation: 'Success', message: 'Logged out. Goodbye!'})
 			return
 		})
 	}
 
-	if (action == 'currentuser'){
-		if (req.session == null){
-			res.json({
-				confirmation: 'Fail',
-				message: 'No Current User: No session in place.'
-			})
+	if (action === 'currentuser'){
+		if (req.session === null){
+			res.json({confirmation: 'Fail', message: 'No Current User: No session in place.'})
 			return
 		}
 
-		if (req.session.user == null){
-			res.json({
-				confirmation: 'Fail',
-				message: 'No Current User: No user in current session.'
-			})
+		if (req.session.user === null){
+			res.json({confirmation: 'Fail', message: 'No Current User: No user in current session.'})
 			return
 		}
 
-		var userId = req.session.user
-		userController.get({id: userId}, null, function(err, result){
-
+		var userID = req.session.user
+		userController.getById(userID, null, function(err, result){
 			if (err){
-				res.json({
-					confirmation: 'Fail',
-					message: err.message
-				})
+				res.json({confirmation: 'Fail', message: err.message})
 			return
 			}
 
-			res.json({
-				confirmation: 'Success',
-				user: result
-			})
+			res.json({confirmation: 'Success', user: result})
 			return
 		})
 	}
@@ -70,14 +48,13 @@ router.get('/:action', function(req, res, next){
 router.post('/:action', function(req, res, next){
 	var action = req.params.action
 
-	if (action == 'login'){
+	if (action === 'login'){
 		var credentials = req.body
 		var email = credentials.email.toLowerCase()
 
 		userController.get({email: email}, true, function(err, results){
-			// console.log("ACCOUNT ROUTER GET RESULTS:" +JSON.stringify(results))
 
-			if (results.length == 0){
+			if (results.length === 0){
 				res.json({
 					confirmation: 'Fail',
 					message: 'User Email Not Found. Please check spelling and try again.'
