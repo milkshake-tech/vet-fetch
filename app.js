@@ -8,7 +8,7 @@ var mongoose = require('mongoose');
 var sessions = require('client-sessions');
 var cloudinary = require('cloudinary');
 var request = require('request');
-
+require('dotenv').config()
 var routes = require('./routes/index');
 var api = require('./routes/api');
 var user = require('./routes/user');

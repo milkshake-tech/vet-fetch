@@ -3,11 +3,9 @@ var superagent = require('superagent')
 module.exports = {
 
 	get: function(params, isRaw, completion){
-		var endpoint = 'https://api.foursquare.com/v2/venues/explore'
+		var endpoint = 'https://api.foursquare.com/v2/venues/explore?client_id='+process.env.FOURSQUARE_client_id+'&client_secret='+process.env.FOURSQUARE_client_secret
 		superagent
 			.get(endpoint)
-			.query({'client_id': 'client_id'})
-			.query({'client_secret': 'client_secret'})
 			.query({'query': 'Veterinarian'})
 			.query({'near': params.zipcode})
 			.query({'v': '20170504'})
