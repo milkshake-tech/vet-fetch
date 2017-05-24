@@ -64,10 +64,9 @@ class UserProfile extends Component {
 				<div style={{display:'flex', justifyContent: 'space-around'}}>
 					<div className='leftPanel' style={{textAlign:'center'}}>
 						<h2>Profile</h2>
-						<img src="/assets/images/phone.png" style={{display:'inline', marginBottom:-.25+'em', marginRight:.5+'em'}}/>
+						<img src="/assets/images/email.png" style={{display:'inline', marginBottom:-.25+'em', marginRight:.5+'em'}}/>
 						<p style={{display:'inline', fontSize:12+'px'}}>{user.email}</p>
 					</div>
-
 
 					<div style={{width:600+'px', textAlign:'center'}}>
 						<h2>Pets</h2>

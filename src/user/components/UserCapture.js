@@ -66,7 +66,6 @@ class UserCapture extends Component {
 				return _this.setState({displaySuccessAlert: true})
 			}
 		})
-
 	}
 
 	render(){

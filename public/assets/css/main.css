@@ -5,6 +5,7 @@
 }
 
 .jumbotron{
+	margin-top: 45px;
 	padding-top:20px;
 	padding-bottom: 20px;
 	background-color:white;
@@ -182,6 +183,8 @@
 .footer {
 	display: flex;
 	justify-content: space-around;
+	bottom: 0;
+	width: 100%;
 	padding-top: 2em;
 	color: white;
 	background-color: rgb(105,210,231);
