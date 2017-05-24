@@ -34,7 +34,7 @@ class Questionnaire3 extends Component {
 		var {highlightToggleState} = this.state
 		var highlightToggle = Object.assign({}, highlightToggleState)
 
-		if (highlightToggle[event.target.id] == null){
+		if (highlightToggle[event.target.id] === null){
 			highlightToggle[event.target.id] = true
 
 			this.setState({highlight: true, highlightToggleState: highlightToggle})
@@ -51,7 +51,7 @@ class Questionnaire3 extends Component {
 
 		for (var condition of this.conditionsList){
 			var conditionName = condition
-			if (highlightToggleState[conditionName] == true){
+			if (highlightToggleState[conditionName] === true){
 				highlightState[conditionName] = "lightgreen"
 			}
 		}

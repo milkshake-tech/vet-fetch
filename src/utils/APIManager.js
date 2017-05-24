@@ -9,12 +9,12 @@ export default {
 		.set('Accept', 'application/json')
 		.end(function(err, res){
 			if(err){
-				if (completion != null)
+				if (completion !== null)
 					completion(err, null)
 				return
 			}
 
-			if (completion != null){
+			if (completion !== null){
 				completion(null, res.body)
 				return
 			}
@@ -28,12 +28,12 @@ export default {
 		.set('Accept', 'application/json')
 		.end(function(err, res){
 			if(err){
-				if (completion != null)
+				if (completion !== null)
 					completion(err, null)
 				return
 			}
 
-			if (completion != null){
+			if (completion !== null){
 				completion(null, res.body)
 				return
 			}
@@ -47,28 +47,17 @@ export default {
 		.set('Accept', 'application/json')
 		.end(function(err, res){
 			if (err){
-				if (completion != null)
+				if (completion !== null)
 					completion(err, null)
 
 				return
 			}
 
-			if (completion != null){
+			if (completion !== null){
 		    	completion(null, res.body)
 				return
 			}
-
-			// if (completion != null){
-			// 	if (res.body.confirmation == 'Success'){
-		 //    		completion(null, res.body)
-			// 	}
-			// 	else {
-		 //    		completion({message:res.body.message}, null)
-			// 	}
-			// }
-
-
-		});
+		})
 	},
 
 	handlePut: function(endpoint, body, completion){
@@ -78,19 +67,19 @@ export default {
 		.set('Accept', 'application/json')
 		.end(function(err, res){
 			if (err){
-				if (completion != null)
+				if (completion !== null)
 					completion(err, null)
 				return
 			}
 
-			if (completion != null){
-				if (res.body.confirmation == 'Success'){
+			if (completion !== null){
+				if (res.body.confirmation === 'Success'){
 		    		completion(null, res.body)
 				}
 				else {
 		    		completion(err, null)
 				}
 			}
-		});
+		})
 	}
 }
