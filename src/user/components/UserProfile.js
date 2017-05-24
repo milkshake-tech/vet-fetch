@@ -11,6 +11,7 @@ class UserProfile extends Component {
 	constructor(props){
 		super(props)
 		this.fetchPets = this.fetchPets.bind(this)
+		this.logout = this.logout.bind(this)
 		this.state = {
 			opacitySetting: 0
 		}
@@ -47,6 +48,18 @@ class UserProfile extends Component {
 		})
 	}
 
+	logout(){
+		let _this = this
+		APIManager.handleGet('/user/logout', null, function(err, response){
+			if (response.confirmation === 'Fail') return alert(JSON.stringify(response))
+			if (response.confirmation === 'Success') {
+				_this.props.captureCurrentUser({})
+				browserHistory.push('/')
+				return
+			}
+		})
+	}
+
 	render(){
 		let {opacitySetting} = this.state
 		let {pets, user} = this.props
@@ -66,6 +79,7 @@ class UserProfile extends Component {
 						<h2>Profile</h2>
 						<img src="/assets/images/email.png" style={{display:'inline', marginBottom:-.25+'em', marginRight:.5+'em'}}/>
 						<p style={{display:'inline', fontSize:12+'px'}}>{user.email}</p>
+						<button onClick={this.logout} style={{fontSize:8+'px', display:'block', margin:'1em auto'}}>Logout</button>
 					</div>
 
 					<div style={{width:600+'px', textAlign:'center'}}>

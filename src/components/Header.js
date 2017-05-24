@@ -13,7 +13,6 @@ class Header extends Component {
 		this.displayLogin = this.displayLogin.bind(this)
 		this.displaySignUp = this.displaySignUp.bind(this)
 		this.loginUser = this.loginUser.bind(this)
-		this.logout = this.logout.bind(this)
 		this.state = {
 			loginVisible: false,
 			userCapture: {}
@@ -48,18 +47,6 @@ class Header extends Component {
 		})
 	}
 
-	logout(){
-		let _this = this
-		APIManager.handleGet('/user/logout', null, function(err, response){
-			if (response.confirmation === 'Fail') return alert(JSON.stringify(response))
-			if (response.confirmation === 'Success') {
-				_this.props.captureCurrentUser({})
-				browserHistory.push('/')
-				return
-			}
-		})
-	}
-
 	render() {
 		let {user} = this.props
 
@@ -72,9 +59,10 @@ class Header extends Component {
 	        <div style={{marginRight:6+'em', cursor:'pointer', display: user.id === undefined ? 'block':'none'}} onClick={this.displayLogin}>
 	          Sign Up / Log In
 	        </div>
-					<div style={{marginRight:6+'em', cursor:'pointer', display: user.id === undefined ? 'none':'block'}} onClick={this.logout}>
-					 Logout
+					<div style={{marginRight:6+'em', cursor:'pointer', display: user.id === undefined ? 'none':'block'}} >
+					 <Link to='/profile' style={{border:'none'}}><img src='/assets/images/user.png'/></Link>
 				 </div>
+
 	      </div>
 				<div style={{display:this.state.loginVisible ? 'block':'none', border:'1px solid black', width:350+'px', backgroundColor:'white', position:'fixed', right:0, top:45+'px', boxShadow:'rgb(211, 211, 211) 2px 5px 6px 7px'}}>
 					<p style={{margin:'1em auto 1em auto'}}><input id="email" onChange={this.captureUserInput} style={{borderRight:"none", borderLeft:"none", borderTop:"none", fontSize:"12px", margin: 'auto', width:"250px"}} placeholder="Email" type="text"/></p>
