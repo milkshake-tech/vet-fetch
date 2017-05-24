@@ -8,6 +8,9 @@ router.get('/:action', function(req, res, next){
 
 	if (action === 'logout'){
 		let userID = req.session.user
+		console.log('Line 11 logout body: '+JSON.stringify(req.body))
+		console.log('Line 12 logout session: '+JSON.stringify(userID))
+
 		userController.get({id: userID}, null, function(err, result){
 
 			if (err) {
@@ -47,7 +50,6 @@ router.get('/:action', function(req, res, next){
 
 router.post('/:action', function(req, res, next){
 	var action = req.params.action
-
 	if (action === 'login'){
 		var credentials = req.body
 		var email = credentials.email.toLowerCase()
@@ -66,18 +68,12 @@ router.post('/:action', function(req, res, next){
 			var passwordCorrect = bcrypt.compareSync(credentials.password, profile.password)
 
 			if (err){
-				res.json({
-					confirmation: 'Fail',
-					message: err
-				})
+				res.json({confirmation: 'Fail', message: err})
 				return
 			}
 
-			if (passwordCorrect == false){
-				res.json({
-					confirmation: 'Fail',
-					message: 'Incorrect Password. Please check spelling and try again.'
-				})
+			if (passwordCorrect === false){
+				res.json({confirmation: 'Fail', message: 'Incorrect Password. Please check spelling and try again.'})
 				return
 			}
 
@@ -85,13 +81,8 @@ router.post('/:action', function(req, res, next){
 			var profileSummary = profile.summary()
 			req.session.user = profileSummary.id
 
-			res.json({
-				confirmation: 'Success',
-				currentUser: profileSummary
-			})
-
+			res.json({confirmation: 'Success', currentUser: profileSummary})
 			return
-
 		})
 	}
 })

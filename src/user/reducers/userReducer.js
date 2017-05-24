@@ -1,11 +1,7 @@
 import constants from '../constants/constants'
 
 var initialState = {
-	user: {
-		id: null,
-		email: null,
-		phone: null
-	},
+	user: {},
 	pets: []
 }
 

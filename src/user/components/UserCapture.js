@@ -58,9 +58,6 @@ class UserCapture extends Component {
 
 		let _this = this
 		APIManager.handlePost("/api/pet", newPetProfile, function(err, response){
-			console.log('Line 61 CAPTURE PET ERR: '+JSON.stringify(err))
-			console.log('Line 61 CAPTURE PET RES: '+JSON.stringify(response))
-
 			if(err) return alert(err)
 
 			if (response.confirmation === 'Fail') return alert(JSON.stringify(response))
@@ -97,7 +94,7 @@ class UserCapture extends Component {
 							<p><input id="password" onChange={this.captureUserInput} style={{borderRight:"none", borderLeft:"none", borderTop:"none", fontSize:"20px", margin: 'auto', width:"350px"}} placeholder="Password" className="col-md-3" type="password"/></p>
 							<p><input id="confirmPassword" onChange={this.captureUserInput} style={{borderRight:"none", borderLeft:"none", borderTop:"none", fontSize:"20px", margin: 'auto', width:"350px"}} placeholder="Confirm Password" className="col-md-3" type="password"/></p>
 
-							<Link onClick={this.saveUser} style={{margin: "20px"}} className="button">Submit</Link>
+							<div onClick={this.saveUser} className="button">Submit</div>
 					</div>
 
 				</div>
