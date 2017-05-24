@@ -38,9 +38,7 @@
     "request": "^2.74.0",
     "sendgrid": "^4.3.0",
     "serve-favicon": "~2.3.0",
-    "superagent": "^2.1.0"
-  },
-  "devDependencies": {
+    "superagent": "^2.1.0",
     "webpack": "^2.5.0"
   }
 }
