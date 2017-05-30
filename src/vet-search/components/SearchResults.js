@@ -2,8 +2,8 @@ import React, { Component } from 'react'
 import { Link, browserHistory } from 'react-router'
 import store from '../../stores/store'
 import { connect } from 'react-redux'
-import {receivedSearchResults} from '../actions/actions'
-import {SearchResultItem} from '../components'
+import { receivedSearchResults } from '../actions/actions'
+import { SearchResultItem } from '../components'
 import APIManager from '../../utils/APIManager'
 
 class SearchResults extends Component {
