@@ -1,6 +1,4 @@
-const dotenv = require('dotenv').config()
 const webpack = require("webpack")
-const path = require('path')
 
 module.exports = {
 	entry: {
@@ -8,7 +6,7 @@ module.exports = {
 	},
 	output: {
 		filename:"public/dist/bundle.js",
-        sourceMapFilename: "public/dist/bundle.map"
+    sourceMapFilename: "public/dist/bundle.map"
 	},
   devtool: '#source-map',
 	plugins: process.env.NODE_ENV === 'production' ? [
@@ -20,7 +18,7 @@ module.exports = {
     	new webpack.optimize.UglifyJsPlugin({
     		minimize: true,
 		    compress: {
-		        warnings: true
+		    	warnings: true
 		    }
     	})
 	] : [],
