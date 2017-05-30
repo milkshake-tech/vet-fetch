@@ -1,14 +1,14 @@
 import React, { Component } from 'react'
 import { Link, browserHistory } from 'react-router'
 import APIManager from '../utils/APIManager'
-import {connect} from 'react-redux'
+import { connect } from 'react-redux'
 import store from '../stores/store'
-import {receivedUser} from '../user/actions/actions'
+import { receivedUser } from '../user/actions/actions'
 
 class Header extends Component {
 
-	constructor(props, context){
-		super(props, context)
+	constructor(props){
+		super(props)
 		this.captureUserInput = this.captureUserInput.bind(this)
 		this.displayLogin = this.displayLogin.bind(this)
 		this.displaySignUp = this.displaySignUp.bind(this)
@@ -48,7 +48,7 @@ class Header extends Component {
 	}
 
 	render() {
-		let {user} = this.props
+		let { user } = this.props
 
 		return (
 			<div>
@@ -75,16 +75,12 @@ class Header extends Component {
 	}
 }
 
-const stateToProps = (state) => {
-	return {
-		user: state.userReducer.user
-	}
-}
+const stateToProps = (state) => ({
+	user: state.userReducer.user
+})
 
-const dispatchToProps = (dispatch) => {
-	return {
-		captureCurrentUser: (user) => dispatch(receivedUser(user))
-	}
-}
+const dispatchToProps = (dispatch) => ({
+	captureCurrentUser: (user) => dispatch(receivedUser(user))
+})
 
 export default connect(stateToProps, dispatchToProps)(Header)

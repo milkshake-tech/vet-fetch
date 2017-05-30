@@ -1,8 +1,7 @@
 import React, { Component } from 'react'
-import { Link, browserHistory } from 'react-router'
 import store from '../stores/store'
 import { connect } from 'react-redux'
-import {Footer, Header} from '../components'
+import { Footer, Header } from '../components'
 
 class Main extends Component {
 	constructor(props, context){
@@ -21,11 +20,8 @@ class Main extends Component {
 	}
 }
 
-const stateToProps = function(state) {
-
-	return {
-		user: state.userReducer.user,
-	}
-}
+const stateToProps = (state) => ({
+	user: state.userReducer.user
+})
 
 export default connect (stateToProps)(Main)

@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { Link, browserHistory } from 'react-router'
 import store from '../stores/store'
-import {receivedSearchResults} from '../vet-search/actions/actions'
+import { receivedSearchResults } from '../vet-search/actions/actions'
 import { connect } from 'react-redux'
 import APIManager from '../utils/APIManager'
 
@@ -12,8 +12,11 @@ class Landing extends Component {
 		this.captureZipcode = this.captureZipcode.bind(this)
 		this.onEnterPress = this.onEnterPress.bind(this)
 		this.searchVets = this.searchVets.bind(this)
+		this.handleFocus = this.handleFocus.bind(this)
+		this.handleBlur = this.handleBlur.bind(this)
 		this.state = {
-			searchZipcode: null
+			searchZipcode: null,
+			focus: false
 		}
 	}
 
@@ -27,7 +30,7 @@ class Landing extends Component {
 
 	searchVets(){
 		let _this = this
-		APIManager.handleGet('/api/search', {zipcode: this.state.searchZipcode, offset: 0}, function(err, res){
+		APIManager.handleGet('/api/search', {zipcode: this.state.searchZipcode, offset: 0}, (err, res) => {
 			if (err) return alert('Oops something went wrong. Try a different search.')
 			if (res.confirmation === 'Fail') return alert(JSON.stringify(res.message))
 			if (res.confirmation === 'Success') {
@@ -38,19 +41,26 @@ class Landing extends Component {
 		})
 	}
 
-	render() {
+	handleFocus(event){
+		this.setState({focus: true})
+	}
 
+	handleBlur(event){
+		this.setState({focus: false})
+	}
+
+	render() {
 		return (
-			<div className='jumbotron' style={{textAlign:'center'}}>
+			<div className='jumbotron'>
 				<div>
 					<img src='/assets/images/vetFetch_blue.png' className='landingLogo'/>
 				</div>
 				<div >
-					<h2 style={{color: '#7ec2d9'}}>Find local care.</h2>
+					<h2 className='jumbotron-title'>Find local care.</h2>
 				</div>
 				<div className="searchRow">
-					<div style={{margin: .5+'em'}}><input className="customInput" placeholder='Enter your zip' onChange={this.captureZipcode} onKeyPress={this.onEnterPress}/></div>
-					<div style={{margin: .5+'em'}}><button onClick={this.searchVets}>Submit</button></div>
+					<div><input className="customInput" placeholder='Enter your zip' onChange={this.captureZipcode} onKeyPress={this.onEnterPress} onFocus={this.handleFocus} onBlur={this.handleBlur}/></div>
+					<div id='submit-btn' className={this.state.focus ? 'slide-true' : 'slide-false'}><button onClick={this.searchVets}>Search</button></div>
 				</div>
 			</div>
 		)
