@@ -1,10 +1,10 @@
-var express = require('express');
-var router = express.Router();
-var {ReactRouter} = require('react-router')
-var ReactDOMServer = require('react-dom/server')
-var {createStore} = require('redux')
+const express = require('express')
+const router = express.Router()
+const { ReactRouter } = require('react-router')
+const ReactDOMServer = require('react-dom/server')
+const { createStore } = require('redux')
 // var vetFetchApp = require('../src/reducers')
-var createHistory = require('history').createMemoryHistory
+const createHistory = require('history').createMemoryHistory
 
 matchRoutes = function(req, routes){
 	return new Promise(function(resolve, reject){
@@ -18,11 +18,11 @@ matchRoutes = function(req, routes){
 	})
 }
 
-router.get('/', function(req, res, next) {
+router.get('/', (req, res) => {
 	res.render('index', {title:'vetFetch'})
 });
 
-router.get('/:page', function(req, res, next) {
+router.get('/:page', (req, res) => {
 	res.render('index', {title:'vetFetch'})
 });
 
@@ -44,4 +44,4 @@ router.get('/:page', function(req, res, next) {
 // 	})
 // })
 
-module.exports = router;
+module.exports = router
