@@ -25,7 +25,7 @@ class UserCapture extends Component {
 	}
 
 	captureUserInput(event){
-		var userCapture = Object.assign({}, this.state.user)
+		let userCapture = Object.assign({}, this.state.user)
 		userCapture[event.target.id] = event.target.value
 		this.setState({user: userCapture})
 	}
@@ -41,13 +41,15 @@ class UserCapture extends Component {
 		let _this = this
 		APIManager.handlePost("/api/user", saveUser, function(err, response){
 			if(err) return alert(err)
+
 			if (response.confirmation === 'Fail') return alert(JSON.stringify(response))
 
-			if (response.confirmation === "Success" && petProfile.name !== undefined) {
+			if(response.confirmation === 'Success'){
+				if(petProfile.name === undefined){
+					return browserHistory.push('/profile')
+				}
+
 				return _this.saveUserPet(response.result.id)
-			}
-			if (response.confirmation === 'Success' && petProfile.name === undefined){
-				return _this.setState({displaySuccessAlert: true})
 			}
 		})
 	}
@@ -63,30 +65,26 @@ class UserCapture extends Component {
 			if (response.confirmation === 'Fail') return alert(JSON.stringify(response))
 
 			if (response.confirmation === "Success") {
-				return _this.setState({displaySuccessAlert: true})
+				return browserHistory.push('/profile')
 			}
 		})
 	}
 
 	render(){
-		var {opacitySetting, displayErrorAlert, displaySuccessAlert, errorMsg} = this.state
-		var errorAlertDisplay = displayErrorAlert == true ? "block" : "none"
-		var successAlertDisplay = displaySuccessAlert == true ? "block" : "none"
+		let {opacitySetting, displayErrorAlert, displaySuccessAlert, errorMsg} = this.state
+		let errorAlertDisplay = displayErrorAlert === true ? "block" : "none"
+		let successAlertDisplay = displaySuccessAlert === true ? "block" : "none"
 
 		return(
 			<div className='jumbotron' style={{opacity: opacitySetting, transitionProperty: "opacity", transitionDuration: "1s"}}>
-
 				<div style={{display:'flex', justifyContent: 'space-around'}}>
-
 					<div className='leftPanel'>
 						<img src='/assets/images/flamingo.png' className='signUpImg' />
 					</div>
 
 					<div style={{width:600+'px', textAlign:'center'}}>
 							<h2 style={{margin:25+'px'}}>Sign Up</h2>
-
 							<div style={{display: errorAlertDisplay, margin:2+'em'}}>{errorMsg}</div>
-							<div style={{display: successAlertDisplay, margin:2+'em'}}> Thanks for signing up. Check out your <Link to="/profile"> profile.</Link> </div>
 
 							<p><input id="email" onChange={this.captureUserInput} style={{borderRight:"none", borderLeft:"none", borderTop:"none", fontSize:"20px", margin: 'auto', width:"350px"}} placeholder="Email" className="col-md-3" type="text"/></p>
 							<p><input id="phone" onChange={this.captureUserInput} style={{borderRight:"none", borderLeft:"none", borderTop:"none", fontSize:"20px", margin: 'auto', width:"350px"}} placeholder="Telephone" className="col-md-3" type="text"/></p>
@@ -95,17 +93,14 @@ class UserCapture extends Component {
 
 							<div onClick={this.saveUser} className="button">Submit</div>
 					</div>
-
 				</div>
 			</div>
 		)
 	}
 }
 
-const stateToProps = (state) => {
-	return {
-		petProfile: state.petReducer.petProfile
-	}
-}
+const stateToProps = (state) => ({
+	petProfile: state.petReducer.petProfile
+})
 
 export default connect (stateToProps)(UserCapture)
