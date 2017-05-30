@@ -1,19 +1,46 @@
 # Vet Fetch
 
-All your pet health information in one place.
+vetFetch is an app designed for web where pet owners can find recommended veterinarians near them. Powered by Foursquare, vetFetch searches veterinarians in a given zipcode and lets users store their pet's health records for easy access.
 
-## Installation
+## Demo
 
-Open terminal and run:
+Visit the website in production [here](http:vetfetch.io)
+
+## Tech
+
+* Node/Express
+* MongoDB
+* React
+* Redux
+* Foursquare
+* Heroku
+
+## Getting Started
+
+Run locally:
 
 ```
-npm install
+https://github.com/milkshake-tech/vet-fetch.git
+cd vet-fetch
+touch .env
+```
+
+Open dotenv file, and add following values:
+
+```
+SENDGRID_API_KEY=
+MONGODB_DEV_URI=
+MONGODB_TEST_URI=
+FOURSQUARE_client_id=
+FOURSQUARE_client_secret=
+```
+
+Save the file and start the application
+
+```
+mongod (in separate tab)
+npm run dev
 npm start
 ```
 
-To start project, run commands below:
-
-mongod
-npm run dev
-nodemon
-```
+Visit at localhost:3000.
