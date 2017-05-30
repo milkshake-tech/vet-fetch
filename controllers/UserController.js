@@ -1,30 +1,26 @@
-var User = require('../models/User')
-var bcrypt = require('bcryptjs')
+const User = require('../models/User')
+const bcrypt = require('bcryptjs')
 
 module.exports = {
-	get: function(params, isRaw, callback){
-		User.find(params, function(err, users){
-			if(err){
-				if(callback != null)
-					return callback(err, null)
-			}
-
-			if (users === null){
-				return callback(err, null)
-			}
-
-			if(callback !== null){
-				if(isRaw === true){
-					return callback(null, users)
+	get: (params, isRaw) => {
+		return new Promise((resolve, reject) => {
+			User.find(params, (err, users) => {
+				if(err){
+					reject(err)
+					return
 				}
 
-				var summaries = []
-				for (var i=0; i<users.length; i++){
-					var user = users[i]
+				if(isRaw === true){
+					resolve(users)
+				}
+
+				let summaries = []
+				for(let i=0; i<users.length; i++){
+					let user = users[i]
 					summaries.push(user.summary())
 				}
-				callback(null, summaries)
-			}
+				resolve(summaries)
+			})
 		})
 	},
 
