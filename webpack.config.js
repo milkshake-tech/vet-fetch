@@ -2,11 +2,11 @@ const webpack = require("webpack")
 
 module.exports = {
 	entry: {
-		app: "./src/App.js"
+		app: "./client/src/App.js"
 	},
 	output: {
-		filename:"public/dist/bundle.js",
-    sourceMapFilename: "public/dist/bundle.map"
+		filename:"./server/public/dist/bundle.js",
+    sourceMapFilename: "./server/public/dist/bundle.map"
 	},
   devtool: '#source-map',
 	plugins: process.env.NODE_ENV === 'production' ? [
