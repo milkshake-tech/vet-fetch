@@ -27,22 +27,12 @@ function getResource (req, res){
 		return res.json({confirmation: 'Fail', message: 'Invalid Resource'})
 	}
 
-	if(resource === 'user'){
-		controller.get(req.query, false)
-		.then((results) => {
-			return res.json({ confirmation: 'Success', results: results })
-		})
-		.catch((err) => {
-			return res.json({ confirmation: 'Fail', message: err })
-		})
-	}
-
-	controller.get(req.query, false, (err, results) => {
-		if(err){
-			return res.json({confirmation: "Fail", message: err})
-		}
-
-		return res.json({confirmation: "Success", results: results})
+	controller.get(req.query, false)
+	.then((results) => {
+		return res.json({ confirmation: 'Success', results: results })
+	})
+	.catch((err) => {
+		return res.json({ confirmation: 'Fail', message: err })
 	})
 }
 
@@ -55,12 +45,12 @@ function getResourceById (req, res){
 		return res.json({confirmation: 'Fail', message: 'Invalid Resource'})
 	}
 
-	controller.getById(id, true, (err, result) => {
-		if(err){
-			return res.json({confirmation: 'Fail', message: err.message})
-		}
-
-		return res.json({confirmation: "Success", result: result})
+	controller.getById(id, false)
+	.then((result) => {
+		return res.json({ confirmation: 'Success', result: result})
+	})
+	.catch((err) => {
+		return res.json({ confirmation: 'Fail', message: err})
 	})
 }
 
@@ -78,14 +68,18 @@ function postToResource (req, res){
 		}
 
 		if (resource === 'user') {
-			//send account verification email
-			passport.authenticate('local'), {
-				successRedirect: '/profile',
-				failureRedirect: '/'
-			}
+			passportAuthenticate(result, req, res)
+			// send account verification email
+			return
 		}
 
 		return res.json({confirmation: 'Success', result: result})
+	})
+}
+
+function passportAuthenticate (user, req, res){
+	passport.authenticate('local')(req, res, () => {
+		return res.json({confirmation: 'Success', result: user})
 	})
 }
 
@@ -98,7 +92,7 @@ function putToResource (req, res){
 		return res.json({confirmation: 'Fail', message: 'Invalid Resource'})
 	}
 
-	controller.put(resourceId, req.body, function(err, result){
+	controller.put(resourceId, req.body, (err, result) => {
 		if (err){
 			return res.json({confirmation: 'Fail', message: err.message})
 		}

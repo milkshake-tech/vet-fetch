@@ -4,42 +4,34 @@ const authenticationMiddleware = require('./middleware')
 const User = require('../user/User')
 const userController = require('../user/UserController')
 
-console.log('authentication INIT')
-
-passport.serializeUser(function(user, cb){
-  // cb(null, user.username)
+passport.serializeUser((user, done) => {
+  done(null, user.id)
 })
 
-passport.deserializeUser(function(username, cb){
-
+passport.deserializeUser((id, done) => {
+  userController.getById(id, true)
+  .then((result) => {
+    return done(null, result.id)
+  })
+  .catch((err) => {
+    return done(null)
+  })
 })
 
 function initPassport(){
-  //TODO: Complete LocalStrategy init
-  console.log('initPassport')
-  passport.use(new LocalStrategy(
+  passport.use(new LocalStrategy({
+    usernameField: 'email',
+    passwordField: 'password'
+    },
     function(email, password, done){
-      console.log('EMAIL: '+JSON.stringify(email))
-      console.log('PASSWORD: '+JSON.stringify(password))
-      userController.get({email: email}, true)
-      .then((user) => {
-        done(null, user)
+      let emailParam = email.toLowerCase()
+      userController.get({email: emailParam}, true)
+      .then((results) => {
+        return done(null, results[0])
       })
       .catch((err)=> {
-        done(err)
+        return done(err)
       })
-      // User.find(email, (err, user) => {
-      //   if(err){
-      //     return done(err)
-      //   }
-      //   if(!user){
-      //     return done(null, false)
-      //   }
-      //   if(password !== user.password){
-      //     return done(null, false)
-      //   }
-      //   return done(null, user)
-      // })
     }
   ))
 
