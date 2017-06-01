@@ -2,45 +2,40 @@ const Pet = require('./Pet')
 
 module.exports = {
 
-	get: function(params, isRaw, callback){
-
-		Pet.find(params, function(err, pets){
-			if(err){
-				if (callback !== null)
-					callback(err, null)
-				return
-			}
-			if (callback !== null){
-				if (isRaw === true){
-					callback(null, pets)
-					return
+	get: (params, isRaw) => {
+		return new Promise((resolve, reject) => {
+			Pet.find(params, (err, pets) => {
+				if(err){
+					return reject(err)
 				}
 
-				var summaries = []
-				for (var i=0; i<pets.length; i++){
-					var pet = pets[i]
+				if(isRaw === true){
+					return resolve(pets)
+				}
+
+				let summaries = []
+				for (let i=0; i<pets.length; i++){
+					let pet = pets[i]
 					summaries.push(pet.summary())
 				}
-				callback(null, summaries)
-			}
+				return resolve(summaries)
+			})
 		})
 	},
 
-	getById: function(id, isRaw, callback){
-		Pet.findById(id, function(err, pet){
-			if(err){
-				if(callback !== null)
-					callback({message: 'Pet Not Found'}, null)
-				return
-			}
-
-			if(callback !== null){
-				if (isRaw === true){
-					callback(null, pet)
-					return
+	getById: (id, isRaw) => {
+		return new Promise((resolve, reject) => {
+			Pet.findById(id, function(err, pet){
+				if(err){
+					return reject({message: 'Pet not found'})
 				}
-				callback(null, pet.summary())
-			}
+
+				if(isRaw === true){
+					return resolve(pet)
+				}
+
+				return resolve(pet.summary())
+			})
 		})
 	},
 
