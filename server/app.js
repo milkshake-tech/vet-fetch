@@ -1,5 +1,6 @@
 const express = require('express')
 const passport = require('passport')
+const session = require('express-session')
 const path = require('path')
 const logger = require('morgan')
 const cookieParser = require('cookie-parser')
@@ -9,7 +10,13 @@ const request = require('request')
 const config = require('../config/database')
 require('dotenv').config()
 
-mongoose.connect(mongoUrl, function(err, res){
+let mongUrl
+
+if(process.env.NODE_ENV !== 'production'){
+  mongoUrl = config.db['development']
+}
+
+mongoose.connect(mongoUrl, (err, res) => {
   if(err){
     console.log('DB Connection Failed:'+err)
   }
@@ -30,7 +37,7 @@ app.use(cookieParser())
 
 require('./authentication').init(app)
 
-app.use(require('express-session')({
+app.use(session({
   secret: 'keyboard cat',
   resave: false,
   saveUninitialized: false
@@ -44,14 +51,14 @@ app.use(express.static(path.join(__dirname, 'public')))
 require('./user').init(app)
 require('./api').init(app)
 
-app.use(function(req, res, next) {
+app.use((req, res, next) => {
   const err = new Error('Not Found')
   err.status = 404
   next(err)
 })
 
 if (app.get('env') === 'development') {
-  app.use(function(err, req, res, next) {
+  app.use((err, req, res, next) => {
     res.status(err.status || 500)
     res.render('error', {
       message: err.message,
@@ -60,7 +67,7 @@ if (app.get('env') === 'development') {
   })
 }
 
-app.use(function(err, req, res, next) {
+app.use((err, req, res, next) => {
   res.status(err.status || 500)
   res.render('error', {
     message: err.message,
