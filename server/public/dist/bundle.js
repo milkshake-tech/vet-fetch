@@ -15073,17 +15073,17 @@ var UserProfile = function (_Component) {
 			this.setState({ opacitySetting: 1 });
 			var _this = this;
 
-			_APIManager2.default.handleGet('/user/currentuser', null, function (err, response) {
-				if (err) return alert(JSON.stringify(err));
-
-				if (response.confirmation === "Fail") return _reactRouter.browserHistory.push('/');
-
-				if (response.confirmation === "Success") {
-					_this.props.captureCurrentUser(response.user);
-					_this.fetchPets(response.user.id);
-					return;
-				}
-			});
+			// APIManager.handleGet('/user/currentuser', null, function(err, response){
+			// 	if (err) return	alert(JSON.stringify(err))
+			//
+			// 	if (response.confirmation === "Fail") return browserHistory.push('/')
+			//
+			// 	if (response.confirmation === "Success") {
+			// 		_this.props.captureCurrentUser(response.user)
+			// 		_this.fetchPets(response.user.id)
+			// 		return
+			// 	}
+			// })
 		}
 	}, {
 		key: 'fetchPets',
