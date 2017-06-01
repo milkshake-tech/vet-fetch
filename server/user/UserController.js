@@ -6,12 +6,11 @@ module.exports = {
 		return new Promise((resolve, reject) => {
 			User.find(params, (err, users) => {
 				if(err){
-					reject(err)
-					return
+					return reject(err)
 				}
 
 				if(isRaw === true){
-					resolve(users)
+					return resolve(users)
 				}
 
 				let summaries = []
@@ -19,26 +18,24 @@ module.exports = {
 					let user = users[i]
 					summaries.push(user.summary())
 				}
-				resolve(summaries)
+				return resolve(summaries)
 			})
 		})
 	},
 
-	getById: function(id, isRaw, callback){
-		User.findById(id, function(err, user){
-			if(err){
-				if(callback !== null)
-					callback({message: 'User Not Found'}, null)
-				return
-			}
-
-			if (callback !== null){
-				if(isRaw === true){
-					callback(null, user)
-					return
+	getById: (id, isRaw) => {
+		return new Promise((resolve, reject) => {
+			User.findById(id, (err, user) => {
+				if(err){
+					return reject({message: 'User not found'})
 				}
-				callback(null, user.summary())
-			}
+
+				if(isRaw === true){
+					return resolve(user)
+				}
+
+				return resolve(user.summary())
+			})
 		})
 	},
 
