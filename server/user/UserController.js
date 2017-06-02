@@ -40,11 +40,12 @@ module.exports = {
 	},
 
 	post: function(params, callback){
-		var password = params['password'] // plain text password
+		let newUser = Object.assign({}, params)
+		var password = newUser['password'] // plain text password
 		var hashedPassword = bcrypt.hashSync(password, 10)
-		params['password'] = hashedPassword
+		newUser['password'] = hashedPassword
 
-		User.create(params, function(err, user){
+		User.create(newUser, function(err, user){
 			if(err){
 				if(callback != null)
 					callback(err, null)
