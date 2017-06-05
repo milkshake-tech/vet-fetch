@@ -13689,12 +13689,14 @@ var Header = function (_Component) {
 		key: 'loginUser',
 		value: function loginUser() {
 			var _this = this;
-			_APIManager2.default.handlePost('/user/login', this.state.userCapture, function (err, response) {
+			_APIManager2.default.handlePost('/login', this.state.userCapture, function (err, response) {
+				console.log('ERR: ' + JSON.stringify(err));
+				console.log('RESPONSE: ' + JSON.stringify(response));
 				if (response.confirmation === 'Fail') return alert(JSON.stringify(response));
 				if (response.confirmation === 'Success') {
-					_this.props.captureCurrentUser(response.currentUser);
-					_this.setState({ loginVisible: false });
-					_reactRouter.browserHistory.push('/profile');
+					// _this.props.captureCurrentUser(response.currentUser)
+					// _this.setState({loginVisible:false})
+					// browserHistory.push('/profile')
 					return;
 				}
 			});
@@ -14901,6 +14903,7 @@ var UserCapture = function (_Component) {
 			if (saveUser.password !== saveUser.confirmPassword) return this.setState({ displayErrorAlert: true, errorMsg: "Oops, your password entries don't match. Please try again." });
 
 			var _this = this;
+			console.log('saveUser: ' + JSON.stringify(saveUser));
 			_APIManager2.default.handlePost("/api/user", saveUser, function (err, response) {
 				if (err) return alert(err);
 
@@ -14908,7 +14911,7 @@ var UserCapture = function (_Component) {
 
 				if (response.confirmation === 'Success') {
 					if (petProfile.name === undefined) {
-						return _reactRouter.browserHistory.push('/profile');
+						return; //browserHistory.push('/profile')
 					}
 
 					return _this.saveUserPet(response.result.id);
@@ -15073,17 +15076,17 @@ var UserProfile = function (_Component) {
 			this.setState({ opacitySetting: 1 });
 			var _this = this;
 
-			// APIManager.handleGet('/user/currentuser', null, function(err, response){
-			// 	if (err) return	alert(JSON.stringify(err))
-			//
-			// 	if (response.confirmation === "Fail") return browserHistory.push('/')
-			//
-			// 	if (response.confirmation === "Success") {
-			// 		_this.props.captureCurrentUser(response.user)
-			// 		_this.fetchPets(response.user.id)
-			// 		return
-			// 	}
-			// })
+			_APIManager2.default.handleGet('/user/currentuser', null, function (err, response) {
+				if (err) return alert(JSON.stringify(err));
+
+				if (response.confirmation === "Fail") return _reactRouter.browserHistory.push('/');
+
+				if (response.confirmation === "Success") {
+					_this.props.captureCurrentUser(response.user);
+					_this.fetchPets(response.user.id);
+					return;
+				}
+			});
 		}
 	}, {
 		key: 'fetchPets',
