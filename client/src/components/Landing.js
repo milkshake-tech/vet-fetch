@@ -23,7 +23,8 @@ class Landing extends Component {
 	}
 
 	captureZipcode(event){
-		this.setState({searchZipcode: event.target.value})
+		const value = event.target.value
+		this.setState({ searchZipcode: value })
 	}
 
 	onEnterPress(event){
@@ -44,25 +45,32 @@ class Landing extends Component {
 	}
 
 	handleFocus(event){
-		this.setState({focus: true})
+		this.setState({ focus: true })
 	}
 
 	handleBlur(event){
-		this.setState({focus: false})
+		this.setState({ focus: false })
 	}
 
 	render() {
 		return (
 			<div className='jumbotron'>
 				<div>
-					<img src='/assets/images/vetFetch_blue.png' className='landingLogo'/>
+					<img src='/assets/images/vetFetch_blue.png' className='landing-logo'/>
 				</div>
+
 				<div >
 					<h2 className='jumbotron-title'>Find local care.</h2>
 				</div>
+
 				<div className="searchRow">
-					<div><input className="customInput" placeholder='Enter your zip' onChange={this.captureZipcode} onKeyPress={this.onEnterPress} onFocus={this.handleFocus} onBlur={this.handleBlur}/></div>
-					<div id='submit-btn' className={this.state.focus ? 'slide-true' : 'slide-false'}><button onClick={this.searchVets}>Search</button></div>
+					<div>
+						<input className="custom-input" placeholder='Enter your zip' onChange={this.captureZipcode} onKeyPress={this.onEnterPress} onFocus={this.handleFocus} onBlur={this.handleBlur}/>
+					</div>
+
+					<div id='submit-btn' className={this.state.focus ? 'slide-true' : 'slide-false'}>
+						<button onClick={this.searchVets}>Search</button>
+					</div>
 				</div>
 			</div>
 		)

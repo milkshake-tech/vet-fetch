@@ -20,17 +20,19 @@ class Header extends Component {
 	}
 
 	captureUserInput(event){
+		const id = event.target.id
+		const value = event.target.value
 		let newUserCapture = Object.assign({}, this.state.userCapture)
-		newUserCapture[event.target.id] = event.target.value
-		this.setState({userCapture: newUserCapture})
+		newUserCapture[id] = value
+		this.setState({ userCapture: newUserCapture })
 	}
 
 	displayLogin(){
-		this.setState({loginVisible:!this.state.loginVisible})
+		this.setState({ loginVisible:!this.state.loginVisible })
 	}
 
 	displaySignUp(){
-		this.setState({loginVisible:false})
+		this.setState({ loginVisible:false })
 		browserHistory.push('/signup')
 	}
 
@@ -43,7 +45,7 @@ class Header extends Component {
 
 			if (res.confirmation === 'Success') {
 				_this.props.captureCurrentUser(res.result)
-				_this.setState({loginVisible:false})
+				_this.setState({ loginVisible:false })
 				browserHistory.push('/profile')
 				return
 			}
@@ -56,25 +58,40 @@ class Header extends Component {
 		return (
 			<div>
 				<div className="header">
-	        <div style={{marginLeft:6+'em'}}>
-	          <Link to='/' style={{border: 'none'}}><img src="/assets/images/vetFetch_white_sm.png"/></Link>
+	        <div className='logo-container'>
+	          <Link to='/' className='logo-link'><img src="/assets/images/vetFetch_white_sm.png"/></Link>
 	        </div>
-	        <div style={{marginRight:6+'em', cursor:'pointer', display: user === null ? 'block':'none'}} onClick={this.displayLogin}>
+
+	        <div className='register-btn' id={ user ? 'menu-hidden' : 'menu-active' } onClick={ this.displayLogin }>
 	          Sign Up / Log In
 	        </div>
-					<div style={{marginRight:6+'em', cursor:'pointer', display: user === null ? 'none':'block'}} >
-					 <Link to='/profile' style={{border:'none'}}><img src='/assets/images/user.png'/></Link>
-				 </div>
 
+					<div className='register-btn' id={ user ? 'menu-active' : 'menu-hidden' } >
+					 <Link to='/profile' className='logo-link'><img src='/assets/images/user.png'/></Link>
+				 </div>
 	      </div>
-				<div style={{display:this.state.loginVisible ? 'block':'none', border:'1px solid black', width:350+'px', backgroundColor:'white', position:'fixed', right:0, top:45+'px', boxShadow:'rgb(211, 211, 211) 2px 5px 6px 7px'}}>
-					<p style={{margin:'1em auto 1em auto'}}><input id="email" onChange={this.captureUserInput} style={{borderRight:"none", borderLeft:"none", borderTop:"none", fontSize:"12px", margin: 'auto', width:"250px"}} placeholder="Email" type="text"/></p>
-					<p style={{margin:'auto'}}><input id="password" onChange={this.captureUserInput} style={{borderRight:"none", borderLeft:"none", borderTop:"none", fontSize:"12px", margin: 'auto', width:"250px"}} placeholder="Password" type="password"/></p>
-					<div style={{margin: '1em auto', fontSize:8+'px', textAlign:'center'}}><button onClick={this.loginUser}>Login</button></div>
-					<p style={{margin:'1em auto 1em auto', textAlign:'center'}}>New to vetFetch? Sign up <a style={{cursor:'pointer'}} onClick={this.displaySignUp}>here</a></p>
+
+				<div className='register-dropdown' id={ this.state.loginVisible ? 'menu-active' : 'menu-hidden' }>
+					<input id="email" onChange={ this.captureUserInput } className='login-input' style={ localStyle.inputWidth } placeholder="Email" type="text"/>
+					<input id="password" onChange={ this.captureUserInput } className='login-input' style={ localStyle.inputWidth } placeholder="Password" type="password"/>
+
+					<div className='register-nav'>
+						<button onClick={ this.loginUser }>Login</button>
+					</div>
+
+					<p className='register-nav'>New to vetFetch? Sign up <a onClick={ this.displaySignUp } style={ localStyle.pointer }>here</a></p>
 				</div>
 			</div>
 		)
+	}
+}
+
+const localStyle = {
+	pointer: {
+		cursor: 'pointer'
+	},
+	inputWidth: {
+		width: 250+'px'
 	}
 }
 

@@ -2,9 +2,9 @@ import React, { Component } from 'react'
 import { Link, browserHistory } from 'react-router'
 import { connect } from 'react-redux'
 import store from '../../stores/store'
-import {receivedPets, receivedUser} from '../actions/actions'
+import { receivedPets, receivedUser } from '../actions/actions'
 import APIManager from '../../utils/APIManager'
-import {PetProfileRow} from '../components'
+import { PetProfileRow } from '../components'
 
 class UserProfile extends Component {
 
@@ -23,7 +23,7 @@ class UserProfile extends Component {
 
 	fetchPets(userID){
 		let _this = this
-		APIManager.handleGet('/api/pet', {ownerID: userID}, function(err, response){
+		APIManager.handleGet('/api/pet', {ownerID: userID}, (err, response) => {
 			if (err) return	alert(JSON.stringify(err))
 
 			if (response.confirmation === "Fail") return browserHistory.push('/')
@@ -37,12 +37,11 @@ class UserProfile extends Component {
 
 	logout(){
 		let _this = this
-		APIManager.handleGet('/logout', null, function(err, response){
+		APIManager.handleGet('/logout', null, (err, response) => {
 			if (response.confirmation === 'Fail') return alert(JSON.stringify(response))
 			if (response.confirmation === 'Success') {
-				_this.props.captureCurrentUser({})
-				browserHistory.push('/')
-				return
+				 browserHistory.push('/')
+				return _this.props.captureCurrentUser(null)
 			}
 		})
 	}
@@ -51,6 +50,8 @@ class UserProfile extends Component {
 		let {opacitySetting} = this.state
 		let {pets, user} = this.props
 		let petResults
+
+		console.log('USER: '+JSON.stringify(user))
 
 		if(pets === null){
 			petResults = <h2>Nothing to see here</h2>

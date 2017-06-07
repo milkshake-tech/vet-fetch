@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 
 const Footer = () => (
 	<footer className="footer">
-		<div style={{textAlign: 'center'}}>
+		<div style={{ textAlign: 'center' }}>
 			<img src="/assets/images/vetFetch_white_sm.png" />
 			<p>&copy; vetFetch 2017</p>
 		</div>
