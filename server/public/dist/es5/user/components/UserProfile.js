@@ -47,9 +47,6 @@ var UserProfile = (function (Component) {
 		componentDidMount: {
 			value: function componentDidMount() {
 				this.setState({ opacitySetting: 1 });
-				var _this = this;
-
-				console.log("current user: " + JSON.stringify(this.props.user));
 			},
 			writable: true,
 			configurable: true
@@ -92,11 +89,19 @@ var UserProfile = (function (Component) {
 				var _props = this.props;
 				var pets = _props.pets;
 				var user = _props.user;
+				var petResults = undefined;
 
-
-				var petResults = pets.map(function (result, i) {
-					return React.createElement(PetProfileRow, { key: i, pet: result });
-				});
+				if (pets === null) {
+					petResults = React.createElement(
+						"h2",
+						null,
+						"Nothing to see here"
+					);
+				} else {
+					petResults = pets.map(function (result, i) {
+						return React.createElement(PetProfileRow, { key: i, pet: result });
+					});
+				}
 
 				return React.createElement(
 					"div",

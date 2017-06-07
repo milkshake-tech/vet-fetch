@@ -18,14 +18,14 @@ var userReducer = _interopRequire(require("../user/reducers/userReducer"));
 var store;
 
 module.exports = {
-	initialize: function () {
+	configureStore: function (initialState) {
 		var reducers = combineReducers({
 			petReducer: petReducer,
 			searchReducer: searchReducer,
 			userReducer: userReducer
 		});
 
-		store = createStore(reducers, applyMiddleware(thunk));
+		store = createStore(reducers, initialState, applyMiddleware(thunk));
 		return store;
 	},
 

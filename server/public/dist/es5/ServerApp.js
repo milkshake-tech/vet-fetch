@@ -15,8 +15,6 @@ var React = _interopRequire(_react);
 var Component = _react.Component;
 var Main = _interopRequire(require("./components/Main"));
 
-var store = _interopRequire(require("./stores/store"));
-
 var Provider = require("react-redux").Provider;
 var App = (function (Component) {
 	function App() {
@@ -34,7 +32,7 @@ var App = (function (Component) {
 			value: function render() {
 				return React.createElement(
 					Provider,
-					{ store: store.initialize() },
+					{ store: this.props.route.initial },
 					React.createElement(Main, this.props)
 				);
 			},

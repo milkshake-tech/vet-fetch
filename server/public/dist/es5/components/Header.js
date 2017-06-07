@@ -108,12 +108,12 @@ var Header = (function (Component) {
 						),
 						React.createElement(
 							"div",
-							{ style: { marginRight: 6 + "em", cursor: "pointer", display: user.id === undefined ? "block" : "none" }, onClick: this.displayLogin },
+							{ style: { marginRight: 6 + "em", cursor: "pointer", display: user === null ? "block" : "none" }, onClick: this.displayLogin },
 							"Sign Up / Log In"
 						),
 						React.createElement(
 							"div",
-							{ style: { marginRight: 6 + "em", cursor: "pointer", display: user.id === undefined ? "none" : "block" } },
+							{ style: { marginRight: 6 + "em", cursor: "pointer", display: user === null ? "none" : "block" } },
 							React.createElement(
 								Link,
 								{ to: "/profile", style: { border: "none" } },

@@ -25,6 +25,10 @@ var receivedSearchResults = require("../vet-search/actions/actions").receivedSea
 var connect = require("react-redux").connect;
 var APIManager = _interopRequire(require("../utils/APIManager"));
 
+var Header = _interopRequire(require("./Header"));
+
+var Footer = _interopRequire(require("./Footer"));
+
 var Landing = (function (Component) {
 	function Landing(props, context) {
 		_classCallCheck(this, Landing);
@@ -44,13 +48,6 @@ var Landing = (function (Component) {
 	_inherits(Landing, Component);
 
 	_prototypeProperties(Landing, null, {
-		componentDidMount: {
-			value: function componentDidMount() {
-				console.log("user " + JSON.stringify(this.props.user));
-			},
-			writable: true,
-			configurable: true
-		},
 		captureZipcode: {
 			value: function captureZipcode(event) {
 				this.setState({ searchZipcode: event.target.value });
@@ -146,7 +143,8 @@ var Landing = (function (Component) {
 
 var stateToProps = function (state) {
 	return {
-		user: state.userReducer.user
+		user: state.userReducer.user,
+		pets: state.userReducer.pets
 	};
 };
 
