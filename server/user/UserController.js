@@ -30,6 +30,10 @@ module.exports = {
 					return reject({message: 'User not found'})
 				}
 
+				if(user === null){
+					return resolve(null)
+				}
+
 				if(isRaw === true){
 					return resolve(user)
 				}

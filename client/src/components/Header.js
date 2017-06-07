@@ -36,10 +36,13 @@ class Header extends Component {
 
 	loginUser(){
 		let _this = this
-		APIManager.handlePost('/user/login', this.state.userCapture, function(err, response){
-			if (response.confirmation === 'Fail') return alert(JSON.stringify(response))
-			if (response.confirmation === 'Success') {
-				_this.props.captureCurrentUser(response.currentUser)
+		APIManager.handlePost('/login', this.state.userCapture, (err, res) => {
+			if(err){
+				return alert('Oops! Your email or password is incorrect.')
+			}
+
+			if (res.confirmation === 'Success') {
+				_this.props.captureCurrentUser(res.result)
 				_this.setState({loginVisible:false})
 				browserHistory.push('/profile')
 				return
@@ -56,10 +59,10 @@ class Header extends Component {
 	        <div style={{marginLeft:6+'em'}}>
 	          <Link to='/' style={{border: 'none'}}><img src="/assets/images/vetFetch_white_sm.png"/></Link>
 	        </div>
-	        <div style={{marginRight:6+'em', cursor:'pointer', display: user.id === undefined ? 'block':'none'}} onClick={this.displayLogin}>
+	        <div style={{marginRight:6+'em', cursor:'pointer', display: user === null ? 'block':'none'}} onClick={this.displayLogin}>
 	          Sign Up / Log In
 	        </div>
-					<div style={{marginRight:6+'em', cursor:'pointer', display: user.id === undefined ? 'none':'block'}} >
+					<div style={{marginRight:6+'em', cursor:'pointer', display: user === null ? 'none':'block'}} >
 					 <Link to='/profile' style={{border:'none'}}><img src='/assets/images/user.png'/></Link>
 				 </div>
 

@@ -1,109 +1,82 @@
-const userController = require('./UserController');
+const React = require('react')
+const ReactRouter = require('react-router')
+const ReactDOMServer = require('react-dom/server')
+const ServerApp = require('../public/dist/es5/ServerApp')
+const layout = require('../public/dist/es5/components')
+const initial = require('../public//dist/es5/user/reducers/initial')
+const store = require('../public/dist/es5/stores/store')
+const userController = require('./UserController')
 const bcrypt = require('bcryptjs')
 const passport = require('passport')
+
+matchRoutes = (req, routes) => {
+	return new Promise((resolve, reject) => {
+		ReactRouter.match({routes, location: req.url}, (error, redirectLocation, renderProps) => {
+			if(error){
+				reject(error)
+				return
+			}
+
+			resolve(renderProps)
+		})
+	})
+}
 
 function initUser (app){
 	app.get('/', renderHome)
 	app.get('/profile', passport.authenticationMiddleware(), renderProfile)
+	app.get('/logout', (req, res) => {
+  	req.logout();
+  	res.json({confirmation: 'Success', result: 'You\'ve been logged out.'})
+	})
+	app.post('/login', passport.authenticate('local'), (req, res) => {
+		res.json({confirmation: 'Success', result: req.user})
+	})
 }
 
 function renderHome (req, res){
-	console.log('renderHome')
-	res.render('index', {title:'vetFetch'})
+	let initialData = initial()
+	let initialState = null
+
+	userController.getById(req.user, false)
+	.then((result) => {
+		let base = null
+
+		if(result !== null){
+			initialData['userReducer'] = {user: result, pets: []}
+		} else {
+			initialData['userReducer'] = {user: null, pets: null}
+		}
+
+		initialState = store.configureStore(initialData)
+
+		base = layout.Landing
+
+		let routes = {
+			path: '/',
+			component: ServerApp,
+			initial: initialState,
+			indexRoute: {
+				component: base
+			}
+		}
+		return matchRoutes(req, routes)
+	})
+	.then(function(renderProps){
+		let html = ReactDOMServer.renderToString(React.createElement(ReactRouter.RouterContext, renderProps))
+		res.render('index', {
+			react:html,
+			preloadedState:JSON.stringify(initialState.getState())
+		})
+	})
+	.catch((err) => {
+		return res.json({ confirmation: 'Fail', message: err})
+	})
 }
 
 function renderProfile (req, res){
 	console.log('renderProfile')
+	res.render('/profile')
 }
-
-
-
-// router.get('/:action', function(req, res, next){
-// 	var action = req.params.action
-// 	if (action === 'logout'){
-// 		let userID = req.session.user
-// 		console.log('Line 11 logout body: '+JSON.stringify(req.body))
-// 		console.log('Line 12 logout session: '+JSON.stringify(userID))
-//
-// 		userController.get({id: userID}, null, function(err, result){
-//
-// 			if (err) {
-// 				res.json({confirmation: 'Fail', message: err.message})
-// 				return
-// 			}
-// 			req.session.reset()
-// 			res.json({confirmation: 'Success', message: 'Logged out. Goodbye!'})
-// 			return
-// 		})
-// 	}
-//
-// 	if (action === 'currentuser'){
-// 		if (req.session === null){
-// 			res.json({confirmation: 'Fail', message: 'No Current User: No session in place.'})
-// 			return
-// 		}
-//
-// 		if (req.session.user === null){
-// 			res.json({confirmation: 'Fail', message: 'No Current User: No user in current session.'})
-// 			return
-// 		}
-//
-// 		var userID = req.session.user
-// 		userController.getById(userID, null, function(err, result){
-// 			if (err){
-// 				res.json({confirmation: 'Fail', message: err.message})
-// 			return
-// 			}
-//
-// 			res.json({confirmation: 'Success', user: result})
-// 			return
-// 		})
-// 	}
-// })
-//
-// router.post('/login', (req, res) => {
-// 	console.log('GET - user/login')
-//
-//
-// })
-
-// router.post('/:action', function(req, res, next){
-// 	var action = req.params.action
-// 	if (action === 'login'){
-// 		var credentials = req.body
-// 		var email = credentials.email.toLowerCase()
-//
-// 		userController.get({email: email}, true, function(err, results){
-//
-// 			if (results.length === 0){
-// 				res.json({
-// 					confirmation: 'Fail',
-// 					message: 'User Email Not Found. Please check spelling and try again.'
-// 				})
-// 				return
-// 			}
-//
-// 			var profile = results[0]
-// 			var passwordCorrect = bcrypt.compareSync(credentials.password, profile.password)
-//
-// 			if (err){
-// 				res.json({confirmation: 'Fail', message: err})
-// 				return
-// 			}
-//
-// 			if (passwordCorrect === false){
-// 				res.json({confirmation: 'Fail', message: 'Incorrect Password. Please check spelling and try again.'})
-// 				return
-// 			}
-//
-// 			// install cookie to track current user
-// 			var profileSummary = profile.summary()
-// 			req.session.user = profileSummary.id
-//
-// 			res.json({confirmation: 'Success', currentUser: profileSummary})
-// 			return
-// 		})
-// 	}
-// })
 
 module.exports = initUser

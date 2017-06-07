@@ -19,19 +19,6 @@ class UserProfile extends Component {
 
 	componentDidMount(){
 		this.setState({opacitySetting: 1})
-		var _this = this
-
-		APIManager.handleGet('/user/currentuser', null, function(err, response){
-			if (err) return	alert(JSON.stringify(err))
-
-			if (response.confirmation === "Fail") return browserHistory.push('/')
-
-			if (response.confirmation === "Success") {
-				_this.props.captureCurrentUser(response.user)
-				_this.fetchPets(response.user.id)
-				return
-			}
-		})
 	}
 
 	fetchPets(userID){
@@ -50,7 +37,7 @@ class UserProfile extends Component {
 
 	logout(){
 		let _this = this
-		APIManager.handleGet('/user/logout', null, function(err, response){
+		APIManager.handleGet('/logout', null, function(err, response){
 			if (response.confirmation === 'Fail') return alert(JSON.stringify(response))
 			if (response.confirmation === 'Success') {
 				_this.props.captureCurrentUser({})
@@ -63,16 +50,21 @@ class UserProfile extends Component {
 	render(){
 		let {opacitySetting} = this.state
 		let {pets, user} = this.props
+		let petResults
 
-		let petResults = pets.map(function(result, i){
-			return(
-				<PetProfileRow key={i} pet={result} />
-			)
-		})
+		if(pets === null){
+			petResults = <h2>Nothing to see here</h2>
+		} else {
+			petResults = pets.map(function(result, i){
+				return(
+					<PetProfileRow key={i} pet={result} />
+				)
+			})
+		}
 
 		return(
 			<div className='jumbotron' style={{opacity: opacitySetting, transitionProperty: "opacity", transitionDuration: "1s"}}>
-			<div style={{margin:2+'em'}}><Link to="/" className="button small back" style={{marginLeft: 2+'em'}}>Search Veterinarians</Link></div>
+				<div style={{margin:2+'em'}}><Link to="/" className="button small back" style={{marginLeft: 2+'em'}}>Search Veterinarians</Link></div>
 
 				<div style={{display:'flex', justifyContent: 'space-around'}}>
 					<div className='leftPanel' style={{textAlign:'center'}}>
@@ -87,24 +79,19 @@ class UserProfile extends Component {
 						{petResults}
 					</div>
 				</div>
-
 			</div>
 		)
 	}
 }
 
-const stateToProps = (state) => {
-	return {
-		user: state.userReducer.user,
-		pets: state.userReducer.pets
-	}
-}
+const stateToProps = (state) => ({
+	user: state.userReducer.user,
+	pets: state.userReducer.pets
+})
 
-const dispatchToProps = (dispatch) => {
-	return{
-		captureCurrentUser: (user) => dispatch(receivedUser(user)),
-		capturePets: (pets) => dispatch(receivedPets(pets))
-	}
-}
+const dispatchToProps = (dispatch) => ({
+	captureCurrentUser: (user) => dispatch(receivedUser(user)),
+	capturePets: (pets) => dispatch(receivedPets(pets))
+})
 
 export default connect (stateToProps, dispatchToProps) (UserProfile)

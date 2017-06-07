@@ -8,7 +8,7 @@ var store
 
 export default {
 	configureStore: (initialState) => {
-		var reducers = combineReducers({
+		const reducers = combineReducers({
 		 	petReducer: petReducer,
 		 	searchReducer: searchReducer,
 		 	userReducer: userReducer

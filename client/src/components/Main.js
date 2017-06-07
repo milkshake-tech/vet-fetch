@@ -1,6 +1,4 @@
 import React, { Component } from 'react'
-import store from '../stores/store'
-import { connect } from 'react-redux'
 import { Footer, Header } from '../components'
 
 class Main extends Component {
@@ -9,7 +7,6 @@ class Main extends Component {
 	}
 
 	render() {
-
 		return (
 			<div>
 				<Header />
@@ -20,8 +17,5 @@ class Main extends Component {
 	}
 }
 
-const stateToProps = (state) => ({
-	user: state.userReducer.user
-})
 
-export default connect (stateToProps)(Main)
+export default Main

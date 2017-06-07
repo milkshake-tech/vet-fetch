@@ -4,6 +4,8 @@ import store from '../stores/store'
 import { receivedSearchResults } from '../vet-search/actions/actions'
 import { connect } from 'react-redux'
 import APIManager from '../utils/APIManager'
+import Header from './Header'
+import Footer from './Footer'
 
 class Landing extends Component {
 
@@ -68,7 +70,8 @@ class Landing extends Component {
 }
 
 const stateToProps = (state) => ({
-	user: state.userReducer.user
+	user: state.userReducer.user,
+	pets: state.userReducer.pets
 })
 
 const dispatchToProps = (dispatch) => ({

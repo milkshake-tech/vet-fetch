@@ -1,13 +1,13 @@
 import React, { Component } from 'react'
 import ReactDOM from 'react-dom'
 import { Router, Route, IndexRoute, browserHistory } from 'react-router'
+import store from './stores/store'
+import { Provider } from 'react-redux'
 import Main from './components/Main'
 import { Landing } from './components'
 import { SearchResults } from './vet-search/components'
 import { Questionnaire1, Questionnaire2, Questionnaire3, SurveyThankyou } from './pet-survey/components'
 import { UserCapture, UserProfile } from './user/components'
-import store from './stores/store'
-import { Provider } from 'react-redux'
 
 const initialState = window.__PRELOADED_STATE__
 
