@@ -45,8 +45,10 @@ var Header = (function (Component) {
 	_prototypeProperties(Header, null, {
 		captureUserInput: {
 			value: function captureUserInput(event) {
+				var id = event.target.id;
+				var value = event.target.value;
 				var newUserCapture = Object.assign({}, this.state.userCapture);
-				newUserCapture[event.target.id] = event.target.value;
+				newUserCapture[id] = value;
 				this.setState({ userCapture: newUserCapture });
 			},
 			writable: true,
@@ -99,44 +101,36 @@ var Header = (function (Component) {
 						{ className: "header" },
 						React.createElement(
 							"div",
-							{ style: { marginLeft: 6 + "em" } },
+							{ className: "logo-container" },
 							React.createElement(
 								Link,
-								{ to: "/", style: { border: "none" } },
+								{ to: "/", className: "logo-link" },
 								React.createElement("img", { src: "/assets/images/vetFetch_white_sm.png" })
 							)
 						),
 						React.createElement(
 							"div",
-							{ style: { marginRight: 6 + "em", cursor: "pointer", display: user === null ? "block" : "none" }, onClick: this.displayLogin },
+							{ className: "register-btn", id: user ? "menu-hidden" : "menu-active", onClick: this.displayLogin },
 							"Sign Up / Log In"
 						),
 						React.createElement(
 							"div",
-							{ style: { marginRight: 6 + "em", cursor: "pointer", display: user === null ? "none" : "block" } },
+							{ className: "register-btn", id: user ? "menu-active" : "menu-hidden" },
 							React.createElement(
 								Link,
-								{ to: "/profile", style: { border: "none" } },
+								{ to: "/profile", className: "logo-link" },
 								React.createElement("img", { src: "/assets/images/user.png" })
 							)
 						)
 					),
 					React.createElement(
 						"div",
-						{ style: { display: this.state.loginVisible ? "block" : "none", border: "1px solid black", width: 350 + "px", backgroundColor: "white", position: "fixed", right: 0, top: 45 + "px", boxShadow: "rgb(211, 211, 211) 2px 5px 6px 7px" } },
-						React.createElement(
-							"p",
-							{ style: { margin: "1em auto 1em auto" } },
-							React.createElement("input", { id: "email", onChange: this.captureUserInput, style: { borderRight: "none", borderLeft: "none", borderTop: "none", fontSize: "12px", margin: "auto", width: "250px" }, placeholder: "Email", type: "text" })
-						),
-						React.createElement(
-							"p",
-							{ style: { margin: "auto" } },
-							React.createElement("input", { id: "password", onChange: this.captureUserInput, style: { borderRight: "none", borderLeft: "none", borderTop: "none", fontSize: "12px", margin: "auto", width: "250px" }, placeholder: "Password", type: "password" })
-						),
+						{ className: "register-dropdown", id: this.state.loginVisible ? "menu-active" : "menu-hidden" },
+						React.createElement("input", { id: "email", onChange: this.captureUserInput, className: "login-input", style: localStyle.inputWidth, placeholder: "Email", type: "text" }),
+						React.createElement("input", { id: "password", onChange: this.captureUserInput, className: "login-input", style: localStyle.inputWidth, placeholder: "Password", type: "password" }),
 						React.createElement(
 							"div",
-							{ style: { margin: "1em auto", fontSize: 8 + "px", textAlign: "center" } },
+							{ className: "register-nav" },
 							React.createElement(
 								"button",
 								{ onClick: this.loginUser },
@@ -145,11 +139,11 @@ var Header = (function (Component) {
 						),
 						React.createElement(
 							"p",
-							{ style: { margin: "1em auto 1em auto", textAlign: "center" } },
+							{ className: "register-nav" },
 							"New to vetFetch? Sign up ",
 							React.createElement(
 								"a",
-								{ style: { cursor: "pointer" }, onClick: this.displaySignUp },
+								{ onClick: this.displaySignUp, style: localStyle.pointer },
 								"here"
 							)
 						)
@@ -163,6 +157,15 @@ var Header = (function (Component) {
 
 	return Header;
 })(Component);
+
+var localStyle = {
+	pointer: {
+		cursor: "pointer"
+	},
+	inputWidth: {
+		width: 250 + "px"
+	}
+};
 
 var stateToProps = function (state) {
 	return {

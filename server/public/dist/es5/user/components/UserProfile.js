@@ -74,9 +74,8 @@ var UserProfile = (function (Component) {
 				APIManager.handleGet("/logout", null, function (err, response) {
 					if (response.confirmation === "Fail") return alert(JSON.stringify(response));
 					if (response.confirmation === "Success") {
-						_this.props.captureCurrentUser({});
 						browserHistory.push("/");
-						return;
+						return _this.props.captureCurrentUser(null);
 					}
 				});
 			},
@@ -90,6 +89,8 @@ var UserProfile = (function (Component) {
 				var pets = _props.pets;
 				var user = _props.user;
 				var petResults = undefined;
+
+				console.log("USER: " + JSON.stringify(user));
 
 				if (pets === null) {
 					petResults = React.createElement(

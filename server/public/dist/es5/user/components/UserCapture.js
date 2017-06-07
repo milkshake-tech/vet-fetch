@@ -24,19 +24,18 @@ var store = _interopRequire(require("../../stores/store"));
 
 var APIManager = _interopRequire(require("../../utils/APIManager"));
 
+var receivedUser = require("../actions/actions").receivedUser;
 var UserCapture = (function (Component) {
 	function UserCapture(props) {
 		_classCallCheck(this, UserCapture);
 
 		_get(Object.getPrototypeOf(UserCapture.prototype), "constructor", this).call(this, props);
 		this.captureUserInput = this.captureUserInput.bind(this);
-		this.saveUser = this.saveUser.bind(this);
-		this.saveUserPet = this.saveUserPet.bind(this);
+		this.postUser = this.postUser.bind(this);
 		this.state = {
 			opacitySetting: 0,
 			user: null,
 			displayErrorAlert: false,
-			displaySuccessAlert: false,
 			errorMsg: null
 		};
 	}
@@ -46,60 +45,41 @@ var UserCapture = (function (Component) {
 	_prototypeProperties(UserCapture, null, {
 		componentDidMount: {
 			value: function componentDidMount() {
-				this.setState({ opacitySetting: 1 });
+				var _this = this;
+				setTimeout(function () {
+					_this.setState({ opacitySetting: 1 });
+				}, 100);
 			},
 			writable: true,
 			configurable: true
 		},
 		captureUserInput: {
 			value: function captureUserInput(event) {
+				var id = event.target.id;
+				var value = event.target.value;
 				var userCapture = Object.assign({}, this.state.user);
-				userCapture[event.target.id] = event.target.value;
+				userCapture[id] = value;
 				this.setState({ user: userCapture });
 			},
 			writable: true,
 			configurable: true
 		},
-		saveUser: {
-			value: function saveUser(event) {
-				var saveUser = Object.assign({}, this.state.user);
-				var petProfile = Object.assign({}, this.props.petProfile);
-				this.setState({ displayErrorAlert: false });
+		postUser: {
+			value: function postUser(event) {
+				var newUser = Object.assign({}, this.state.user);
 
-				if (saveUser.email === undefined || saveUser.phone === undefined || saveUser.password === undefined || saveUser.confirmPassword === undefined) {
+				if (newUser.email === undefined || newUser.phone === undefined || newUser.password === undefined || newUser.confirmPassword === undefined) {
 					return this.setState({ displayErrorAlert: true, errorMsg: "Oops! Looks like some information is missing. Please fill out all fields to sign up." });
-				}if (saveUser.password !== saveUser.confirmPassword) {
+				}if (newUser.password !== newUser.confirmPassword) {
 					return this.setState({ displayErrorAlert: true, errorMsg: "Oops, your password entries don't match. Please try again." });
 				}var _this = this;
-				APIManager.handlePost("/api/user", saveUser, function (err, response) {
+				APIManager.handlePost("/api/user", newUser, function (err, res) {
 					if (err) return alert(err);
 
-					if (response.confirmation === "Fail") return alert(JSON.stringify(response));
+					if (res.confirmation === "Fail") return alert(JSON.stringify(response));
 
-					if (response.confirmation === "Success") {
-						if (petProfile.name === undefined) {
-							return browserHistory.push("/profile");
-						}
-
-						return _this.saveUserPet(response.result.id);
-					}
-				});
-			},
-			writable: true,
-			configurable: true
-		},
-		saveUserPet: {
-			value: function saveUserPet(userID) {
-				var newPetProfile = Object.assign({}, this.props.petProfile);
-				newPetProfile.ownerID = userID;
-
-				var _this = this;
-				APIManager.handlePost("/api/pet", newPetProfile, function (err, response) {
-					if (err) return alert(err);
-
-					if (response.confirmation === "Fail") return alert(JSON.stringify(response));
-
-					if (response.confirmation === "Success") {
+					if (res.confirmation === "Success") {
+						_this.props.captureCurrentUser(res.result);
 						return browserHistory.push("/profile");
 					}
 				});
@@ -112,28 +92,26 @@ var UserCapture = (function (Component) {
 				var _state = this.state;
 				var opacitySetting = _state.opacitySetting;
 				var displayErrorAlert = _state.displayErrorAlert;
-				var displaySuccessAlert = _state.displaySuccessAlert;
 				var errorMsg = _state.errorMsg;
 				var errorAlertDisplay = displayErrorAlert === true ? "block" : "none";
-				var successAlertDisplay = displaySuccessAlert === true ? "block" : "none";
 
 				return React.createElement(
 					"div",
-					{ className: "jumbotron", style: { opacity: opacitySetting, transitionProperty: "opacity", transitionDuration: "1s" } },
+					{ className: "jumbotron", style: { opacity: opacitySetting } },
 					React.createElement(
 						"div",
-						{ style: { display: "flex", justifyContent: "space-around" } },
+						{ className: "jumbotron-container" },
 						React.createElement(
 							"div",
-							{ className: "leftPanel" },
-							React.createElement("img", { src: "/assets/images/flamingo.png", className: "signUpImg" })
+							{ className: "left-panel" },
+							React.createElement("img", { src: "/assets/images/flamingo.png", className: "signUp-img" })
 						),
 						React.createElement(
 							"div",
-							{ style: { width: 600 + "px", textAlign: "center" } },
+							{ className: "right-panel" },
 							React.createElement(
 								"h2",
-								{ style: { margin: 25 + "px" } },
+								null,
 								"Sign Up"
 							),
 							React.createElement(
@@ -141,29 +119,13 @@ var UserCapture = (function (Component) {
 								{ style: { display: errorAlertDisplay, margin: 2 + "em" } },
 								errorMsg
 							),
-							React.createElement(
-								"p",
-								null,
-								React.createElement("input", { id: "email", onChange: this.captureUserInput, style: { borderRight: "none", borderLeft: "none", borderTop: "none", fontSize: "20px", margin: "auto", width: "350px" }, placeholder: "Email", className: "col-md-3", type: "text" })
-							),
-							React.createElement(
-								"p",
-								null,
-								React.createElement("input", { id: "phone", onChange: this.captureUserInput, style: { borderRight: "none", borderLeft: "none", borderTop: "none", fontSize: "20px", margin: "auto", width: "350px" }, placeholder: "Telephone", className: "col-md-3", type: "text" })
-							),
-							React.createElement(
-								"p",
-								null,
-								React.createElement("input", { id: "password", onChange: this.captureUserInput, style: { borderRight: "none", borderLeft: "none", borderTop: "none", fontSize: "20px", margin: "auto", width: "350px" }, placeholder: "Password", className: "col-md-3", type: "password" })
-							),
-							React.createElement(
-								"p",
-								null,
-								React.createElement("input", { id: "confirmPassword", onChange: this.captureUserInput, style: { borderRight: "none", borderLeft: "none", borderTop: "none", fontSize: "20px", margin: "auto", width: "350px" }, placeholder: "Confirm Password", className: "col-md-3", type: "password" })
-							),
+							React.createElement("input", { id: "email", onChange: this.captureUserInput, placeholder: "Email", className: "signUp-input", style: localStyle.inputWidth, type: "text" }),
+							React.createElement("input", { id: "phone", onChange: this.captureUserInput, placeholder: "Telephone", className: "signUp-input", style: localStyle.inputWidth, type: "text" }),
+							React.createElement("input", { id: "password", onChange: this.captureUserInput, placeholder: "Password", className: "signUp-input", style: localStyle.inputWidth, type: "password" }),
+							React.createElement("input", { id: "confirmPassword", onChange: this.captureUserInput, placeholder: "Confirm Password", className: "signUp-input", style: localStyle.inputWidth, type: "password" }),
 							React.createElement(
 								"div",
-								{ onClick: this.saveUser, className: "button" },
+								{ onClick: this.postUser, className: "button" },
 								"Submit"
 							)
 						)
@@ -178,10 +140,23 @@ var UserCapture = (function (Component) {
 	return UserCapture;
 })(Component);
 
+var localStyle = {
+	inputWidth: {
+		width: 350 + "px"
+	}
+};
+
 var stateToProps = function (state) {
 	return {
-		petProfile: state.petReducer.petProfile
+		user: state.userReducer.user };
+};
+
+var dispatchToProps = function (dispatch) {
+	return {
+		captureCurrentUser: function (user) {
+			return dispatch(receivedUser(user));
+		}
 	};
 };
 
-module.exports = connect(stateToProps)(UserCapture);
+module.exports = connect(stateToProps, dispatchToProps)(UserCapture);

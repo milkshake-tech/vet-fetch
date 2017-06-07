@@ -50,7 +50,8 @@ var Landing = (function (Component) {
 	_prototypeProperties(Landing, null, {
 		captureZipcode: {
 			value: function captureZipcode(event) {
-				this.setState({ searchZipcode: event.target.value });
+				var value = event.target.value;
+				this.setState({ searchZipcode: value });
 			},
 			writable: true,
 			configurable: true
@@ -102,7 +103,7 @@ var Landing = (function (Component) {
 					React.createElement(
 						"div",
 						null,
-						React.createElement("img", { src: "/assets/images/vetFetch_blue.png", className: "landingLogo" })
+						React.createElement("img", { src: "/assets/images/vetFetch_blue.png", className: "landing-logo" })
 					),
 					React.createElement(
 						"div",
@@ -119,7 +120,7 @@ var Landing = (function (Component) {
 						React.createElement(
 							"div",
 							null,
-							React.createElement("input", { className: "customInput", placeholder: "Enter your zip", onChange: this.captureZipcode, onKeyPress: this.onEnterPress, onFocus: this.handleFocus, onBlur: this.handleBlur })
+							React.createElement("input", { className: "custom-input", placeholder: "Enter your zip", onChange: this.captureZipcode, onKeyPress: this.onEnterPress, onFocus: this.handleFocus, onBlur: this.handleBlur })
 						),
 						React.createElement(
 							"div",
