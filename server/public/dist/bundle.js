@@ -818,14 +818,14 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var store;
 
 exports.default = {
-	configureStore: function configureStore(initialState) {
+	initialize: function initialize() {
 		var reducers = (0, _redux.combineReducers)({
 			petReducer: _petReducer2.default,
 			searchReducer: _searchReducer2.default,
 			userReducer: _userReducer2.default
 		});
 
-		store = (0, _redux.createStore)(reducers, initialState, (0, _redux.applyMiddleware)(_reduxThunk2.default));
+		store = (0, _redux.createStore)(reducers, (0, _redux.applyMiddleware)(_reduxThunk2.default));
 		return store;
 	},
 
@@ -3024,15 +3024,10 @@ exports.default = {
 	handlePost: function handlePost(endpoint, body, completion) {
 		_superagent2.default.post(endpoint).send(body).set('Accept', 'application/json').end(function (err, res) {
 			if (err) {
-				if (completion !== null) completion(err, null);
-
-				return;
+				return completion(err, null);
 			}
 
-			if (completion !== null) {
-				completion(null, res.body);
-				return;
-			}
+			return completion(null, res.body);
 		});
 	},
 
@@ -13364,12 +13359,6 @@ var _react = __webpack_require__(3);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _store = __webpack_require__(8);
-
-var _store2 = _interopRequireDefault(_store);
-
-var _reactRedux = __webpack_require__(13);
-
 var _components = __webpack_require__(80);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -13406,13 +13395,7 @@ var Main = function (_Component) {
 	return Main;
 }(_react.Component);
 
-var stateToProps = function stateToProps(state) {
-	return {
-		user: state.userReducer.user
-	};
-};
-
-exports.default = (0, _reactRedux.connect)(stateToProps)(Main);
+exports.default = Main;
 
 /***/ }),
 /* 138 */
@@ -13481,6 +13464,12 @@ var _reactDom2 = _interopRequireDefault(_reactDom);
 
 var _reactRouter = __webpack_require__(10);
 
+var _store = __webpack_require__(8);
+
+var _store2 = _interopRequireDefault(_store);
+
+var _reactRedux = __webpack_require__(13);
+
 var _Main = __webpack_require__(137);
 
 var _Main2 = _interopRequireDefault(_Main);
@@ -13493,19 +13482,11 @@ var _components3 = __webpack_require__(138);
 
 var _components4 = __webpack_require__(81);
 
-var _store = __webpack_require__(8);
-
-var _store2 = _interopRequireDefault(_store);
-
-var _reactRedux = __webpack_require__(13);
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var initialState = window.__PRELOADED_STATE__;
 
 var app = _react2.default.createElement(
 	_reactRedux.Provider,
-	{ store: _store2.default.configureStore(initialState) },
+	{ store: _store2.default.initialize() },
 	_react2.default.createElement(
 		_reactRouter.Router,
 		{ history: _reactRouter.browserHistory },
@@ -13689,14 +13670,15 @@ var Header = function (_Component) {
 		key: 'loginUser',
 		value: function loginUser() {
 			var _this = this;
-			_APIManager2.default.handlePost('/login', this.state.userCapture, function (err, response) {
-				console.log('ERR: ' + JSON.stringify(err));
-				console.log('RESPONSE: ' + JSON.stringify(response));
-				if (response.confirmation === 'Fail') return alert(JSON.stringify(response));
-				if (response.confirmation === 'Success') {
-					// _this.props.captureCurrentUser(response.currentUser)
-					// _this.setState({loginVisible:false})
-					// browserHistory.push('/profile')
+			_APIManager2.default.handlePost('/login', this.state.userCapture, function (err, res) {
+				if (err) {
+					return alert('Oops! Your email or password is incorrect.');
+				}
+
+				if (res.confirmation === 'Success') {
+					_this.props.captureCurrentUser(res.result);
+					_this.setState({ loginVisible: false });
+					_reactRouter.browserHistory.push('/profile');
 					return;
 				}
 			});
@@ -13853,6 +13835,11 @@ var Landing = function (_Component) {
 	}
 
 	_createClass(Landing, [{
+		key: 'componentDidMount',
+		value: function componentDidMount() {
+			console.log('user ' + JSON.stringify(this.props.user));
+		}
+	}, {
 		key: 'captureZipcode',
 		value: function captureZipcode(event) {
 			this.setState({ searchZipcode: event.target.value });
@@ -14903,7 +14890,6 @@ var UserCapture = function (_Component) {
 			if (saveUser.password !== saveUser.confirmPassword) return this.setState({ displayErrorAlert: true, errorMsg: "Oops, your password entries don't match. Please try again." });
 
 			var _this = this;
-			console.log('saveUser: ' + JSON.stringify(saveUser));
 			_APIManager2.default.handlePost("/api/user", saveUser, function (err, response) {
 				if (err) return alert(err);
 
@@ -14911,7 +14897,7 @@ var UserCapture = function (_Component) {
 
 				if (response.confirmation === 'Success') {
 					if (petProfile.name === undefined) {
-						return; //browserHistory.push('/profile')
+						return _reactRouter.browserHistory.push('/profile');
 					}
 
 					return _this.saveUserPet(response.result.id);
@@ -15076,17 +15062,7 @@ var UserProfile = function (_Component) {
 			this.setState({ opacitySetting: 1 });
 			var _this = this;
 
-			_APIManager2.default.handleGet('/user/currentuser', null, function (err, response) {
-				if (err) return alert(JSON.stringify(err));
-
-				if (response.confirmation === "Fail") return _reactRouter.browserHistory.push('/');
-
-				if (response.confirmation === "Success") {
-					_this.props.captureCurrentUser(response.user);
-					_this.fetchPets(response.user.id);
-					return;
-				}
-			});
+			console.log('current user: ' + JSON.stringify(this.props.user));
 		}
 	}, {
 		key: 'fetchPets',
@@ -15107,7 +15083,7 @@ var UserProfile = function (_Component) {
 		key: 'logout',
 		value: function logout() {
 			var _this = this;
-			_APIManager2.default.handleGet('/user/logout', null, function (err, response) {
+			_APIManager2.default.handleGet('/logout', null, function (err, response) {
 				if (response.confirmation === 'Fail') return alert(JSON.stringify(response));
 				if (response.confirmation === 'Success') {
 					_this.props.captureCurrentUser({});
