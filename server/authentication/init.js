@@ -3,6 +3,7 @@ const LocalStrategy = require('passport-local').Strategy
 const authenticationMiddleware = require('./middleware')
 const User = require('../user/User')
 const userController = require('../user/UserController')
+const bcrypt = require('bcryptjs')
 
 passport.serializeUser((user, done) => {
   done(null, user.id)
@@ -27,7 +28,17 @@ function initPassport(){
       let emailParam = email.toLowerCase()
       userController.get({email: emailParam}, true)
       .then((results) => {
-        return done(null, results[0])
+        if(results.length === 0){
+          return done(null, false)
+        }
+
+        let user = results[0]
+        let correctPW = bcrypt.compareSync(password, user.password)
+        if(correctPW === false){
+          return done(null, false)
+        }
+
+        return done(null, user.summary())
       })
       .catch((err)=> {
         return done(err)
