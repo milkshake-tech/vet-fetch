@@ -57,18 +57,19 @@ function getResourceById (req, res){
 function postToResource (req, res){
 	const resource = req.params.resource
 	const controller = controllers[resource]
+	const body = req.body
 
 	if (controller === null){
 		return res.json({confirmation: 'Fail', message: 'Invalid Resource'})
 	}
 
-	controller.post(req.body, (err, result) => {
+	controller.post(body, (err, result) => {
 		if(err){
 			return res.json({confirmation: 'Fail', message: err.message})
 		}
 
 		if (resource === 'user') {
-			passportAuthenticate(result, req, res)
+			passportAuthenticate(body, result, req, res)
 			// send account verification email
 			return
 		}
@@ -77,9 +78,9 @@ function postToResource (req, res){
 	})
 }
 
-function passportAuthenticate (user, req, res){
+function passportAuthenticate (userRaw, result, req, res){
 	passport.authenticate('local')(req, res, () => {
-		return res.json({confirmation: 'Success', result: user})
+		return res.json({confirmation: 'Success', result: result})
 	})
 }
 
