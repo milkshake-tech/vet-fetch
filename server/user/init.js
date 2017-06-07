@@ -43,7 +43,7 @@ function renderHome (req, res){
 		let base = null
 
 		if(result !== null){
-			initialData['userReducer'] = {user: result, pets: []}
+			initialData['userReducer'] = {user: result, pets: null}
 		} else {
 			initialData['userReducer'] = {user: null, pets: null}
 		}
