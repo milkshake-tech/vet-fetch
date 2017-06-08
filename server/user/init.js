@@ -3,6 +3,7 @@ const ReactRouter = require('react-router')
 const ReactDOMServer = require('react-dom/server')
 const ServerApp = require('../public/dist/es5/ServerApp')
 const layout = require('../public/dist/es5/components')
+const userComponents = require('../public/dist/es5/user/components')
 const initial = require('../public//dist/es5/user/reducers/initial')
 const store = require('../public/dist/es5/stores/store')
 const userController = require('./UserController')
@@ -35,12 +36,19 @@ function initUser (app){
 }
 
 function renderHome (req, res){
+	renderReact(req, res, layout.Landing)
+}
+
+function renderProfile (req, res){
+	renderReact(req, res, userComponents.UserProfile)
+}
+
+function renderReact(req, res, base){
 	let initialData = initial()
 	let initialState = null
 
 	userController.getById(req.user, false)
 	.then((result) => {
-		let base = null
 
 		if(result !== null){
 			initialData['userReducer'] = {user: result, pets: null}
@@ -49,8 +57,6 @@ function renderHome (req, res){
 		}
 
 		initialState = store.configureStore(initialData)
-
-		base = layout.Landing
 
 		let routes = {
 			path: '/',
@@ -72,11 +78,6 @@ function renderHome (req, res){
 	.catch((err) => {
 		return res.json({ confirmation: 'Fail', message: err})
 	})
-}
-
-function renderProfile (req, res){
-	console.log('renderProfile')
-	res.render('/profile')
 }
 
 module.exports = initUser
