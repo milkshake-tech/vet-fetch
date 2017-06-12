@@ -57,9 +57,8 @@ app.use(cookieParser())
 app.use(function forceSecureDomain(req, res, next){
   //don't allow user to visit any other site for vetfetch besides https://www.vetfetch.io
   console.log('THIS IS HOST ', req.get('Host'))
-  !req.secure ? console.log(req.get('HOST') + 'is not secure') : console.log(req.get('HOST') + 'is secure')
-  console.log('SECURE')
-  // !req.secure ? res.redirect('https://'+req.hostname + req.url) : next()
+  console.log('THIS IS SECURE ', req.secure)
+
 })
 
 require('./authentication').init(app)
