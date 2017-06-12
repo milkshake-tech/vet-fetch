@@ -25,7 +25,7 @@ let sess = {
   name: 'vetFetchID'
 }
 
-let mongoURL
+let mongoURL = config.db['production']
 
 if(process.env.NODE_ENV !== 'production'){
   mongoURL = config.db['development']
@@ -38,7 +38,7 @@ mongoose.connect(mongoURL, (err, res) => {
     console.log('DB Connection Failed:'+err)
   }
 
-  console.log('DB Connection Success: '+mongoURL || process.env.MONGODB_URI)
+  console.log('DB Connection Success: '+mongoURL)
 })
 
 const app = express()
@@ -54,13 +54,7 @@ app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(cookieParser())
 
-app.use(function forceSecureDomain(req, res, next){
-  //don't allow user to visit any other site for vetfetch besides https://www.vetfetch.io
-  console.log('THIS IS HOST ', req.get('Host'))
-  console.log('THIS IS SECURE ', req.secure)
-  next()
 
-})
 
 require('./authentication').init(app)
 
@@ -70,6 +64,23 @@ app.use(passport.initialize())
 app.use(passport.session())
 
 app.use(express.static(path.join(__dirname, 'public')))
+
+app.use(function (req, res, next){
+  // let schema = (req.headers['x-forwarded-proto'] || '').toLowerCase()
+  // if (schema === 'https'){
+  //   console.log('THIS IS HOST ', req.get('Host'))
+  //   console.log('THIS IS SECURE ', req.secure)
+  // } else{ console.log('need to redirect ', schema)}
+  if (req.secure){
+    console.log('THIS IS HOST ', req.get('Host'))
+    console.log('THIS IS SECURE ', req.secure)
+    next()
+  } else{
+    console.log('need to redirect ', req.secure)
+    res.redirect('https://'+req.headers.host + req.url)
+  }
+
+})
 
 require('./user').init(app)
 require('./api').init(app)
