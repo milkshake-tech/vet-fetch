@@ -20,6 +20,9 @@ function initAPI (app){
 }
 
 function getResource (req, res){
+	console.log('req.session: ', req.session)
+	console.log('req.headers: ', req.headers)
+	console.log('req: ', req)
 	const resource = req.params.resource
 	const controller = controllers[resource]
 

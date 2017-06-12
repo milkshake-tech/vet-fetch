@@ -1,6 +1,7 @@
 const express = require('express')
 const passport = require('passport')
 const session = require('express-session')
+const helmet = require('helmet')
 const path = require('path')
 const logger = require('morgan')
 const cookieParser = require('cookie-parser')
@@ -12,8 +13,24 @@ require('dotenv').config()
 
 let mongUrl
 
+let sess = {
+  secret: 'povinfjnlsekjnger',
+  resave: false,
+  cookie: {
+    httpOnly: true,
+    maxAge: 3600000,
+    domain: 'www.vetfetch.io',
+    secure: true,
+    path: '/'
+  },
+  saveUninitialized: false,
+  name: 'vetFetchID'
+}
+
 if(process.env.NODE_ENV !== 'production'){
   mongoUrl = config.db['development']
+  sess.cookie.domain = '127.0.0.1'
+  sess.cookie.secure = false
 }
 
 mongoose.connect(mongoUrl, (err, res) => {
@@ -26,6 +43,8 @@ mongoose.connect(mongoUrl, (err, res) => {
 
 const app = express()
 
+app.use(helmet())
+
 app.set('views', path.join(__dirname, 'views'))
 app.set('view engine', 'mustache')
 app.engine('mustache', require('hogan-middleware').__express)
@@ -35,13 +54,23 @@ app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(cookieParser())
 
+app.use(function forceSecureDomain(req, res, next){
+  //don't allow user to visit any other site for vetfetch besides https://www.vetfetch.io
+  let host = req.get('Host')
+  console.log('THIS IS HOST ', host)
+  if (req.secure){
+    console.log('SO SECURE', req.secure)
+    return next()
+  }
+  else {
+    console.log('NOT SECURE', req.secure)
+    res.redirect('https://'+req.hostname + req.url)
+  }
+})
+
 require('./authentication').init(app)
 
-app.use(session({
-  secret: 'keyboard cat',
-  resave: false,
-  saveUninitialized: false
-}))
+app.use(session(sess))
 
 app.use(passport.initialize())
 app.use(passport.session())
