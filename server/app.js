@@ -33,12 +33,12 @@ if(process.env.NODE_ENV !== 'production'){
   sess.cookie.secure = false
 }
 
-mongoose.connect(mongoUrl, (err, res) => {
+mongoose.connect(mongoURL, (err, res) => {
   if(err){
     console.log('DB Connection Failed:'+err)
   }
 
-  console.log('DB Connection Success: '+mongoUrl)
+  console.log('DB Connection Success: '+mongoURL)
 })
 
 const app = express()
