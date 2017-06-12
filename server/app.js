@@ -38,7 +38,7 @@ mongoose.connect(mongoURL, (err, res) => {
     console.log('DB Connection Failed:'+err)
   }
 
-  console.log('DB Connection Success: '+mongoURL)
+  console.log('DB Connection Success: '+mongoURL || process.env.MONGODB_URI)
 })
 
 const app = express()
@@ -57,7 +57,9 @@ app.use(cookieParser())
 app.use(function forceSecureDomain(req, res, next){
   //don't allow user to visit any other site for vetfetch besides https://www.vetfetch.io
   console.log('THIS IS HOST ', req.get('Host'))
-  !req.secure ? res.redirect('https://'+req.hostname + req.url) : next()
+  !req.secure ? console.log(req.get('HOST') + 'is not secure') : console.log(req.get('HOST') + 'is secure')
+  console.log('SECURE')
+  // !req.secure ? res.redirect('https://'+req.hostname + req.url) : next()
 })
 
 require('./authentication').init(app)
