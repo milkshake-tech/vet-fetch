@@ -11,8 +11,6 @@ const request = require('request')
 const config = require('../config/database')
 require('dotenv').config()
 
-let mongUrl
-
 let sess = {
   secret: 'povinfjnlsekjnger',
   resave: false,
@@ -27,8 +25,10 @@ let sess = {
   name: 'vetFetchID'
 }
 
+let mongoURL
+
 if(process.env.NODE_ENV !== 'production'){
-  mongoUrl = config.db['development']
+  mongoURL = config.db['development']
   sess.cookie.domain = '127.0.0.1'
   sess.cookie.secure = false
 }
