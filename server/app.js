@@ -58,6 +58,7 @@ app.use(function forceSecureDomain(req, res, next){
   //don't allow user to visit any other site for vetfetch besides https://www.vetfetch.io
   console.log('THIS IS HOST ', req.get('Host'))
   console.log('THIS IS SECURE ', req.secure)
+  next()
 
 })
 
