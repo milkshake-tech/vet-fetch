@@ -54,8 +54,6 @@ app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(cookieParser())
 
-
-
 require('./authentication').init(app)
 
 app.use(session(sess))
@@ -66,20 +64,15 @@ app.use(passport.session())
 app.use(express.static(path.join(__dirname, 'public')))
 
 app.use(function (req, res, next){
-  // let schema = (req.headers['x-forwarded-proto'] || '').toLowerCase()
-  // if (schema === 'https'){
-  //   console.log('THIS IS HOST ', req.get('Host'))
-  //   console.log('THIS IS SECURE ', req.secure)
-  // } else{ console.log('need to redirect ', schema)}
   if (req.secure){
-    console.log('THIS IS HOST ', req.get('Host'))
-    console.log('THIS IS SECURE ', req.secure)
-    next()
+    console.log('THIS IS REQ.SECURE HOST ', req.get('Host'))
+    console.log('IS SECURE = ', req.secure)
+    return next();
   } else{
-    console.log('need to redirect ', req.secure)
-    res.redirect('https://'+req.headers.host + req.url)
+    console.log('THIS IS HOST ', req.get('Host'))
+    console.log('IS SECURE = ', req.secure)
+    return res.redirect(301, 'https://'+req.headers.host + req.url)
   }
-
 })
 
 require('./user').init(app)
