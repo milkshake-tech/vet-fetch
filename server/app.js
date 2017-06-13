@@ -61,9 +61,9 @@ app.use(session(sess))
 app.use(passport.initialize())
 app.use(passport.session())
 
-app.use(express.static(path.join(__dirname, 'public')))
-
 app.use(function (req, res, next){
+  console.log('REQ HEADERS ', req.headers)
+  console.log('x-forwarded-proto ', req.get('X-Forwarded-Proto'))
   if (req.secure){
     console.log('THIS IS REQ.SECURE HOST ', req.get('Host'))
     console.log('IS SECURE = ', req.secure)
@@ -74,6 +74,10 @@ app.use(function (req, res, next){
     return res.redirect(301, 'https://'+req.headers.host + req.url)
   }
 })
+
+app.use(express.static(path.join(__dirname, 'public')))
+
+
 
 require('./user').init(app)
 require('./api').init(app)
