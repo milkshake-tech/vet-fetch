@@ -37,7 +37,7 @@ mongoose.connect(mongoURL, (err, res) => {
   if(err){
     console.log('DB Connection Failed:'+err)
   }
-
+  console.log('ENV: ', process.env.NODE_ENV)
   console.log('DB Connection Success: '+mongoURL)
 })
 
@@ -61,28 +61,16 @@ app.use(session(sess))
 app.use(passport.initialize())
 app.use(passport.session())
 
-app.use(function (req, res, next){
-  console.log('REQ HEADERS ', req.headers)
-  console.log('x-forwarded-proto ', req.get('X-Forwarded-Proto'))
-  if (req.headers['x-forwarded-proto'] === 'https'){
-    return next()
-  }
-  console.log('Redirect URL: ', 'https://'+req.headers.host + req.url)
-  return res.redirect('https://'+req.headers.host + req.url)
-  // if (req.secure){
-  //   console.log('THIS IS REQ.SECURE HOST ', req.get('Host'))
-  //   console.log('IS SECURE = ', req.secure)
-  //   return next();
-  // } else{
-  //   console.log('THIS IS HOST ', req.get('Host'))
-  //   console.log('IS SECURE = ', req.secure)
-  //   return res.redirect(301, 'https://'+req.headers.host + req.url)
-  // }
-})
+if (app.get('env') === 'production'){
+  app.use(function (req, res, next){
+    if (req.headers['x-forwarded-proto'] === 'https'){
+      return next()
+    }
+    return res.redirect('https://'+req.headers.host + req.url)
+  })
+}
 
 app.use(express.static(path.join(__dirname, 'public')))
-
-
 
 require('./user').init(app)
 require('./api').init(app)
