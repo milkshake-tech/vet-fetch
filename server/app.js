@@ -64,15 +64,20 @@ app.use(passport.session())
 app.use(function (req, res, next){
   console.log('REQ HEADERS ', req.headers)
   console.log('x-forwarded-proto ', req.get('X-Forwarded-Proto'))
-  if (req.secure){
-    console.log('THIS IS REQ.SECURE HOST ', req.get('Host'))
-    console.log('IS SECURE = ', req.secure)
-    return next();
-  } else{
-    console.log('THIS IS HOST ', req.get('Host'))
-    console.log('IS SECURE = ', req.secure)
-    return res.redirect(301, 'https://'+req.headers.host + req.url)
+  if (req.get('X-Forwarded-Proto') === https){
+    return next()
   }
+  console.log('Redirect URL: ', 'https://'+req.headers.host + req.url)
+  return res.redirect('https://'+req.headers.host + req.url)
+  // if (req.secure){
+  //   console.log('THIS IS REQ.SECURE HOST ', req.get('Host'))
+  //   console.log('IS SECURE = ', req.secure)
+  //   return next();
+  // } else{
+  //   console.log('THIS IS HOST ', req.get('Host'))
+  //   console.log('IS SECURE = ', req.secure)
+  //   return res.redirect(301, 'https://'+req.headers.host + req.url)
+  // }
 })
 
 app.use(express.static(path.join(__dirname, 'public')))
