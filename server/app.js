@@ -64,7 +64,7 @@ app.use(passport.session())
 app.use(function (req, res, next){
   console.log('REQ HEADERS ', req.headers)
   console.log('x-forwarded-proto ', req.get('X-Forwarded-Proto'))
-  if (req.get('X-Forwarded-Proto') === https){
+  if (req.headers['x-forwarded-proto'] === 'https'){
     return next()
   }
   console.log('Redirect URL: ', 'https://'+req.headers.host + req.url)
