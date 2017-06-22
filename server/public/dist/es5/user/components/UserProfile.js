@@ -47,6 +47,7 @@ var UserProfile = (function (Component) {
 		componentDidMount: {
 			value: function componentDidMount() {
 				this.setState({ opacitySetting: 1 });
+				this.fetchPets(this.props.user.id);
 			},
 			writable: true,
 			configurable: true
@@ -89,8 +90,6 @@ var UserProfile = (function (Component) {
 				var pets = _props.pets;
 				var user = _props.user;
 				var petResults = undefined;
-
-				console.log("USER: " + JSON.stringify(user));
 
 				if (pets === null) {
 					petResults = React.createElement(

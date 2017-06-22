@@ -5,6 +5,7 @@ export default {
 	handleGet: (endpoint, params, completion) => {
 		superagent
 		.get(endpoint)
+		.auth('vetfetch', 'milkshake')
 		.query(params)
 		.set('Accept', 'application/json')
 		.end(function(err, res){
@@ -24,6 +25,7 @@ export default {
 	handleGetById: (endpoint, params, completion) => {
 		superagent
 		.get(endpoint)
+		.auth('vetfetch', 'milkshake')
 		.query(params)
 		.set('Accept', 'application/json')
 		.end(function(err, res){
@@ -43,6 +45,7 @@ export default {
 	handlePost: (endpoint, body, completion) => {
 		superagent
 		.post(endpoint)
+		.auth('vetfetch', 'milkshake')
 		.send(body)
 		.set('Accept', 'application/json')
 		.end((err, res) => {
@@ -57,6 +60,7 @@ export default {
 	handlePut: (endpoint, body, completion) => {
 		superagent
 		.put(endpoint)
+		.auth('vetfetch', 'milkshake')
 		.send(body)
 		.set('Accept', 'application/json')
 		.end(function(err, res){

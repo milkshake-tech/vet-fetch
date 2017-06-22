@@ -2,8 +2,8 @@ const utils = require('./utils')
 const chai = require('chai')
 const should = chai.should()
 const chaiHttp = require('chai-http')
-const server = require('../app')
-const User = require('../models/User')
+const server = require('../server/app')
+const User = require('../server/user/User')
 chai.use(chaiHttp)
 
 describe('User Controller', () => {
@@ -17,6 +17,7 @@ describe('User Controller', () => {
 
     chai.request(server)
     .get('/api/user')
+    .auth('vetfetch', 'milkshake')
     .end((err, res) => {
       res.should.have.status(200)
       res.should.be.json

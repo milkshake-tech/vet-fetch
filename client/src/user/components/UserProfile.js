@@ -19,6 +19,7 @@ class UserProfile extends Component {
 
 	componentDidMount(){
 		this.setState({opacitySetting: 1})
+		this.fetchPets(this.props.user.id)
 	}
 
 	fetchPets(userID){
@@ -50,8 +51,6 @@ class UserProfile extends Component {
 		let {opacitySetting} = this.state
 		let {pets, user} = this.props
 		let petResults
-
-		console.log('USER: '+JSON.stringify(user))
 
 		if(pets === null){
 			petResults = <h2>Nothing to see here</h2>

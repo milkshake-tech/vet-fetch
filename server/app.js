@@ -1,14 +1,17 @@
-const express = require('express')
-const passport = require('passport')
-const session = require('express-session')
-const helmet = require('helmet')
-const path = require('path')
-const logger = require('morgan')
-const cookieParser = require('cookie-parser')
-const bodyParser = require('body-parser')
-const mongoose = require('mongoose')
-const request = require('request')
-const config = require('../config/database')
+const express = require('express');
+const passport = require('passport');
+const Strategy = require('passport-http').BasicStrategy;
+const userController = require('./user/UserController');
+const bcrypt = require('bcryptjs');
+const session = require('express-session');
+const helmet = require('helmet');
+const path = require('path');
+const logger = require('morgan');
+const cookieParser = require('cookie-parser');
+const bodyParser = require('body-parser');
+const mongoose = require('mongoose');
+const request = require('request');
+const config = require('../config/database');
 require('dotenv').config()
 
 let sess = {
@@ -37,9 +40,32 @@ mongoose.connect(mongoURL, (err, res) => {
   if(err){
     console.log('DB Connection Failed:'+err)
   }
-  console.log('ENV: ', process.env.NODE_ENV)
   console.log('DB Connection Success: '+mongoURL)
 })
+
+
+passport.use(new Strategy(
+  function(username, password, cb){
+    userController.get({email: username}, true)
+    .then((results) => {
+      if(results.length === 0){
+        return cb(null, false)
+      }
+
+      let user = results[0]
+      let correctPW = bcrypt.compareSync(password, user.password)
+      if(correctPW === false){
+        return cb(null, false)
+      }
+
+      return cb(null, user.summary())
+    })
+    .catch((err)=> {
+      return cb(err)
+    })
+  }
+))
+
 
 const app = express()
 

@@ -1,7 +1,8 @@
-const petController = require('../pet/PetController')
-const searchController = require('../veterinarian/SearchController')
-const userController = require('../user/UserController')
-const passport = require('passport')
+const petController = require('../pet/PetController');
+const searchController = require('../veterinarian/SearchController');
+const userController = require('../user/UserController');
+const passport = require('passport');
+const Strategy = require('passport-http').BasicStrategy;
 
 const controllers = {
 	pet: petController,
@@ -13,16 +14,13 @@ const endpoint = '/api/:resource'
 const endPointID = '/:id'
 
 function initAPI (app){
-	app.get(endpoint, getResource)
-	app.get(endpoint+endPointID, getResourceById)
-	app.post(endpoint, postToResource)
-	app.put(endpoint+endPointID, putToResource)
+	app.get(endpoint, passport.authenticate('basic', {session: false}), getResource)
+	app.get(endpoint+endPointID, passport.authenticate('basic', {session: false}), getResourceById)
+	app.post(endpoint, passport.authenticate('basic', {session: false}), postToResource)
+	app.put(endpoint+endPointID, passport.authenticate('basic', {session: false}), putToResource)
 }
 
 function getResource (req, res){
-	console.log('req.session: ', req.session)
-	console.log('req.headers: ', req.headers)
-	console.log('req: ', req)
 	const resource = req.params.resource
 	const controller = controllers[resource]
 

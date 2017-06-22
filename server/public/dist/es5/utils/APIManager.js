@@ -7,7 +7,7 @@ var superagent = _interopRequire(require("superagent"));
 module.exports = {
 
 	handleGet: function (endpoint, params, completion) {
-		superagent.get(endpoint).query(params).set("Accept", "application/json").end(function (err, res) {
+		superagent.get(endpoint).auth("vetfetch", "milkshake").query(params).set("Accept", "application/json").end(function (err, res) {
 			if (err) {
 				if (completion !== null) completion(err, null);
 				return;
@@ -21,7 +21,7 @@ module.exports = {
 	},
 
 	handleGetById: function (endpoint, params, completion) {
-		superagent.get(endpoint).query(params).set("Accept", "application/json").end(function (err, res) {
+		superagent.get(endpoint).auth("vetfetch", "milkshake").query(params).set("Accept", "application/json").end(function (err, res) {
 			if (err) {
 				if (completion !== null) completion(err, null);
 				return;
@@ -35,7 +35,7 @@ module.exports = {
 	},
 
 	handlePost: function (endpoint, body, completion) {
-		superagent.post(endpoint).send(body).set("Accept", "application/json").end(function (err, res) {
+		superagent.post(endpoint).auth("vetfetch", "milkshake").send(body).set("Accept", "application/json").end(function (err, res) {
 			if (err) {
 				return completion(err, null);
 			}
@@ -45,7 +45,7 @@ module.exports = {
 	},
 
 	handlePut: function (endpoint, body, completion) {
-		superagent.put(endpoint).send(body).set("Accept", "application/json").end(function (err, res) {
+		superagent.put(endpoint).auth("vetfetch", "milkshake").send(body).set("Accept", "application/json").end(function (err, res) {
 			if (err) {
 				if (completion !== null) completion(err, null);
 				return;
