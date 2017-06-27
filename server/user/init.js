@@ -4,6 +4,7 @@ const ReactDOMServer = require('react-dom/server')
 const ServerApp = require('../public/dist/es5/ServerApp')
 const layout = require('../public/dist/es5/components')
 const userComponents = require('../public/dist/es5/user/components')
+const vetSearchComponents = require('../public/dist/es5/vet-search/components')
 const initial = require('../public//dist/es5/user/reducers/initial')
 const store = require('../public/dist/es5/stores/store')
 const userController = require('./UserController')
@@ -24,6 +25,7 @@ matchRoutes = (req, routes) => {
 }
 
 function initUser (app){
+	const endpoint = '/:resource'
 	app.get('/', renderHome)
 	app.get('/profile', passport.authenticationMiddleware(), renderProfile)
 	app.get('/logout', (req, res) => {
@@ -33,6 +35,7 @@ function initUser (app){
 	app.post('/login', passport.authenticate('local'), (req, res) => {
 		res.json({confirmation: 'Success', result: req.user})
 	})
+	app.get(endpoint, renderHome)
 }
 
 function renderHome (req, res){
