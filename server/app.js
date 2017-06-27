@@ -46,23 +46,11 @@ mongoose.connect(mongoURL, (err, res) => {
 
 passport.use(new Strategy(
   function(username, password, cb){
-    userController.get({email: username}, true)
-    .then((results) => {
-      if(results.length === 0){
-        return cb(null, false)
-      }
-
-      let user = results[0]
-      let correctPW = bcrypt.compareSync(password, user.password)
-      if(correctPW === false){
-        return cb(null, false)
-      }
-
-      return cb(null, user.summary())
-    })
-    .catch((err)=> {
-      return cb(err)
-    })
+    if (username === 'vetfetch' && password === 'milkshake'){
+      return cb(null, {username: username, password: password})
+    } else {
+      return cb(null, false)
+    }
   }
 ))
 
