@@ -21,8 +21,6 @@ const app = (
 				<Route path="/survey-2" component={ Questionnaire2 } />
 				<Route path="/survey-3" component={ Questionnaire3 } />
 				<Route path="/profile" component={ UserProfile } />
-				<Route path="/signup" component={ UserCapture } />
-				<Route path='/thankyou' component={ SurveyThankyou } />
 			</Route>
 		</Router>
 	</Provider>
