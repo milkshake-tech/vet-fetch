@@ -23,6 +23,8 @@ var store = _interopRequire(require("../../stores/store"));
 
 var connect = require("react-redux").connect;
 var capturePetSurvey = require("../actions/actions").capturePetSurvey;
+var APIManager = _interopRequire(require("../../utils/APIManager"));
+
 var AutocompleteBar = _interopRequire(require("../components/AutocompleteBar"));
 
 var Questionnaire3 = (function (Component) {
@@ -33,6 +35,7 @@ var Questionnaire3 = (function (Component) {
 		this.conditionsList = ["Allergies", "Arthritis", "Cancer", "Diabetes", "Ear Infections", "Heart Disease", "Neutered or Spayed", "Orthopedic Conditions", "Skin Conditions", "Thyroid Conditions"];
 		this.captureResponse = this.captureResponse.bind(this);
 		this.highlightSelectedTile = this.highlightSelectedTile.bind(this);
+		this.saveUserPet = this.saveUserPet.bind(this);
 		this.state = {
 			highlight: false,
 			highlightToggleState: {},
@@ -55,7 +58,7 @@ var Questionnaire3 = (function (Component) {
 				var response = Object.assign({}, this.props.petProfile);
 				response.tags = this.state.highlightToggleState;
 				this.props.capturePetSurveyResponse(response);
-				browserHistory.push("/thankyou");
+				this.saveUserPet();
 			},
 			writable: true,
 			configurable: true
@@ -73,6 +76,23 @@ var Questionnaire3 = (function (Component) {
 				}
 				highlightToggle[event.target.id] = !this.state.highlight;
 				this.setState({ highlight: !this.state.highlight, highlightToggleState: highlightToggle });
+			},
+			writable: true,
+			configurable: true
+		},
+		saveUserPet: {
+			value: function saveUserPet() {
+				var newPetProfile = Object.assign({}, this.props.petProfile);
+				console.log("user props " + JSON.stringify(this.props.user));
+				newPetProfile.ownerID = this.props.user.id;
+
+				APIManager.handlePost("/api/pet", newPetProfile, function (err, response) {
+					if (err) return alert(err);
+
+					if (response.confirmation === "Fail") return alert(JSON.stringify(response));
+
+					if (response.confirmation === "Success") return browserHistory.push("/profile");
+				});
 			},
 			writable: true,
 			configurable: true
@@ -158,7 +178,8 @@ var Questionnaire3 = (function (Component) {
 
 var stateToProps = function (state) {
 	return {
-		petProfile: state.petReducer.petProfile
+		petProfile: state.petReducer.petProfile,
+		user: state.userReducer.user
 	};
 };
 

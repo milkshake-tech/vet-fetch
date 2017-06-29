@@ -23,7 +23,9 @@ var store = _interopRequire(require("../../stores/store"));
 
 var connect = require("react-redux").connect;
 var receivedSearchResults = require("../actions/actions").receivedSearchResults;
+var toggleSignupModal = require("../../user/actions/actions").toggleSignupModal;
 var SearchResultItem = require("../components").SearchResultItem;
+var UserCapture = require("../../user/components").UserCapture;
 var APIManager = _interopRequire(require("../../utils/APIManager"));
 
 var SearchResults = (function (Component) {
@@ -69,7 +71,11 @@ var SearchResults = (function (Component) {
 		},
 		startPetSurvey: {
 			value: function startPetSurvey() {
-				browserHistory.push("/survey-1");
+				if (this.props.user === null) {
+					this.props.toggleSignup(true);
+				} else {
+					browserHistory.push("/survey-1");
+				}
 			},
 			writable: true,
 			configurable: true
@@ -118,7 +124,7 @@ var SearchResults = (function (Component) {
 							React.createElement("img", { src: "/assets/images/sittingdog.png", className: "searchImg" }),
 							React.createElement(
 								"p",
-								{ style: { display: "block", fontSize: 12 + "px", margin: 2 + "em" } },
+								{ style: { display: "block", fontSize: 14 + "px", margin: 2 + "em" } },
 								"Psss...Save your pet records on vetFetch for your next appointment."
 							),
 							React.createElement(
@@ -179,7 +185,8 @@ var SearchResults = (function (Component) {
 
 var stateToProps = function (state) {
 	return {
-		searchResults: state.searchReducer.searchResults
+		searchResults: state.searchReducer.searchResults,
+		user: state.userReducer.user
 	};
 };
 
@@ -187,10 +194,11 @@ var dispatchToProps = function (dispatch) {
 	return {
 		fetchSearchResults: function (searchResults) {
 			return dispatch(receivedSearchResults(searchResults));
+		},
+		toggleSignup: function (toggleState) {
+			return dispatch(toggleSignupModal(toggleState));
 		}
 	};
 };
 
 module.exports = connect(stateToProps, dispatchToProps)(SearchResults);
-//if current user, push to profile
-// browserHistory.push('/profile')

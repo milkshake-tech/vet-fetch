@@ -6,7 +6,9 @@ var constants = _interopRequire(require("../constants/constants"));
 
 var initialState = {
 	user: null,
-	pets: null
+	pets: null,
+	displayLoginModal: false,
+	displaySignUpModal: false
 };
 
 module.exports = function (_x, action) {
@@ -20,6 +22,14 @@ module.exports = function (_x, action) {
 
 		case constants.RECEIVED_PETS:
 			newState.pets = action.pets;
+			return newState;
+
+		case constants.TOGGLE_LOGIN_MODAL:
+			newState.displayLoginModal = action.toggleState;
+			return newState;
+
+		case constants.TOGGLE_SIGNUP_MODAL:
+			newState.displaySignUpModal = action.toggleState;
 			return newState;
 
 		default:

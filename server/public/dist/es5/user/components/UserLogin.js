@@ -29,70 +29,55 @@ var _actionsActions = require("../actions/actions");
 var receivedUser = _actionsActions.receivedUser;
 var toggleLoginModal = _actionsActions.toggleLoginModal;
 var toggleSignupModal = _actionsActions.toggleSignupModal;
-var UserCapture = (function (Component) {
-	function UserCapture(props) {
-		_classCallCheck(this, UserCapture);
+var UserLogin = (function (Component) {
+	function UserLogin(props) {
+		_classCallCheck(this, UserLogin);
 
-		_get(Object.getPrototypeOf(UserCapture.prototype), "constructor", this).call(this, props);
+		_get(Object.getPrototypeOf(UserLogin.prototype), "constructor", this).call(this, props);
 		this.captureUserInput = this.captureUserInput.bind(this);
-		this.closeSignupModal = this.closeSignupModal.bind(this);
-		this.openLoginModal = this.openLoginModal.bind(this);
-		this.postUser = this.postUser.bind(this);
+		this.closeLoginModal = this.closeLoginModal.bind(this);
+		this.loginUser = this.loginUser.bind(this);
 		this.state = {
-			user: null,
+			userCapture: null,
 			displayErrorAlert: false,
 			errorMsg: null
 		};
 	}
 
-	_inherits(UserCapture, Component);
+	_inherits(UserLogin, Component);
 
-	_prototypeProperties(UserCapture, null, {
+	_prototypeProperties(UserLogin, null, {
 		captureUserInput: {
 			value: function captureUserInput(event) {
 				var id = event.target.id;
 				var value = event.target.value;
-				var userCapture = Object.assign({}, this.state.user);
-				userCapture[id] = value;
-				this.setState({ user: userCapture });
+				var newUserCapture = Object.assign({}, this.state.userCapture);
+				newUserCapture[id] = value;
+				this.setState({ userCapture: newUserCapture });
 			},
 			writable: true,
 			configurable: true
 		},
-		closeSignupModal: {
-			value: function closeSignupModal(event) {
-				return this.props.toggleSignup(false);
+		closeLoginModal: {
+			value: function closeLoginModal(event) {
+				return this.props.toggleLogin(false);
 			},
 			writable: true,
 			configurable: true
 		},
-		openLoginModal: {
-			value: function openLoginModal(event) {
-				this.props.toggleSignup(false);
-				return this.props.toggleLogin(true);
-			},
-			writable: true,
-			configurable: true
-		},
-		postUser: {
-			value: function postUser(event) {
-				var _this2 = this;
-				var newUser = Object.assign({}, this.state.user);
-
-				if (newUser.email === undefined || newUser.phone === undefined || newUser.password === undefined || newUser.confirmPassword === undefined) {
-					return this.setState({ displayErrorAlert: true, errorMsg: "Oops! Looks like some information is missing. Please fill out all fields to sign up." });
-				}if (newUser.password !== newUser.confirmPassword) {
-					return this.setState({ displayErrorAlert: true, errorMsg: "Oops, your password entries don't match. Please try again." });
-				}var _this = this;
-				APIManager.handlePost("/api/user", newUser, function (err, res) {
-					if (err) return alert(err);
-
-					if (res.confirmation === "Fail") return _this2.setState({ displayErrorAlert: true, errorMsg: "Oops, something went wrong saving your information. Please try again later." });
+		loginUser: {
+			value: function loginUser() {
+				var _this = this;
+				APIManager.handlePost("/login", this.state.userCapture, function (err, res) {
+					if (err) {
+						return alert("Oops! Your email or password is incorrect.");
+					}
 
 					if (res.confirmation === "Success") {
 						_this.props.captureCurrentUser(res.result);
-						_this.props.toggleSignup(false);
-						return browserHistory.push("/profile");
+						_this.props.toggleLogin(false);
+						browserHistory.push("/profile");
+						return;
 					}
 				});
 			},
@@ -105,7 +90,7 @@ var UserCapture = (function (Component) {
 				var displayErrorAlert = _state.displayErrorAlert;
 				var errorMsg = _state.errorMsg;
 				var errorAlertDisplay = displayErrorAlert === true ? "block" : "none";
-				var modalDisplay = this.props.displaySignUpModal ? "block" : "none";
+				var modalDisplay = this.props.displayLoginModal ? "block" : "none";
 
 				return React.createElement(
 					"div",
@@ -118,18 +103,18 @@ var UserCapture = (function (Component) {
 							{ className: "modal-content" },
 							React.createElement(
 								"div",
-								{ className: "modal-close-btn", onClick: this.closeSignupModal },
+								{ className: "modal-close-btn", onClick: this.closeLoginModal },
 								"x"
 							),
 							React.createElement(
 								"h2",
 								null,
-								"Sign Up"
+								"Log In"
 							),
 							React.createElement(
 								"h5",
 								null,
-								"Create an account to save your pet records and bookmark veterinarians."
+								"Log in to save your pet records and bookmark veterinarians."
 							),
 							React.createElement(
 								"div",
@@ -137,24 +122,13 @@ var UserCapture = (function (Component) {
 								errorMsg
 							),
 							React.createElement("input", { id: "email", onChange: this.captureUserInput, placeholder: "Email", className: "signup-input", style: localStyle.inputWidth, type: "text" }),
-							React.createElement("input", { id: "phone", onChange: this.captureUserInput, placeholder: "Telephone", className: "signup-input", style: localStyle.inputWidth, type: "text" }),
 							React.createElement("input", { id: "password", onChange: this.captureUserInput, placeholder: "Password", className: "signup-input", style: localStyle.inputWidth, type: "password" }),
-							React.createElement("input", { id: "confirmPassword", onChange: this.captureUserInput, placeholder: "Confirm Password", className: "signup-input", style: localStyle.inputWidth, type: "password" }),
 							React.createElement(
 								"div",
-								{ onClick: this.postUser, className: "button" },
-								"Submit"
+								{ onClick: this.loginUser, className: "button" },
+								"Log In"
 							),
-							React.createElement(
-								"h5",
-								{ style: { marginTop: 1 + "em" } },
-								"Already have an account? Login ",
-								React.createElement(
-									"a",
-									{ onClick: this.openLoginModal, style: { cursor: "pointer" } },
-									"here"
-								)
-							)
+							React.createElement("img", { src: "/assets/images/corgi.png", className: "login-img" })
 						)
 					)
 				);
@@ -164,7 +138,7 @@ var UserCapture = (function (Component) {
 		}
 	});
 
-	return UserCapture;
+	return UserLogin;
 })(Component);
 
 var localStyle = {
@@ -176,7 +150,7 @@ var localStyle = {
 var stateToProps = function (state) {
 	return {
 		user: state.userReducer.user,
-		displaySignUpModal: state.userReducer.displaySignUpModal
+		displayLoginModal: state.userReducer.displayLoginModal
 	};
 };
 
@@ -187,11 +161,7 @@ var dispatchToProps = function (dispatch) {
 		},
 		toggleLogin: function (toggleState) {
 			return dispatch(toggleLoginModal(toggleState));
-		},
-		toggleSignup: function (toggleState) {
-			return dispatch(toggleSignupModal(toggleState));
-		}
-	};
+		} };
 };
 
-module.exports = connect(stateToProps, dispatchToProps)(UserCapture);
+module.exports = connect(stateToProps, dispatchToProps)(UserLogin);

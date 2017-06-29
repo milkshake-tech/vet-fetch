@@ -19,6 +19,20 @@ var receivedPets = exports.receivedPets = function (pets) {
 		pets: pets
 	};
 };
+
+var toggleLoginModal = exports.toggleLoginModal = function (toggleState) {
+	return {
+		type: constants.TOGGLE_LOGIN_MODAL,
+		toggleState: toggleState
+	};
+};
+
+var toggleSignupModal = exports.toggleSignupModal = function (toggleState) {
+	return {
+		type: constants.TOGGLE_SIGNUP_MODAL,
+		toggleState: toggleState
+	};
+};
 Object.defineProperty(exports, "__esModule", {
 	value: true
 });

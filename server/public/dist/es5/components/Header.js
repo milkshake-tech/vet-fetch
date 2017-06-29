@@ -24,7 +24,14 @@ var APIManager = _interopRequire(require("../utils/APIManager"));
 var connect = require("react-redux").connect;
 var store = _interopRequire(require("../stores/store"));
 
-var receivedUser = require("../user/actions/actions").receivedUser;
+var _userActionsActions = require("../user/actions/actions");
+
+var receivedUser = _userActionsActions.receivedUser;
+var toggleSignupModal = _userActionsActions.toggleSignupModal;
+var _userComponents = require("../user/components");
+
+var UserCapture = _userComponents.UserCapture;
+var UserLogin = _userComponents.UserLogin;
 var Header = (function (Component) {
 	function Header(props) {
 		_classCallCheck(this, Header);
@@ -56,7 +63,10 @@ var Header = (function (Component) {
 		},
 		displayLogin: {
 			value: function displayLogin() {
-				this.setState({ loginVisible: !this.state.loginVisible });
+				if (this.props.displaySignUpModal) {
+					return;
+				}
+				return this.setState({ loginVisible: !this.state.loginVisible });
 			},
 			writable: true,
 			configurable: true
@@ -64,7 +74,7 @@ var Header = (function (Component) {
 		displaySignUp: {
 			value: function displaySignUp() {
 				this.setState({ loginVisible: false });
-				browserHistory.push("/signup");
+				return this.props.toggleSignup(true);
 			},
 			writable: true,
 			configurable: true
@@ -126,8 +136,8 @@ var Header = (function (Component) {
 					React.createElement(
 						"div",
 						{ className: "register-dropdown", id: this.state.loginVisible ? "menu-active" : "menu-hidden" },
-						React.createElement("input", { id: "email", onChange: this.captureUserInput, className: "login-input", style: localStyle.inputWidth, placeholder: "Email", type: "text" }),
-						React.createElement("input", { id: "password", onChange: this.captureUserInput, className: "login-input", style: localStyle.inputWidth, placeholder: "Password", type: "password" }),
+						React.createElement("input", { id: "email", onChange: this.captureUserInput, placeholder: "Email", className: "login-input", style: localStyle.inputWidth, type: "text" }),
+						React.createElement("input", { id: "password", onChange: this.captureUserInput, placeholder: "Password", className: "login-input", style: localStyle.inputWidth, type: "password" }),
 						React.createElement(
 							"div",
 							{ className: "register-nav" },
@@ -147,6 +157,16 @@ var Header = (function (Component) {
 								"here"
 							)
 						)
+					),
+					React.createElement(
+						"div",
+						{ style: { justifyContent: "center" } },
+						React.createElement(UserCapture, null)
+					),
+					React.createElement(
+						"div",
+						{ style: { justifyContent: "center" } },
+						React.createElement(UserLogin, null)
 					)
 				);
 			},
@@ -169,7 +189,8 @@ var localStyle = {
 
 var stateToProps = function (state) {
 	return {
-		user: state.userReducer.user
+		user: state.userReducer.user,
+		displaySignUpModal: state.userReducer.displaySignUpModal
 	};
 };
 
@@ -177,6 +198,9 @@ var dispatchToProps = function (dispatch) {
 	return {
 		captureCurrentUser: function (user) {
 			return dispatch(receivedUser(user));
+		},
+		toggleSignup: function (toggleState) {
+			return dispatch(toggleSignupModal(toggleState));
 		}
 	};
 };
