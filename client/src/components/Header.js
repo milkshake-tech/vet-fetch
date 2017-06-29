@@ -3,7 +3,8 @@ import { Link, browserHistory } from 'react-router'
 import APIManager from '../utils/APIManager'
 import { connect } from 'react-redux'
 import store from '../stores/store'
-import { receivedUser } from '../user/actions/actions'
+import { receivedUser, toggleSignupModal } from '../user/actions/actions'
+import { UserCapture, UserLogin } from '../user/components'
 
 class Header extends Component {
 
@@ -28,12 +29,15 @@ class Header extends Component {
 	}
 
 	displayLogin(){
-		this.setState({ loginVisible:!this.state.loginVisible })
+		if (this.props.displaySignUpModal){
+			return
+		}
+		return this.setState({ loginVisible:!this.state.loginVisible })
 	}
 
 	displaySignUp(){
 		this.setState({ loginVisible:false })
-		browserHistory.push('/signup')
+		return this.props.toggleSignup(true)
 	}
 
 	loginUser(){
@@ -72,8 +76,8 @@ class Header extends Component {
 	      </div>
 
 				<div className='register-dropdown' id={ this.state.loginVisible ? 'menu-active' : 'menu-hidden' }>
-					<input id="email" onChange={ this.captureUserInput } className='login-input' style={ localStyle.inputWidth } placeholder="Email" type="text"/>
-					<input id="password" onChange={ this.captureUserInput } className='login-input' style={ localStyle.inputWidth } placeholder="Password" type="password"/>
+					<input id="email" onChange={ this.captureUserInput } placeholder="Email" className='login-input' style={ localStyle.inputWidth } type="text"/>
+					<input id="password" onChange={ this.captureUserInput } placeholder="Password" className='login-input' style={ localStyle.inputWidth } type="password"/>
 
 					<div className='register-nav'>
 						<button onClick={ this.loginUser }>Login</button>
@@ -81,6 +85,8 @@ class Header extends Component {
 
 					<p className='register-nav'>New to vetFetch? Sign up <a onClick={ this.displaySignUp } style={ localStyle.pointer }>here</a></p>
 				</div>
+				<div style={{justifyContent: 'center'}}><UserCapture /></div>
+				<div style={{justifyContent: 'center'}}><UserLogin /></div>
 			</div>
 		)
 	}
@@ -96,11 +102,13 @@ const localStyle = {
 }
 
 const stateToProps = (state) => ({
-	user: state.userReducer.user
+	user: state.userReducer.user,
+	displaySignUpModal: state.userReducer.displaySignUpModal
 })
 
 const dispatchToProps = (dispatch) => ({
-	captureCurrentUser: (user) => dispatch(receivedUser(user))
+	captureCurrentUser: (user) => dispatch(receivedUser(user)),
+	toggleSignup: (toggleState) => dispatch(toggleSignupModal(toggleState))
 })
 
 export default connect(stateToProps, dispatchToProps)(Header)
