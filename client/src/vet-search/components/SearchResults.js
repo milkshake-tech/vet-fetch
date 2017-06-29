@@ -3,7 +3,9 @@ import { Link, browserHistory } from 'react-router'
 import store from '../../stores/store'
 import { connect } from 'react-redux'
 import { receivedSearchResults } from '../actions/actions'
+import { toggleSignupModal } from '../../user/actions/actions'
 import { SearchResultItem } from '../components'
+import { UserCapture } from '../../user/components'
 import APIManager from '../../utils/APIManager'
 
 class SearchResults extends Component {
@@ -37,10 +39,11 @@ class SearchResults extends Component {
 	}
 
 	startPetSurvey(){
-		browserHistory.push('/survey-1')
-
-		//if current user, push to profile
-		// browserHistory.push('/profile')
+		if (this.props.user === null){
+			this.props.toggleSignup(true)
+		} else{
+			browserHistory.push('/survey-1')
+		}
 	}
 
 	render(){
@@ -67,7 +70,7 @@ class SearchResults extends Component {
 				<div className='searchResultsRow'>
 					<div className='leftPanel'>
 						<img src="/assets/images/sittingdog.png" className='searchImg'/>
-						<p style={{display:'block', fontSize: 12+'px', margin:2+'em'}}>Psss...Save your pet records on vetFetch for your next appointment.</p>
+						<p style={{display:'block', fontSize: 14+'px', margin:2+'em'}}>Psss...Save your pet records on vetFetch for your next appointment.</p>
 						<button style={{marginBottom: 4+'em'}} onClick={this.startPetSurvey}>Get started here, woof!</button>
 					</div>
 
@@ -89,11 +92,13 @@ class SearchResults extends Component {
 }
 
 const stateToProps = (state) => ({
-	searchResults: state.searchReducer.searchResults
+	searchResults: state.searchReducer.searchResults,
+	user: state.userReducer.user
 })
 
 const dispatchToProps = (dispatch) => ({
-	fetchSearchResults: (searchResults) => dispatch(receivedSearchResults(searchResults))
+	fetchSearchResults: (searchResults) => dispatch(receivedSearchResults(searchResults)),
+	toggleSignup: (toggleState) => dispatch(toggleSignupModal(toggleState))
 })
 
 export default connect(stateToProps, dispatchToProps)(SearchResults)

@@ -10,3 +10,13 @@ export const receivedPets = (pets) => ({
 	type: constants.RECEIVED_PETS,
 	pets
 })
+
+export const toggleLoginModal = (toggleState) => ({
+	type: constants.TOGGLE_LOGIN_MODAL,
+	toggleState
+})
+
+export const toggleSignupModal = (toggleState) => ({
+	type: constants.TOGGLE_SIGNUP_MODAL,
+	toggleState
+})

@@ -3,6 +3,7 @@ import { Link, browserHistory } from 'react-router'
 import store from '../../stores/store'
 import { connect } from 'react-redux'
 import {capturePetSurvey} from '../actions/actions'
+import APIManager from '../../utils/APIManager'
 import AutocompleteBar from '../components/AutocompleteBar'
 
 class Questionnaire3 extends Component {
@@ -12,11 +13,12 @@ class Questionnaire3 extends Component {
 		this.conditionsList = ["Allergies", "Arthritis", "Cancer", "Diabetes", "Ear Infections", "Heart Disease", "Neutered or Spayed", "Orthopedic Conditions", "Skin Conditions", "Thyroid Conditions"]
 		this.captureResponse = this.captureResponse.bind(this)
 		this.highlightSelectedTile = this.highlightSelectedTile.bind(this)
+		this.saveUserPet = this.saveUserPet.bind(this)
 		this.state = {
 			highlight: false,
 			highlightToggleState: {},
 			opacitySetting: 0
-				}
+		}
 	}
 
 	componentDidMount(){
@@ -27,7 +29,7 @@ class Questionnaire3 extends Component {
 		let response = Object.assign({}, this.props.petProfile)
 		response['tags'] = this.state.highlightToggleState
 		this.props.capturePetSurveyResponse(response)
-		browserHistory.push('/thankyou')
+		this.saveUserPet()
 	}
 
 	highlightSelectedTile(event){
@@ -42,6 +44,20 @@ class Questionnaire3 extends Component {
 		}
 		highlightToggle[event.target.id] = !this.state.highlight
 		this.setState({highlight: !this.state.highlight, highlightToggleState: highlightToggle})
+	}
+
+	saveUserPet(){
+		let newPetProfile = Object.assign({}, this.props.petProfile)
+		console.log('user props '+JSON.stringify(this.props.user))
+		newPetProfile['ownerID'] = this.props.user.id
+
+		APIManager.handlePost("/api/pet", newPetProfile, function(err, response){
+			if(err) return alert(err)
+
+			if (response.confirmation === 'Fail') return alert(JSON.stringify(response))
+
+			if (response.confirmation === "Success") return browserHistory.push('/profile')
+		})
 	}
 
 	render(){
@@ -92,7 +108,8 @@ class Questionnaire3 extends Component {
 }
 
 const stateToProps = (state) => ({
-	petProfile: state.petReducer.petProfile
+	petProfile: state.petReducer.petProfile,
+	user: state.userReducer.user
 })
 
 const dispatchToProps = (dispatch) => ({
